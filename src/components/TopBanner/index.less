@@ -1,0 +1,85 @@
+.fl-home-banner {
+  .fl-home-banner-img {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    .fl-home-banner-link {
+      position: absolute;
+      bottom: 343px;
+      left: 120px;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      cursor: pointer;
+      width: 148px;
+      height: 48px;
+      border-radius: 30px;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      .fl-home-banner-link-text {
+        /* 设置字体透明 */
+        color: transparent;
+        /* 设置线性渐变，从红色渐变到蓝色 */
+        background-image: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+
+        /* 使用 -webkit-background-clip 属性将背景剪裁至文本形状 */
+        -webkit-background-clip: text;
+        /* 非Webkit内核浏览器需要使用标准前缀 */
+        background-clip: text;
+        /* 把当前元素设置为行内块，以便能够应用背景 */
+        display: inline-block;
+        margin-left: 26px;
+      }
+      .fl-home-banner-link-arrow {
+        position: absolute;
+        right: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 136px;
+        background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+        &::before {
+          content: '';
+          display: flex;
+
+          width: 15px;
+          height: 15px;
+          background: url('../../assets/images/right-arrow.png') no-repeat
+            center;
+        }
+      }
+    }
+  }
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    user-select: none;
+  }
+  .swiper-pagination-bullet-active {
+    position: relative;
+    width: 60px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    overflow: hidden;
+    &::after {
+      position: absolute;
+      height: 100%;
+      content: '';
+      left: 0;
+      top: 0;
+      right: 0;
+      width: var(--progressWidth);
+      background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+    }
+  }
+}
