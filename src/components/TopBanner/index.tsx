@@ -57,7 +57,7 @@ const TopBanner = () => {
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
         onAutoplayTimeLeft={(swiper, time, progress) => {
-          setProgressWidth(Math.ceil((1 - progress) * 100) + '%');
+          setProgressWidth(Math.round((1 - progress) * 100) + '%');
         }}
       >
         {list.map((item, index) => (

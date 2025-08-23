@@ -7,8 +7,8 @@ export default defineConfig({
   model: {},
   initialState: {},
   request: {},
-  layout: {
-  },
+  title: '泛联·HYPCON',
+  layout: {},
   routes: routers,
   npmClient: 'pnpm',
 });
