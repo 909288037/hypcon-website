@@ -19,6 +19,13 @@ const HomePage: React.FC = () => {
       <div className="fl-home-banner">
         <TopBanner />
       </div>
+      {/* 产品轮播图 */}
+      <div className="fl-home-product">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam culpa
+        officia, a, quasi magni rerum reprehenderit ratione id nihil pariatur
+        quos illo et modi doloribus? Rerum aut mollitia at aperiam?
+        {/* <ProductBanner /> */}
+      </div>
     </div>
   );
 };
