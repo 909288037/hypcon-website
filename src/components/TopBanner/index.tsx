@@ -54,7 +54,7 @@ const TopBanner = () => {
             return `<span class=${className}></span>`;
           },
         }}
-        onSlideChange={() => console.log('slide change')}
+        // onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
         onAutoplayTimeLeft={(swiper, time, progress) => {
           setProgressWidth(Math.round((1 - progress) * 100) + '%');

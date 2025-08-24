@@ -1,6 +1,6 @@
 .fl-header {
-  position: fixed;
-  padding: 0 120px;
+  position: absolute;
+  padding: 0 6%;
   top: 0;
   left: 0;
   right: 0;
@@ -11,32 +11,30 @@
     rgba(0, 0, 0, 0.2) -25.83%,
     rgba(0, 0, 0, 0) 100%
   );
-  min-width: 1600px;
-
-  z-index: 110;
+  min-width: 1400px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 110;
+
   &-logo {
-    width: 265px;
-    img {
-      width: 100%;
-      cursor: pointer;
-    }
+    cursor: pointer;
   }
   &-menu {
+    flex: 1;
     display: flex;
     align-items: center;
+    justify-content: center;
     font-size: 16px;
     font-weight: 500;
     height: 100%;
     color: #fff;
-    cursor: pointer;
     &-item {
       margin-left: 48px;
       display: flex;
       align-items: center;
-      height: 100%;
+      // height: 100%;
+      cursor: pointer;
       .menu-title {
         position: relative;
         margin-right: 8px;
@@ -60,26 +58,62 @@
       &:first-child {
         margin-left: 0;
       }
-      &:hover {
-        color: #007eca;
-        path {
-          stroke: #007eca !important;
-        }
-        .fl-header-dropdown {
-          max-height: 500px;
-          padding: 42px 120px;
-          color: #666666;
-        }
-        .menu-title {
-          &::after {
-            width: 100%;
-          }
-        }
-      }
+      // &:hover {
+      //   color: #007eca;
+      //   path {
+      //     stroke: #007eca !important;
+      //   }
+      //   .fl-header-dropdown {
+      //     max-height: 600px;
+      //     padding: 42px 120px;
+      //     color: #666666;
+      //   }
+      //   .menu-title {
+      //     &::after {
+      //       width: 100%;
+      //     }
+      //   }
+      // }
     }
   }
   &-right {
-    margin-left: 240px;
+    display: flex;
+    align-items: center;
+    &-logo {
+      width: 152px;
+      .logo-icon {
+        transform: scale(0.5);
+        transform-origin: center left;
+      }
+    }
+
+    &-search,
+    &-locale {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      margin-left: 30px;
+      margin-right: 20px;
+      background-color: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      &:hover {
+        background-color: rgb(240, 240, 240);
+        path {
+          stroke: #007eca;
+        }
+      }
+      & > div {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    &-locale {
+      margin-left: 0;
+      margin-right: 0;
+    }
   }
   &-dropdown {
     position: absolute;
@@ -90,7 +124,41 @@
     max-height: 0;
     transition: all 0.3s;
     overflow: hidden;
+    display: flex;
     // display: none;
+   
+  }
+  .fl-header-cascader-menus {
+        height: 270px; 
+        padding: 12px 60px;
+        border-right: 1px solid #666;
+
+      &:first-child {
+        padding-left: 0;
+      }
+      &-menu {
+        display: flex;
+        margin-bottom: 35px;
+        &-title {
+          flex: 1;
+              font-family: MiSans, MiSans;
+              font-weight: 500;
+              font-size: 16px;
+              color: #666666;
+              min-width: 76px;
+              margin-right: 35px;
+        }
+
+        &:hover {
+          cursor: pointer;
+          color: #007eca;
+          .fl-header-cascader-menus-menu-title {
+            color: #007eca;
+          }
+        }
+        
+      }
+    
   }
 
   &.fl-header-hover {
@@ -110,6 +178,36 @@
       color: #666666;
       path {
         stroke: #666666;
+      }
+
+      &-item {
+       &.active {
+        .menu-title {
+            &::after {
+              width: 100%;
+            }
+          }
+       }
+      }
+       .fl-header-dropdown {
+            max-height: 600px;
+            padding: 42px 120px;
+            color: #666666;
+          }
+          
+    }
+
+    .fl-header-logo,
+    .logo-icon {
+      path {
+        fill: #007eca;
+      }
+    }
+    .fl-header-right-search,
+    .fl-header-right-locale {
+      background-color: rgb(240, 240, 240);
+      path {
+        stroke: #007eca;
       }
     }
   }

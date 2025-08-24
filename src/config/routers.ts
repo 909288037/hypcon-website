@@ -5,8 +5,7 @@ export default [
   },
   {
     path: '/',
-    component: '@/layouts/BasicLayout',
-    layout: false,
+    component: '@/layouts/index',
     routes: [
       {
         name: '首页',
