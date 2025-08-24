@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
@@ -31,14 +31,9 @@ const TopBanner = () => {
       link: 'https://www.baidu.com',
     },
   ]);
-  const [progressWidth, setProgressWidth] = useState(0);
+  const homeBannerRef = useRef(null);
   return (
-    <div
-      className="fl-home-banner"
-      style={{
-        '--progressWidth': progressWidth,
-      }}
-    >
+    <div ref={homeBannerRef} className="fl-home-banner">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}
@@ -57,7 +52,10 @@ const TopBanner = () => {
         // onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
         onAutoplayTimeLeft={(swiper, time, progress) => {
-          setProgressWidth(Math.round((1 - progress) * 100) + '%');
+          homeBannerRef.current?.style?.setProperty(
+            '--progressWidth',
+            Math.round((1 - progress) * 100) + '%',
+          );
         }}
       >
         {list.map((item, index) => (
