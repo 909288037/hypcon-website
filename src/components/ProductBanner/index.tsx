@@ -5,6 +5,8 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+
 import {
   Autoplay,
   FreeMode,
@@ -43,7 +45,7 @@ const ProductBanner = () => {
       title: '100测试系统',
     },
   ]);
-
+const [currentIndex, setCurrentIndex] = useState(0)
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const productBannerRef = useRef(null);
 
@@ -54,14 +56,21 @@ const ProductBanner = () => {
         spaceBetween={0}
         slidesPerView={1}
         loop
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
         thumbs={{
           swiper: thumbsSwiper,
         }}
-        pagination={{
-          clickable: true,
-          renderBullet: function (index, className) {
-            return `<span class=${className}></span>`;
-          },
+        // pagination={{
+        //   clickable: true,
+        //   renderBullet: function (index, className) {
+        //     return `<span class=${className}></span>`;
+        //   },
+        // }}
+        onSlideChangeTransitionEnd={(swiper) => {
+          setCurrentIndex(swiper.realIndex);
         }}
         onAutoplayTimeLeft={(swiper, time, progress) => {
           productBannerRef.current?.style?.setProperty(
@@ -89,6 +98,7 @@ const ProductBanner = () => {
       </Swiper>
 
       <Swiper
+      className='fl-product-banner-pagination'
         modules={[
           Navigation,
           Pagination,
@@ -99,31 +109,22 @@ const ProductBanner = () => {
         ]}
         spaceBetween={0}
         slidesPerView={4}
-        mousewheel
-        freeMode
+        // mousewheel
+        // freeMode
         watchSlidesProgress
         loop
         onSwiper={setThumbsSwiper}
-        onAutoplayTimeLeft={(swiper, time, progress) => {
-          productBannerRef.current?.style?.setProperty(
-            '--progressWidth',
-            Math.round((1 - progress) * 100) + '%',
-          );
-        }}
       >
         {list.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className="fl-product-banner-img">
-              <img src={item.url} alt="" />
+          <SwiperSlide key={index} className='fl-product-banner-slide'>
+            <div className='fl-product-banner-title'>{item.title}</div>
+            {/* 进度条 */}
+            <div className="fl-product-banner-progress">
               <div
-                className="fl-product-banner-link"
-                onClick={() => {
-                  window.open(item.link);
-                }}
-              >
-                <div className="fl-product-banner-link-text">了解更多</div>
-                <div className="fl-product-banner-link-arrow"></div>
-              </div>
+                className={`fl-product-banner-progress-bullet ${
+                  currentIndex === index ? 'swiper-pagination-bullet-active' : ''
+                }`}
+              ></div>
             </div>
           </SwiperSlide>
         ))}

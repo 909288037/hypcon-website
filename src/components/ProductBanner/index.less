@@ -1,4 +1,5 @@
 .fl-product-banner {
+  position: relative;
   --swiper-pagination-bottom: 7%;
   --progressWidth: 0;
   .fl-product-banner-img {
@@ -60,30 +61,51 @@
     }
   }
 
-  .swiper-pagination-bullet {
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.5);
-    opacity: 1;
-    user-select: none;
-  }
-  .swiper-pagination-bullet-active {
-    position: relative;
-    width: 60px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 20px;
-    overflow: hidden;
-    &::after {
-      position: absolute;
-      height: 100%;
-      content: '';
-      left: 0;
-      top: 0;
-      right: 0;
-      width: var(--progressWidth);
-      border-radius: 20px;
-      background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+  .fl-product-banner-pagination {
+    position: absolute;
+    left: 0;
+    bottom: 80px;
+    right: 0;
+    width: 88%;
+    .swiper-slide-thumb-active {
+      .fl-product-banner-title {
+        opacity: 1 !important;
+        font-weight: 500;
+      }
+    }
+
+    .fl-product-banner-slide {
+      padding-right: 30px;
+      cursor: pointer;
+      &:hover {
+        .fl-product-banner-title {
+          opacity: 1 !important;
+        }
+      }
+      .fl-product-banner-title {
+        font-size: 20px;
+        line-height: 48px;
+        font-family: Montserrat, Montserrat;
+        color: #fff;
+        opacity: 0.4;
+      }
+      .fl-product-banner-progress {
+        position: relative;
+        height: 4px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 10px;
+        .fl-product-banner-progress-bullet {
+          position: absolute;
+          height: 100%;
+          width: 0;
+          border-radius: 10px;
+        }
+        .swiper-pagination-bullet-active {
+          width: var(--progressWidth);
+          background-color: #fff;
+        }
+      }
     }
   }
 }
