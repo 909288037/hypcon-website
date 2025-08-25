@@ -5,20 +5,42 @@
   .fl-product-banner-img {
     position: relative;
     width: 100%;
+     min-height: calc(100vh - 50px);
+    background: linear-gradient( 180deg, rgba(0,126,202,0) 0%, #007ECA 100%);
+
     img {
       width: 100%;
       height: auto;
     }
-    .fl-product-banner-link {
+    .fl-product-banner-title {
       position: absolute;
-      bottom: 343px;
-      left: 120px;
+      top: 31%;
+      left: 6%;
+      font-family: Montserrat, Montserrat;
+      font-weight: 500;
+      font-size: 52px;
+      color: #ffffff;
+      line-height: 52px;
+    }
+    .fl-product-banner-desc {
+        font-family: MiSans, MiSans;
+        font-weight: 400;
+        font-size: 14px;
+        color: #FFFFFF;
+        line-height: 24px;
+      max-width: 550px;
+      margin: 68px 0;
+
+      }
+    .fl-product-banner-link {
+      position: relative;
       width: 100%;
       height: 100%;
       z-index: 1;
       cursor: pointer;
       width: 148px;
       height: 48px;
+      font-size: 16px;
       border-radius: 30px;
       background-color: #fff;
       display: flex;

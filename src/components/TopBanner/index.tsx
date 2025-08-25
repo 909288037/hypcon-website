@@ -11,23 +11,23 @@ import './index.less';
 const TopBanner = () => {
   const [list, setList] = useState([
     {
-      url: 'https://mate.tools/img/1920x1080?bgcolor=cccccc&textcolor=979797&text=%7Bwidth%7D%C3%97%7Bheight%7D&fmt=png',
+      url: '',
       link: 'https://www.baidu.com',
     },
     {
-      url: 'https://mate.tools/img/1920x1080?bgcolor=dddddd&textcolor=979797&text=%7Bwidth%7D%C3%97%7Bheight%7D&fmt=png',
+      url: '',
       link: 'https://www.baidu.com',
     },
     {
-      url: 'https://mate.tools/img/1920x1080?bgcolor=dddddd&textcolor=979797&text=%7Bwidth%7D%C3%97%7Bheight%7D&fmt=png',
+      url: '',
       link: 'https://www.baidu.com',
     },
     {
-      url: 'https://mate.tools/img/1920x1080?bgcolor=dddddd&textcolor=979797&text=%7Bwidth%7D%C3%97%7Bheight%7D&fmt=png',
+      url: '',
       link: 'https://www.baidu.com',
     },
     {
-      url: 'https://mate.tools/img/1920x1080?bgcolor=dddddd&textcolor=979797&text=%7Bwidth%7D%C3%97%7Bheight%7D&fmt=png',
+      url: '',
       link: 'https://www.baidu.com',
     },
   ]);

@@ -9,6 +9,7 @@ import {
   legacyLogicalPropertiesTransformer
 } from '@ant-design/cssinjs'
 import './index.less'
+import Header from '@/components/Header'
 
 
 
@@ -38,6 +39,8 @@ export default function Layout() {
           <Helmet>
            
           </Helmet>
+        <Header />
+
           {/* <AppStore /> */}
           <Outlet />
         </ConfigProvider>

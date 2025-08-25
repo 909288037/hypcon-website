@@ -1,6 +1,7 @@
 import Header from '@/components/Header';
 import ProductBanner from '@/components/ProductBanner';
 import TopBanner from '@/components/TopBanner';
+import SolutionBanner from '@/components/SolutionBanner';
 
 import React, { useEffect } from 'react';
 import './index.less';
@@ -13,9 +14,9 @@ const HomePage: React.FC = () => {
   return (
     <div className="fl-home">
       {/* 头部 导航 */}
-      <div className="fl-home-header">
+      {/* <div className="fl-home-header">
         <Header />
-      </div>
+      </div> */}
       {/* 首页轮播图 */}
       <div className="fl-home-banner">
         <TopBanner />
@@ -23,6 +24,10 @@ const HomePage: React.FC = () => {
       {/* 产品轮播图 */}
       <div className="fl-home-product">
         <ProductBanner />
+      </div>
+      {/* 解决方案 轮播图 */}
+      <div className="fl-home-solution">
+        <SolutionBanner />
       </div>
     </div>
   );
