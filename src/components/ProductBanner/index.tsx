@@ -3,12 +3,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
+import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 
 import {
   Autoplay,
+  EffectFade,
   FreeMode,
   Mousewheel,
   Navigation,
@@ -57,9 +59,13 @@ const ProductBanner = () => {
   return (
     <div ref={productBannerRef} className="fl-product-banner">
       <Swiper
-        modules={[Navigation, Pagination, Autoplay, Thumbs]}
+        modules={[Navigation, Pagination, Autoplay, Thumbs, EffectFade]}
         spaceBetween={0}
         slidesPerView={1}
+        effect="fade"
+        fadeEffect={{
+          crossFade: true,
+        }}
         loop
         autoplay={{
           delay: 3000,

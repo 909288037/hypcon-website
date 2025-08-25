@@ -5,8 +5,8 @@
   .fl-product-banner-img {
     position: relative;
     width: 100%;
-     min-height: calc(100vh - 50px);
-    background: linear-gradient( 180deg, rgba(0,126,202,0) 0%, #007ECA 100%);
+    min-height: calc(100vh - 50px);
+    background: linear-gradient(180deg, rgba(0, 126, 202, 0) 0%, #007eca 100%);
 
     img {
       width: 100%;
@@ -23,15 +23,14 @@
       line-height: 52px;
     }
     .fl-product-banner-desc {
-        font-family: MiSans, MiSans;
-        font-weight: 400;
-        font-size: 14px;
-        color: #FFFFFF;
-        line-height: 24px;
+      font-family: MiSans, MiSans;
+      font-weight: 400;
+      font-size: 14px;
+      color: #ffffff;
+      line-height: 24px;
       max-width: 550px;
       margin: 68px 0;
-
-      }
+    }
     .fl-product-banner-link {
       position: relative;
       width: 100%;
@@ -69,8 +68,11 @@
         width: 44px;
         height: 44px;
         border-radius: 136px;
+        transition: all 0.3s;
         background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
-        &::before {
+        &::after {
+          position: absolute;
+          right: 14.5px;
           content: '';
           display: flex;
 
@@ -78,6 +80,17 @@
           height: 15px;
           background: url('../../assets/images/right-arrow.png') no-repeat
             center;
+        }
+      }
+      &:hover {
+        .fl-product-banner-link-text {
+          position: relative;
+          color: #fff;
+          z-index: 100;
+          transition: all 0.3s;
+        }
+        .fl-product-banner-link-arrow {
+          width: calc(100% - 4px);
         }
       }
     }

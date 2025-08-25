@@ -3,9 +3,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
+import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
 import './index.less';
 
 const TopBanner = () => {
@@ -35,9 +36,13 @@ const TopBanner = () => {
   return (
     <div ref={homeBannerRef} className="fl-home-banner">
       <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
+        modules={[Navigation, Pagination, Autoplay, EffectFade]}
         spaceBetween={0}
         slidesPerView={1}
+        effect="fade"
+        fadeEffect={{
+          crossFade: true,
+        }}
         autoplay={{
           delay: 3000,
           disableOnInteraction: false,

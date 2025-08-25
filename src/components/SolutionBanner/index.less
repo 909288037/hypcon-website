@@ -5,8 +5,7 @@
   .fl-solution-banner-img {
     position: relative;
     width: 100%;
-    min-height: calc(100vh - 50px);
-    background: linear-gradient( 180deg, #C5E2F2 0%, #007ECA 100%);
+    background: linear-gradient(180deg, #c5e2f2 0%, #007eca 100%);
     img {
       width: 100%;
       height: auto;
@@ -22,50 +21,48 @@
       line-height: 52px;
     }
     .fl-solution-banner-desc {
+      font-family: MiSans, MiSans;
+      font-weight: 400;
+      font-size: 16px;
+      color: #000;
+      line-height: 20px;
+      max-width: 550px;
+      margin: 36px 0 40px;
+    }
+    .fl-solution-banner-tag {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      font-size: 13px;
+      &-text {
         font-family: MiSans, MiSans;
-        font-weight: 400;
+        font-weight: 300;
         font-size: 16px;
-        color: #000;
-        line-height: 20px;
-        max-width: 550px;
-        margin: 36px 0 40px;
-
+        line-height: 35px;
+        color: #999999;
+        flex-shrink: 0;
       }
-      .fl-solution-banner-tag {
+      &-list {
+        max-width: 283px;
         display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        font-size: 13px;
-        &-text {
-          font-family: MiSans, MiSans;
-          font-weight: 300;
-          font-size: 16px;
-          line-height: 35px;
-          color: #999999;
-          flex-shrink: 0;
-        }
-        &-list {
-          max-width: 283px;
-          display: flex;
-          flex-wrap: wrap;
+        flex-wrap: wrap;
 
-          .fl-solution-banner-tag-item {
-            text-align: center;
-            padding: 10px 22px;
-            border-radius: 20px;
-            border: 1px solid #007ECA;
-            font-size: 13px;
-            line-height: 13px;
-            color: #007ECA;
-            margin-left: 3px;
-            margin-bottom: 20px;
-            &:first-child {
-              margin-left: 0;
-
-            }
+        .fl-solution-banner-tag-item {
+          text-align: center;
+          padding: 10px 22px;
+          border-radius: 20px;
+          border: 1px solid #007eca;
+          font-size: 13px;
+          line-height: 13px;
+          color: #007eca;
+          margin-left: 3px;
+          margin-bottom: 20px;
+          &:first-child {
+            margin-left: 0;
           }
         }
       }
+    }
     .fl-solution-banner-link {
       position: relative;
       width: 100%;
@@ -104,8 +101,11 @@
         width: 44px;
         height: 44px;
         border-radius: 136px;
+        transition: all 0.3s;
         background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
-        &::before {
+        &::after {
+          position: absolute;
+          right: 14.5px;
           content: '';
           display: flex;
 
@@ -113,6 +113,17 @@
           height: 15px;
           background: url('../../assets/images/right-arrow.png') no-repeat
             center;
+        }
+      }
+      &:hover {
+        .fl-solution-banner-link-text {
+          position: relative;
+          color: #fff;
+          z-index: 100;
+          transition: all 0.3s;
+        }
+        .fl-solution-banner-link-arrow {
+          width: calc(100% - 4px);
         }
       }
     }
@@ -142,7 +153,7 @@
     height: 100%;
     margin: 0;
     background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
     border-radius: 50px;
     .swiper-slide-thumb-active {
       .fl-solution-banner-title {
@@ -176,7 +187,7 @@
           position: absolute;
           bottom: -12px;
           height: 3px;
-          background: linear-gradient( 90deg, #007ECA 0%, #22C55E 100%);
+          background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
           border-radius: 10px;
           left: 50%;
           transform: translateX(-50%);
