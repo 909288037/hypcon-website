@@ -13,6 +13,7 @@ import 'swiper/css/thumbs';
 import { preloadImage } from '@/utils';
 import { CaretRightOutlined, PauseOutlined } from '@ant-design/icons';
 import { Progress } from 'antd';
+import classNames from 'classnames';
 import {
   Autoplay,
   EffectFade,
@@ -167,15 +168,22 @@ const SolutionBanner = () => {
     h: 0,
   });
   const curImgInfo = imgConfig[curImg];
-  const { position, currentImage, isAnimating, isComplete, startTransition,scale, opacity } =
-    useImageTransition({
-      start: startPos,
-      end: endPos,
-      startImage: startImageUrl,
-      endImage: endImageUrl,
-      duration: 500, // 动画时长
-      switchThreshold: 0.9, // 距离时切换图片
-    });
+  const {
+    position,
+    currentImage,
+    isAnimating,
+    isComplete,
+    startTransition,
+    scale,
+    opacity,
+  } = useImageTransition({
+    start: startPos,
+    end: endPos,
+    startImage: startImageUrl,
+    endImage: endImageUrl,
+    duration: 500, // 动画时长
+    switchThreshold: 0.9, // 距离时切换图片
+  });
   const getImageDimensions = (
     url: string,
   ): Promise<{ width: number; height: number }> => {
@@ -203,28 +211,29 @@ const SolutionBanner = () => {
         console.warn('Failed to preload image:', err),
       );
     });
-    
+
     getImageDimensions(bgImg).then(({ width, height }) => {
       const clientWidth = document.body.clientWidth;
       let scale = clientWidth / width;
-      imgInfo.current = { w:  width, h: scale * height};
-      console.log("🚀 ~ SolutionBanner ~ imgInfo.current:", imgInfo.current)
-      
+      // 修改这里：使用实际显示宽度而不是原始宽度
+      imgInfo.current = { w: clientWidth, h: scale * height };
+      console.log('🚀 ~ SolutionBanner ~ imgInfo.current:', imgInfo.current);
+
       // 获取初始图片信息
       const initialImgKey = Object.keys(imgConfig)[0];
       const initialImgInfo = imgConfig[initialImgKey];
-      
+
       // 设置初始位置和图片
       setStartPos({
-        x: width * (initialImgInfo.imgPosition.x / 100),
-        y: height * (initialImgInfo.imgPosition.y / 100),
+        x: imgInfo.current.w * (initialImgInfo.imgPosition.x / 100),
+        y: imgInfo.current.h * (initialImgInfo.imgPosition.y / 100),
       });
-      
+
       setStartImageUrl(initialImgInfo.url);
       setEndImageUrl(initialImgInfo.url);
       setEndPos({
-        x: width * (initialImgInfo.imgPosition.x / 100),
-        y: height * (initialImgInfo.imgPosition.y / 100),
+        x: imgInfo.current.w * (initialImgInfo.imgPosition.x / 100),
+        y: imgInfo.current.h * (initialImgInfo.imgPosition.y / 100),
       });
     });
 
@@ -244,7 +253,7 @@ const SolutionBanner = () => {
       // 动画结束后更新起始位置和图片
       setStartPos(endPos);
       setStartImageUrl(endImageUrl);
-      setCurImg(Object.keys(imgConfig)[currentIndex])
+      setCurImg(Object.keys(imgConfig)[currentIndex]);
     }
 
     return () => {};
@@ -253,12 +262,10 @@ const SolutionBanner = () => {
   useEffect(() => {
     const key = Object.keys(imgConfig)[currentIndex];
     handleContainerClick(key);
-    return () => {
-      
-    }
-  }, [currentIndex])
-  
-// 根据当前图片确定宽度
+    return () => {};
+  }, [currentIndex]);
+
+  // 根据当前图片确定宽度
   const getCurrentWidth = () => {
     if (currentImage === endImageUrl) {
       return endImgInfo?.imgPosition?.width || 0;
@@ -267,7 +274,7 @@ const SolutionBanner = () => {
     }
   };
   // 处理容器点击，更新起点和终点 (可选，用于演示)
-   const handleContainerClick = (endInfo) => {
+  const handleContainerClick = (endInfo) => {
     if (!endInfo) return;
     const data = imgConfig[endInfo];
     console.log('🚀 ~ handleContainerClick ~ endInfo:', data);
@@ -276,17 +283,16 @@ const SolutionBanner = () => {
       imgPosition: { x, y },
     } = data;
     const { w, h } = imgInfo.current;
-    
+
     // 设置终点信息
     setEndImageUrl(data.url);
     setEndPos({
       x: w * (x / 100),
       y: h * (y / 100),
     });
-    
-    // 触发动画
-     setEndImgInfo(data);
 
+    // 触发动画
+    setEndImgInfo(data);
   };
   return (
     <div
@@ -305,10 +311,10 @@ const SolutionBanner = () => {
         fadeEffect={{
           crossFade: false,
         }}
-        // autoplay={{
-        //   delay: 3000,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
         thumbs={{
           swiper: thumbsSwiper,
         }}
@@ -429,27 +435,10 @@ const SolutionBanner = () => {
             width: curImgInfo?.imgPosition.width,
             height: 'auto',
             zIndex: 10,
+            pointerEvents: 'none',
           }}
         />
       )}
-
-      {/* 终点图片 (固定位置) */}
-      {/* {!isAnimating && endImageUrl && (
-        <img
-          className="fl-solution-banner-img-end"
-          src={endImageUrl}
-          alt="End"
-          style={{
-            position: 'absolute',
-            left: endPos.x,
-            top: endPos.y,
-            width: endImgInfo?.imgPosition?.width,
-            height: 'auto',
-            zIndex: 10,
-            // pointerEvents: 'none',
-          }}
-        />
-      )} */}
 
       {/* 移动中的图片 */}
       {isAnimating && (
@@ -466,9 +455,49 @@ const SolutionBanner = () => {
             transition: 'none',
             zIndex: 10,
             willChange: 'left, top, transform, opacity',
+            pointerEvents: 'none',
           }}
         />
       )}
+
+      {/* 热区图层 */}
+      <div className="fl-solution-banner-hotspot">
+        {Object.values(imgConfig).map((item, index) => {
+          return (
+            <div
+              key={item.title}
+              className={classNames(
+                'fl-solution-banner-hotspot-item',
+                item.dotDirection,
+                {
+                  active: index === currentIndex,
+                },
+              )}
+              style={{
+                left: `${item.x}%`,
+                top: `${item.y}%`,
+              }}
+              onMouseEnter={() => {
+                // 轮播图滚动到指定下标
+                console.log('🚀 ~ index:', index);
+                slideSwiper?.autoplay.stop();
+
+                slideSwiper?.slideToLoop(index);
+                slideSwiper?.autoplay.start();
+              }}
+            >
+              <div className="fl-solution-banner-hotspot-item-title">
+                {item.title}
+              </div>
+              {/* 圆点 */}
+              <div className={classNames('fl-solution-banner-hotspot-dot')}>
+                <div className="fl-solution-banner-hotspot-dot-item"></div>
+                <div className="fl-solution-banner-hotspot-dot-item"></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
