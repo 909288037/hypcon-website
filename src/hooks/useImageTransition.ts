@@ -1,16 +1,5 @@
-// useImageTransition.js
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
-/**
- * 自定义 Hook：实现图片从起点平滑移动到终点，并在接近终点时切换图片
- * @param {Object} start - 起点坐标 { x, y }
- * @param {Object} end - 终点坐标 { x, y }
- * @param {string} startImage - 起点图片 URL
- * @param {string} endImage - 终点图片 URL
- * @param {number} [duration=1000] - 动画总时长 (毫秒)
- * @param {number} [switchThreshold=0.7] - 图片切换阈值 (0-1)，表示移动距离的百分比
- * @returns {Object} 包含动画状态和控制方法的对象
- */
 export const useImageTransition = ({
   start,
   end,
@@ -23,12 +12,14 @@ export const useImageTransition = ({
   const [currentImage, setCurrentImage] = useState(startImage);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [opacity, setOpacity] = useState(1);
 
   const animationRef = useRef();
   const startTimeRef = useRef();
   const startPositionRef = useRef(start);
 
-  // 缓动函数：easeOutQuad (开始快，结束慢)
+  // 缓动函数
   const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
 
   // 计算两点间距离
@@ -41,7 +32,7 @@ export const useImageTransition = ({
     (timestamp) => {
       if (!startTimeRef.current) startTimeRef.current = timestamp;
       const elapsed = timestamp - startTimeRef.current;
-      const progress = Math.min(elapsed / duration, 1); // 归一化进度 [0, 1]
+      const progress = Math.min(elapsed / duration, 1);
       const easedProgress = easeOutQuad(progress);
 
       // 计算当前坐标
@@ -53,9 +44,23 @@ export const useImageTransition = ({
       const totalDistance = calculateDistance(startPositionRef.current, end);
       const currentDistance = calculateDistance(startPositionRef.current, { x: currentX, y: currentY });
 
-      // 根据移动距离判断是否切换图片
-      if (currentDistance / totalDistance >= switchThreshold && currentImage !== endImage) {
+      // 根据移动距离判断是否切换图片并添加缩放效果
+      const distanceRatio = currentDistance / totalDistance;
+      if (distanceRatio >= switchThreshold && currentImage !== endImage) {
         setCurrentImage(endImage);
+      }
+
+      // 添加缩放和透明度动画
+      if (distanceRatio >= switchThreshold) {
+        // 新图片放大进入
+        const newImageProgress = (distanceRatio - switchThreshold) / (1 - switchThreshold);
+        setScale(0.1 + 0.9 * newImageProgress); // 从 0.1 放大到 1
+        setOpacity(newImageProgress);
+      } else {
+        // 旧图片缩小退出
+        const oldImageProgress = distanceRatio / switchThreshold;
+        setScale(1 - 0.9 * oldImageProgress); // 从 1 缩小到 0.1
+        setOpacity(1 - oldImageProgress);
       }
 
       // 动画完成
@@ -64,27 +69,33 @@ export const useImageTransition = ({
       } else {
         setIsAnimating(false);
         setIsComplete(true);
-        // 确保最终位置精确
         setPosition(end);
         setCurrentImage(endImage);
+        setScale(1);
+        setOpacity(1);
       }
     },
-    [end, duration, switchThreshold, startImage, endImage, currentImage]
+    [end, duration, switchThreshold, endImage, currentImage]
   );
 
   // 启动动画
   const startTransition = useCallback(() => {
-    if (isAnimating || isComplete) return; // 防止重复启动
+    // 取消之前的动画（如果存在）
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
 
     setIsAnimating(true);
     setIsComplete(false);
     setCurrentImage(startImage);
     setPosition(start);
+    setScale(1);
+    setOpacity(1);
     startPositionRef.current = start;
     startTimeRef.current = null;
 
     animationRef.current = requestAnimationFrame(animate);
-  }, [start, startImage, animate, isAnimating, isComplete]);
+  }, [start, startImage, animate]);
 
   // 清理动画
   useEffect(() => {
@@ -95,12 +106,13 @@ export const useImageTransition = ({
     };
   }, []);
 
-  // 暴露给使用者的 API
   return {
     position,
     currentImage,
     isAnimating,
     isComplete,
-    startTransition, // 调用此函数开始动画
+    startTransition,
+    scale,
+    opacity,
   };
 };

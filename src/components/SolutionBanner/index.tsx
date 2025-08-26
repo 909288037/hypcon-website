@@ -10,6 +10,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 
+import { preloadImage } from '@/utils';
 import { CaretRightOutlined, PauseOutlined } from '@ant-design/icons';
 import { Progress } from 'antd';
 import {
@@ -158,6 +159,7 @@ const SolutionBanner = () => {
   const [startImageUrl, setStartImageUrl] = useState('');
   const [endImageUrl, setEndImageUrl] = useState('');
   const [curImg, setCurImg] = useState('zhsn');
+  const [endImgInfo, setEndImgInfo] = useState('');
   const productBannerRef = useRef(null);
   const containerRef = useRef(null);
   const imgInfo = useRef({
@@ -165,14 +167,14 @@ const SolutionBanner = () => {
     h: 0,
   });
   const curImgInfo = imgConfig[curImg];
-  const { position, currentImage, isAnimating, isComplete, startTransition } =
+  const { position, currentImage, isAnimating, isComplete, startTransition,scale, opacity } =
     useImageTransition({
       start: startPos,
       end: endPos,
       startImage: startImageUrl,
       endImage: endImageUrl,
-      duration: 1500, // 动画时长 1.5 秒
-      switchThreshold: 0.6, // 60% 距离时切换图片
+      duration: 500, // 动画时长
+      switchThreshold: 0.9, // 距离时切换图片
     });
   const getImageDimensions = (
     url: string,
@@ -195,30 +197,104 @@ const SolutionBanner = () => {
     });
   };
   useEffect(() => {
+    // 预加载起始图片
+    Object.values(imgConfig).forEach((config) => {
+      preloadImage(config.url).catch((err) =>
+        console.warn('Failed to preload image:', err),
+      );
+    });
+    
     getImageDimensions(bgImg).then(({ width, height }) => {
-      imgInfo.current = { w: width, h: height };
+      const clientWidth = document.body.clientWidth;
+      imgInfo.current = { w:  clientWidth, h: width / clientWidth * height};
+      console.log("🚀 ~ SolutionBanner ~ imgInfo.current:",document.body.offsetWidth, imgInfo.current)
+      
+      // 获取初始图片信息
+      const initialImgKey = Object.keys(imgConfig)[0];
+      const initialImgInfo = imgConfig[initialImgKey];
+      
+      // 设置初始位置和图片
       setStartPos({
-        x: width * (curImgInfo.x / 100),
-        y: height * (curImgInfo.y / 100),
+        x: width * (initialImgInfo.imgPosition.x / 100),
+        y: height * (initialImgInfo.imgPosition.y / 100),
       });
-      setStartImageUrl(curImgInfo.url);
+      
+      setStartImageUrl(initialImgInfo.url);
+      setEndImageUrl(initialImgInfo.url);
+      setEndPos({
+        x: width * (initialImgInfo.imgPosition.x / 100),
+        y: height * (initialImgInfo.imgPosition.y / 100),
+      });
     });
 
     return () => {};
   }, []);
 
-  // 处理容器点击，更新起点和终点 (可选，用于演示)
-  const handleContainerClick = (e) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  useEffect(() => {
+    if (endImgInfo) {
+      startTransition();
+    }
 
-    // 点击位置作为新的终点
-    setEndPos({ x, y });
+    return () => {};
+  }, [endImgInfo]);
+
+  useEffect(() => {
+    if (!isAnimating && endPos.x !== 0 && endPos.y !== 0) {
+      // 动画结束后更新起始位置和图片
+      setStartPos(endPos);
+      setStartImageUrl(endImageUrl);
+      setCurImg(Object.keys(imgConfig)[currentIndex])
+    }
+
+    return () => {};
+  }, [isAnimating, endPos, endImageUrl]);
+
+  useEffect(() => {
+    const key = Object.keys(imgConfig)[currentIndex];
+    handleContainerClick(key);
+    return () => {
+      
+    }
+  }, [currentIndex])
+  
+// 根据当前图片确定宽度
+  const getCurrentWidth = () => {
+    if (currentImage === endImageUrl) {
+      return endImgInfo?.imgPosition?.width || 0;
+    } else {
+      return curImgInfo?.imgPosition?.width || 0;
+    }
+  };
+  // 处理容器点击，更新起点和终点 (可选，用于演示)
+   const handleContainerClick = (endInfo) => {
+    if (!endInfo) return;
+    const data = imgConfig[endInfo];
+    console.log('🚀 ~ handleContainerClick ~ endInfo:', data);
+
+    const {
+      imgPosition: { x, y },
+    } = data;
+    const { w, h } = imgInfo.current;
+    
+    // 设置终点信息
+    setEndImageUrl(data.url);
+    setEndPos({
+      x: w * (x / 100),
+      y: h * (y / 100),
+    });
+    
+    // 触发动画
+     setEndImgInfo(data);
+
   };
   return (
-    <div ref={productBannerRef} className="fl-solution-banner">
+    <div
+      ref={productBannerRef}
+      className="fl-solution-banner"
+      // onClick={() => {
+      //   handleContainerClick('gdjt');
+      // }}
+    >
       <Swiper
         modules={[Navigation, Pagination, Autoplay, Thumbs, EffectFade]}
         spaceBetween={0}
@@ -228,10 +304,10 @@ const SolutionBanner = () => {
         fadeEffect={{
           crossFade: false,
         }}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
+        // autoplay={{
+        //   delay: 3000,
+        //   disableOnInteraction: false,
+        // }}
         thumbs={{
           swiper: thumbsSwiper,
         }}
@@ -340,51 +416,58 @@ const SolutionBanner = () => {
         </Swiper>
       </div>
       {/* 起点图片 (固定位置) */}
-      <img
-        className="fl-solution-banner-start-image"
-        src={startImageUrl}
-        alt="Start"
-        style={{
-          position: 'absolute',
-          left: curImgInfo?.imgPosition?.x + '%', // 减去图片宽度一半 (假设 50x50)
-          top: curImgInfo?.imgPosition?.y + '%', // 减去图片高度一半
-          width: curImgInfo?.imgPosition.width,
-          height: 'auto',
-          // pointerEvents: 'none', // 防止遮挡点击事件
-          zIndex: 10,
-        }}
-      />
+      {startImageUrl && !isAnimating && (
+        <img
+          className="fl-solution-banner-start-image"
+          src={startImageUrl}
+          alt="Start"
+          style={{
+            position: 'absolute',
+            left: `${startPos.x}px`,
+            top: `${startPos.y}px`,
+            width: curImgInfo?.imgPosition.width,
+            height: 'auto',
+            zIndex: 10,
+          }}
+        />
+      )}
 
       {/* 终点图片 (固定位置) */}
-      <img
-        src={endImageUrl}
-        alt="End"
-        style={{
-          position: 'absolute',
-          left: endPos.x - 25,
-          top: endPos.y - 25,
-          width: '50px',
-          height: '50px',
-          pointerEvents: 'none',
-        }}
-      />
+      {/* {!isAnimating && endImageUrl && (
+        <img
+          className="fl-solution-banner-img-end"
+          src={endImageUrl}
+          alt="End"
+          style={{
+            position: 'absolute',
+            left: endPos.x,
+            top: endPos.y,
+            width: endImgInfo?.imgPosition?.width,
+            height: 'auto',
+            zIndex: 10,
+            // pointerEvents: 'none',
+          }}
+        />
+      )} */}
 
       {/* 移动中的图片 */}
-      <img
-        src={currentImage}
-        alt="Moving"
-        style={{
-          position: 'absolute',
-          left: position.x - 25,
-          top: position.y - 25,
-          width: '50px',
-          height: '50px',
-          transform: 'translate(0, 0)', // 关键：确保 translate 重置，位置由 left/top 控制
-          transition: 'none', // 关闭 CSS transition，由 JS 动画控制
-          zIndex: 10, // 置于顶层
-          pointerEvents: 'none',
-        }}
-      />
+      {isAnimating && (
+        <img
+          src={currentImage}
+          style={{
+            position: 'absolute',
+            left: `${position.x}px`,
+            top: `${position.y}px`,
+            width: getCurrentWidth(),
+            height: 'auto',
+            transform: `scale(${scale})`,
+            opacity: opacity,
+            transition: 'none',
+            zIndex: 10,
+            willChange: 'left, top, transform, opacity',
+          }}
+        />
+      )}
     </div>
   );
 };
