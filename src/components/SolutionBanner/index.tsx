@@ -206,8 +206,9 @@ const SolutionBanner = () => {
     
     getImageDimensions(bgImg).then(({ width, height }) => {
       const clientWidth = document.body.clientWidth;
-      imgInfo.current = { w:  clientWidth, h: width / clientWidth * height};
-      console.log("🚀 ~ SolutionBanner ~ imgInfo.current:",document.body.offsetWidth, imgInfo.current)
+      let scale = clientWidth / width;
+      imgInfo.current = { w:  width, h: scale * height};
+      console.log("🚀 ~ SolutionBanner ~ imgInfo.current:", imgInfo.current)
       
       // 获取初始图片信息
       const initialImgKey = Object.keys(imgConfig)[0];
