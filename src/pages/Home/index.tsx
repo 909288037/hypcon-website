@@ -5,6 +5,8 @@ import SolutionBanner from '@/components/SolutionBanner';
 
 import React, { useEffect } from 'react';
 import './index.less';
+import CaseBanner from '@/components/CaseBanner';
+import AdvantageBanner from '@/components/AdvantageBanner';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -28,6 +30,14 @@ const HomePage: React.FC = () => {
       {/* 解决方案 轮播图 */}
       <div className="fl-home-solution">
         <SolutionBanner />
+      </div>
+      {/* 典型案例 */}
+      <div className="fl-home-case">
+        <CaseBanner />
+      </div>
+      {/* 公司优势 */}
+      <div className="fl-home-advantage">
+        <AdvantageBanner />
       </div>
     </div>
   );

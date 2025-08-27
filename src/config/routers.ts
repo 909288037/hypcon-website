@@ -5,7 +5,6 @@ export default [
   },
   {
     path: '/',
-    component: '@/layouts/index',
     routes: [
       {
         name: '首页',

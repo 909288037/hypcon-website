@@ -39,8 +39,7 @@ export default function Layout() {
           <Helmet>
            
           </Helmet>
-        <Header />
-
+          <Header />
           {/* <AppStore /> */}
           <Outlet />
         </ConfigProvider>

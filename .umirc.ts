@@ -12,6 +12,17 @@ export default defineConfig({
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   routes: routers,
   npmClient: 'pnpm',
+  extraPostCSSPlugins: [
+   { 
+    "postcss-pxtorem": {
+        rootValue: 192,
+        propList: ['*'],
+        unitPrecision: 2, // 保留几位小数
+        selectorBlackList: ['.norem',], // 排除不转换的类名
+        mediaQuery: false, // 允许在媒体查询中转换px
+        minPixelValue: 3 // 设置要替换的最小像素值
+    }}
+  ],
   // hash: true,
   //  history: {
   //   type: 'hash'
