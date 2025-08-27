@@ -5,6 +5,23 @@
 export async function getInitialState(): Promise<{ name: string }> {
   return { name: '@umijs/max' };
 }
+function setRem() {
+  //计算出 比例来 当前分辨率的宽%设计稿宽度
+  const scale = window.screen.width / 1920
+  // 给根元素设置font-size
+  document.documentElement.style.fontSize = 192 * Math.min(scale, 2) + 'px'
+}
+
+export function render(oldRender: any) {
+  document.documentElement.classList.add('leke-root')
+  setRem()
+ window.onresize = function () {
+  console.log('resize');
+  
+      setRem()
+    }
+  oldRender()
+}
 
 // export const layout = () => {
 //   return {
