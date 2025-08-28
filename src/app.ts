@@ -5,9 +5,32 @@
 export async function getInitialState(): Promise<{ name: string }> {
   return { name: '@umijs/max' };
 }
+
+const getScrollbarWidth = () => {
+  // Create a temporary div container and append it into the body
+  const container = document.createElement('div');
+  // Append the container in the body
+  document.body.appendChild(container);
+  // Force scrollbar on the container
+  container.style.overflow = 'scroll';
+
+  // Add ad fake div inside the container
+  const inner = document.createElement('div');
+  container.appendChild(inner);
+
+  // Calculate the width based on the container width minus its child width
+  const width = container.offsetWidth - inner.offsetWidth;
+  // Remove the container from the body
+  document.body.removeChild(container);
+
+  return width;
+};
+
+
 function setRem() {
+  const scrollbarWidth = getScrollbarWidth();
   //计算出 比例来 当前分辨率的宽%设计稿宽度
-  const scale = window.screen.width / 1920
+  const scale = (window.screen.width - scrollbarWidth) / 1920
   // 给根元素设置font-size
   document.documentElement.style.fontSize = 192 * Math.min(scale, 2) + 'px'
 }

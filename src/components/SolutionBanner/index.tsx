@@ -353,14 +353,14 @@ const SolutionBanner = () => {
                   </div>
                 </div>
 
-                <div
-                  className="fl-solution-banner-link"
+                 <div
+                  className="custom-primary-btn"
                   onClick={() => {
-                    window.open(item.link);
+
                   }}
                 >
-                  <div className="fl-solution-banner-link-text">了解更多</div>
-                  <div className="fl-solution-banner-link-arrow"></div>
+                  <div className="custom-btn-text">了解更多</div>
+                  <div className="custom-btn-arrow"></div>
                 </div>
               </div>
             </div>

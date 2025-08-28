@@ -60,9 +60,9 @@ const ImageSlider = () => {
 
   return (
     <div className="fl-case-banner" style={{
-        '--imgWidth': imgWidth + 'px',
-        '--imgHeight': imgWidth * 1.1739 + 'px',
-        '--curImgWidth': curImgWidth + 'px',
+        // '--imgWidth': imgWidth + 'px',
+        // '--imgHeight': imgWidth * 1.1739 + 'px',
+        // '--curImgWidth': curImgWidth + 'px',
     }}>
         <div className='fl-case-banner-header'>
             <div className='fl-case-banner-title'>典型案例</div>
@@ -114,27 +114,42 @@ const ImageSlider = () => {
         pagination={{
           type: 'progressbar',
         }}
-        speed={600}
+        speed={500}
+       
       >
         {images.map((img, index) => {
           return (
             <SwiperSlide
               key={index}
               className={classNames('fl-case-banner-swiper-item')}
+              style={{
+                backgroundColor: index % 2 === 0 ? '#007ECA' : '#00A3FF',
+              }}
             >
              <div className='fl-case-banner-swiper-img'>
                  {index}
              </div>
-              {/* <img
-              src={img}
-              alt={`slide-${index}`}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '8px',
-              }}
-            /> */}
+             <div className='fl-case-banner-swiper-content'>
+                  <div className='fl-case-banner-swiper-content-title'>
+                  浙大医学院附属妇产科医院余杭院区
+                 </div>
+                 <div className='fl-case-banner-swiper-content-desc'>
+                  <div className='fl-case-banner-swiper-content-desc-text'>
+                    浙大妇院余杭院区地上15层、地下2层。配备了门诊、医技、国际化产科中心等高规格功能区域。泛联负责……
+                  </div>
+                  <div className='fl-case-banner-swiper-content-desc-tags'>
+                    <div className='fl-case-banner-swiper-content-desc-tag'>
+                      <div className='fl-case-banner-swiper-content-desc-tag-num'>20+</div>
+                      <div className='fl-case-banner-swiper-content-desc-tag-text'>各类节能算法</div>
+                    </div>
+
+                     <div className='fl-case-banner-swiper-content-desc-tag'>
+                      <div className='fl-case-banner-swiper-content-desc-tag-num'>30+</div>
+                      <div className='fl-case-banner-swiper-content-desc-tag-text'>全局优化系统</div>
+                    </div>
+                  </div>
+                 </div>
+             </div>
             </SwiperSlide>
           );
         })}
@@ -143,7 +158,10 @@ const ImageSlider = () => {
             <div
               className="swiper-next-btn"
               onClick={() => {
+                // document.querySelector('.fl-case-banner .swiper-slide-active')?.classList.add('fade-out');
+                // document.querySelector('.fl-case-banner .swiper-slide-next')?.classList.add('fade-in');
                 swiperRef.current?.slideNext();
+
               }}
             >
               <ReactSVG src={jiantouIcon}/>
