@@ -22,7 +22,7 @@ const Header = () => {
       title: '产品中心',
       children: [
         {
-          title: '产品1',
+          title: '楼宇自控',
           children: [
             {
               title: '产品1-1',
@@ -41,7 +41,19 @@ const Header = () => {
           ],
         },
         {
-          title: '产品2',
+          title: '工业自动化',
+          children: [
+            {
+              title: '产品2-1',
+            },
+            {
+              title: '产品2-2',
+            },
+          ],
+        },
+        {
+          title: '工业互联网',
+          children: [],
         },
       ],
     },
