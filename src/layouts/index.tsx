@@ -10,6 +10,7 @@ import {
 } from '@ant-design/cssinjs'
 import './index.less'
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 
 
@@ -42,6 +43,8 @@ export default function Layout() {
           <Header />
           {/* <AppStore /> */}
           <Outlet />
+          {/* 底部 */}
+          <Footer />
         </ConfigProvider>
       </StyleProvider>
   )

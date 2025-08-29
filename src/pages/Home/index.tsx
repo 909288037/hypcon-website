@@ -7,6 +7,7 @@ import React, { useEffect } from 'react';
 import './index.less';
 import CaseBanner from '@/components/CaseBanner';
 import AdvantageBanner from '@/components/AdvantageBanner';
+import NewsBlock from '@/components/NewsBlock';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -38,6 +39,11 @@ const HomePage: React.FC = () => {
       {/* 公司优势 */}
       <div className="fl-home-advantage">
         <AdvantageBanner />
+      </div>
+
+      {/* 新闻资讯 */}
+      <div className='fl-home-news'>
+        <NewsBlock />
       </div>
     </div>
   );

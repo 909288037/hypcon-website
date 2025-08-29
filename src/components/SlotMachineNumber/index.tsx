@@ -137,17 +137,10 @@ const StyledSlotMachine = ({
             </div>
           </div>
           
-          {/* 滚筒装饰 */}
-          <div className="reel-decoration top"></div>
-          <div className="reel-decoration bottom"></div>
+       
         </div>
         
-        {/* 老虎机细节装饰 */}
-        <div className="machine-details">
-          <div className="detail dot"></div>
-          <div className="detail line"></div>
-          <div className="detail dot"></div>
-        </div>
+       
       </div>
     </div>
   );

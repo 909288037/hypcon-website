@@ -1,39 +1,21 @@
 .slot-machine-wrapper {
-  display: inline-block;
-  margin: 0 8px;
 }
 
-/* 老虎机主体样式 */
 .slot-machine-body {
-  position: relative;
-  padding: 15px 10px;
-  background: #d1d5db;
-  border-radius: 12px;
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.2),
-    inset 0 2px 4px -1px rgba(255, 255, 255, 0.3);
-  border: 1px solid #9ca3af;
+  
 }
 
 /* 滚筒容器 */
 .slot-reel {
-  position: relative;
-  width: auto;
-  padding: 8px;
-  background: #374151;
-  border-radius: 8px;
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* 可视窗口 */
 .slot-viewport {
   width: auto;
-  height: 70px;
+  width: 100%;
+  height: 60px;
   overflow: hidden;
   position: relative;
-  border-radius: 4px;
-  background: #111827;
-  border: 2px solid #030712;
 }
 
 /* 滚动内容容器 */
@@ -44,30 +26,12 @@
 
 /* 每个滚动项 */
 .roll-item {
-  height: 70px;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fde68a;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 36px;
-  font-weight: bold;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  letter-spacing: 1px;
+  height: 100%;
+  background-clip: text;
+  background-image: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
 }
 
-/* 上下遮罩效果 */
-.slot-viewport::before,
-.slot-viewport::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 20px;
-  z-index: 10;
-  pointer-events: none;
-}
+
 
 .slot-viewport::before {
   top: 0;
