@@ -12,9 +12,10 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import downArrow from '../../assets/images/down-arrow.svg';
 import localeIcon from '../../assets/images/locale.svg';
-import logo from '../../assets/images/logo.svg';
+import logo from '../../assets/images/logo.png';
+import logoActive from '../../assets/images/logo-active.png';
 import searchIcon from '../../assets/images/search.svg';
-import zkxx from '../../assets/images/zkxx.svg';
+import zkxx from '../../assets/images/zkxx.png';
 import './index.less';
 
 interface BaseProps {
@@ -77,8 +78,8 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
     },
   ]);
   const [currentIndex, setCurrentIndex] = useState(-1);
+  console.log("🚀 ~ Header ~ currentIndex:", currentIndex,theme)
   const [cascaderData, setCascaderData] = useState([]);
-  console.log('🚀 ~ Header ~ cascaderData:', cascaderData);
   return (
     <div
       className={classNames('fl-header', className, {
@@ -92,8 +93,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
           history.push('/');
         }}
       >
-        {/* <img src={logo} alt="泛联·HYPCON" /> */}
-        <ReactSVG src={logo} />
+        <img src={(currentIndex > -1 || theme !== 'default') ? logoActive :logo} alt="泛联·HYPCON" />
       </div>
       <div
         className="fl-header-menu"
@@ -248,7 +248,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
       </div>
       <div className="fl-header-right">
         <div className="fl-header-right-logo">
-          <ReactSVG className="logo-icon" src={zkxx}></ReactSVG>
+          <img src={zkxx} alt="" />
         </div>
         <div className="fl-header-right-search">
           <ReactSVG className="search-icon" src={searchIcon}></ReactSVG>

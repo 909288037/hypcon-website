@@ -57,6 +57,10 @@ const Product = () => {
       </div>
       <div className="fl-product-cards">
         <Card />
+        <Card />
+        <Card />
+        {/* <Card />
+        <Card /> */}
       </div>
     </div>
   );

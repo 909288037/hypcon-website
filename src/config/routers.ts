@@ -18,12 +18,17 @@ export default [
         component: './Product',
       },
       // 产品列表页 无分类图
-      // {
-      //   name: '产品列表',
-      //   path: '/product2',
-      //   component: './ProductList',
-      // }
-
+      {
+        name: '产品列表',
+        path: '/product-list',
+        component: './ProductList',
+      },
+      // 软件产品详情
+      {
+        name: '产品详情',
+        path: '/product/:id',
+        component: './ProductDetail',
+      },
     ],
   },
 ];

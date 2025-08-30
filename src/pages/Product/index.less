@@ -1,8 +1,12 @@
 .fl-product {
   min-height: 100vh;
   background-color: #f7f7f7;
-  .fl-product-header {
-  }
+  padding-bottom: 353px;
+  background-image: url('~@/assets/images/product-mask.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom right;
+
   &-content {
     display: flex;
     justify-content: space-between;
@@ -65,4 +69,17 @@
       border-radius: 20px;
     }
   }
+
+  &-cards {
+    padding: 0 120px;
+    display: flex;
+    .card {
+      margin-left: 99px;
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+
 }

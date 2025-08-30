@@ -1,10 +1,15 @@
 .card {
-  width: 450px;
-  padding: 0 0 30px;
+  width: 507px;
+  padding: 15px 0 30px;
+  transition: all 0.3s;
+  text-align: center;
+  border-radius: 20px;
   &-header {
     width: 450px;
     height: 289px;
     border-radius: 20px;
+    margin: 0 auto;
+    background-color: skyblue;
     img {
       width: 100%;
       height: 100%;
@@ -21,9 +26,11 @@
     }
     &-desc {
       font-size: 14px;
+      line-height: 18px;
       color: #333;
-      width: 352px;
+      width: 374px;
       margin: 18px auto 44px;
+      text-align: justify;
     }
   }
   &-footer {
@@ -31,6 +38,7 @@
     align-items: center;
     justify-content: flex-end;
     margin-top: 44px;
+    transition: all 0.3s;
     &-btn {
       display: flex;
       align-items: center;
@@ -43,9 +51,81 @@
   }
 
   &:hover {
+    // padding: 26px 28px;
+    transform: scale(1.05);
+    box-sizing: border-box;
     cursor: pointer;
+    background: #fff;
+    box-shadow: 0px 6px 20px 4px rgba(0,126,202,0.1);
+    .card-footer {
+      padding-right: 28px;
+    }
     .card-footer-btn {
       background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+    }
+  }
+}
+
+.card-download {
+  position: relative;
+  width: 391px;
+  transition: all 0.3s;
+  margin-left: 36px;
+  padding: 15px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 20px;
+  margin-bottom: 120px;
+  &:nth-child(4n+1) {
+    margin-left: 0;
+  }
+  &-header {
+    height: 289px;
+    border-radius: 20px;
+    margin: 0 auto;
+    background-color: #fff;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &-body {
+    margin-top: 23px;
+    margin: 23px auto 0;
+    &-title {
+      font-family: MiSans;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 24px;
+      line-height: 32px;
+    }
+    &-desc {
+      font-family: MiSans;
+      font-weight: 300;
+      font-style: Light;
+      font-size: 14px;
+      margin-top: 22px;
+      line-height: 21px;
+    }
+  }
+  &-btn {
+    position: absolute;
+    right: 25px;
+    bottom: 25px;
+    width: 56px;
+    height: 56px;
+    background: url('./images/download.png') no-repeat center;
+    background-size: 100% 100%;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    padding: 15px;
+    box-shadow: 0px 6px 20px 4px #007ECA1A;
+    background: #fff;
+    .card-download-btn {
+      background: url('./images/download-hover.png') no-repeat center;
+      background-size: 100% 100%;
     }
   }
 }
