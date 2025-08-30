@@ -1,7 +1,7 @@
 import { RightOutlined } from '@ant-design/icons';
 import { history } from '@umijs/max';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 
 import 'swiper/css';
@@ -16,7 +16,13 @@ import logo from '../../assets/images/logo.svg';
 import searchIcon from '../../assets/images/search.svg';
 import zkxx from '../../assets/images/zkxx.svg';
 import './index.less';
-const Header = () => {
+
+interface BaseProps {
+  className?: string;
+  theme?: 'default' | 'light';
+}
+
+const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
   const [menuArr, setMenuArr] = useState([
     {
       title: '产品中心',
@@ -75,8 +81,9 @@ const Header = () => {
   console.log('🚀 ~ Header ~ cascaderData:', cascaderData);
   return (
     <div
-      className={classNames('fl-header ', {
+      className={classNames('fl-header', className, {
         'fl-header-hover': currentIndex > -1,
+        [`fl-header-${theme}`]: theme,
       })}
     >
       <div

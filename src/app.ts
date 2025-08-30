@@ -28,9 +28,8 @@ const getScrollbarWidth = () => {
 
 
 function setRem() {
-  const scrollbarWidth = getScrollbarWidth();
   //计算出 比例来 当前分辨率的宽%设计稿宽度
-  const scale = (window.screen.width - scrollbarWidth) / 1920
+  const scale = document.body.clientWidth / 1920
   // 给根元素设置font-size
   document.documentElement.style.fontSize = 192 * Math.min(scale, 2) + 'px'
 }

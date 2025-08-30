@@ -1,11 +1,11 @@
 body {
   font-size: 16px;
 
-    ul {
-        li {
-            list-style: none;
-        }
+  ul {
+    li {
+      list-style: none;
     }
+  }
 }
 .arrow-down {
   display: block;
@@ -91,12 +91,23 @@ body {
     }
   }
   background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
-   &:hover {
+  &:hover {
     .custom-btn-text {
-    color: #000;
-
+      color: #000;
     }
-   }
+  }
+}
 
-   
+// 渐变色文字
+.gradient-text {
+  color: transparent;
+  /* 设置线性渐变，从红色渐变到蓝色 */
+  background-image: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+
+  /* 使用 -webkit-background-clip 属性将背景剪裁至文本形状 */
+  -webkit-background-clip: text;
+  /* 非Webkit内核浏览器需要使用标准前缀 */
+  background-clip: text;
+  /* 把当前元素设置为行内块，以便能够应用背景 */
+  display: inline-block;
 }

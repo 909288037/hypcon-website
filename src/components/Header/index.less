@@ -1,5 +1,5 @@
 .fl-header {
-  position: absolute;
+  position: relative;
   padding: 0 120px;
   top: 0;
   left: 0;
@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16Px;
+    font-size: 16px;
     font-weight: 500;
     height: 100%;
     color: #fff;
@@ -82,7 +82,7 @@
     display: flex;
     align-items: center;
     &-logo {
-      width: 152Px;
+      width: 152px;
       .logo-icon {
         font-size: 26px;
         transform: scale(0.5);
@@ -108,10 +108,6 @@
         path {
           stroke: #007eca;
         }
-      }
-       div {
-        width: 20Px;
-        height: 20Px;
       }
     }
     &-locale {
@@ -169,7 +165,7 @@
         flex: 1;
         font-family: MiSans, MiSans;
         font-weight: 500;
-        font-size: 16Px;
+        font-size: 16px;
         color: #666666;
         min-width: 76px;
         margin-right: 35px;
@@ -220,6 +216,51 @@
         max-height: 600px;
         padding: 42px 120px;
         color: #666666;
+      }
+    }
+
+    .fl-header-logo,
+    .logo-icon {
+      path {
+        fill: #007eca;
+      }
+    }
+    .fl-header-right-search,
+    .fl-header-right-locale {
+      background-color: rgb(240, 240, 240);
+      path {
+        stroke: #007eca;
+      }
+    }
+  }
+
+  &.fl-header-light {
+    background: #fff;
+    transition: all 0.3s;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      pointer-events: none;
+    }
+    .fl-header-menu {
+      color: #666666;
+      path {
+        stroke: #666666;
+      }
+
+      &-item {
+        &.active {
+          .menu-title {
+            &::after {
+              width: 100%;
+            }
+          }
+        }
       }
     }
 
