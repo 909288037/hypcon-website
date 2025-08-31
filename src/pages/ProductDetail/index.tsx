@@ -1,6 +1,14 @@
 import Header from '@/components/Header';
 import { useRef, useState } from 'react';
-import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css/autoplay';
+import 'swiper/css/effect-fade';
+import {
+  Autoplay,
+  EffectFade,
+  Mousewheel,
+  Navigation,
+  Pagination,
+} from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './index.less';
 
@@ -27,7 +35,46 @@ const ProductDetail: React.FC = () => {
             </ul>
           `,
     },
+    {
+      url: '',
+      title: '设备监控与控制',
+      desc: `
+            <ul>
+                <li>实时采集空调、变配电、电梯等设备的温度、电压、速度等参数，以图表、曲线直观展示。</li>
+            </ul>
+          `,
+    },
+    {
+      url: '',
+      title: '测试数据',
+      desc: `
+            <ul>
+                <li>测试啊</li>
+            </ul>
+          `,
+    },
+    {
+      url: '',
+      title: '设备监控与控制',
+      desc: `
+            <ul>
+                <li>实时采集空调、变配电、电梯等设备的温度、电压、速度等参数，以图表、曲线直观展示。</li>
+            </ul>
+          `,
+    },
+    {
+      url: '',
+      title: '测试数据',
+      desc: `
+            <ul>
+                <li>测试啊</li>
+            </ul>
+          `,
+    },
   ]);
+
+  // 产品价值列表
+  const [advantageList, setAdvantageList] = useState(['', '', '', '']);
   const bannerRef = useRef(null);
   return (
     <div className="fl-product-detail">
@@ -176,7 +223,7 @@ const ProductDetail: React.FC = () => {
         {/* 轮播图 */}
         <div className="fl-product-detail-core-banner">
           <Swiper
-          className='fl-product-detail-banner-swiper'
+            className="fl-product-detail-banner-swiper"
             modules={[Navigation, Pagination, Autoplay, EffectFade]}
             spaceBetween={0}
             slidesPerView={1}
@@ -188,10 +235,10 @@ const ProductDetail: React.FC = () => {
               nextEl: '.swiper-next',
               prevEl: '.swiper-prev',
             }}
-            // autoplay={{
-            //   delay: 3000,
-            //   disableOnInteraction: false,
-            // }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
             loop
             pagination={{
               clickable: true,
@@ -235,6 +282,55 @@ const ProductDetail: React.FC = () => {
           </Swiper>
         </div>
       </div>
+      {/* 产品优势 */}
+      {advantageList.length > 0 && (
+        <div className="fl-product-detail-advantage">
+          <div className="fl-product-detail-advantage-title">应用价值</div>
+          {/* 标题 */}
+          <div className="fl-product-detail-advantage-title2">
+            <div className="gradient-text">为楼宇管理创造多重效益</div>
+          </div>
+          <div className="fl-product-detail-advantage-banner">
+            <Swiper
+              // mousewheel
+              loop
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              modules={[Autoplay, Mousewheel]}
+              spaceBetween={150}
+              slidesPerView={3}
+            >
+              {advantageList.map((item, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <div className="fl-product-detail-advantage-banner-item">
+                      {/* 图标 */}
+                      <div className="fl-product-detail-advantage-banner-item-icon">
+                        <img src={''} alt="" />
+                      </div>
+                      <div className="fl-product-detail-advantage-banner-item-title">
+                        降低运营成本​
+                      </div>
+                      <div className="fl-product-detail-advantage-banner-item-desc">
+                        ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+                        <div className="fl-product-detail-advantage-banner-item-desc-item">
+                          在部署方面，HypView采用B/S架构并取得了信创适配认证，支持多类型终端部署，可以节省软件部署和维护费。
+                        </div>
+                        <div className="fl-product-detail-advantage-banner-item-desc-item">
+                          在管理方面，采用设备原型化管理的方式，能够减少人工配置时间，降低管理成本。
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

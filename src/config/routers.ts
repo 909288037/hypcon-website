@@ -25,10 +25,16 @@ export default [
       },
       // 软件产品详情
       {
-        name: '产品详情',
+        name: '软件产品详情',
         path: '/product/:id',
         component: './ProductDetail',
       },
+      // 硬件产品详情
+    {
+      name: '硬件产品详情',
+      path: '/product-hardware/:id',
+      component: './HardwareProductDetail',
+    }
     ],
   },
 ];

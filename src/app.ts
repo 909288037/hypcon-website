@@ -35,7 +35,6 @@ function setRem() {
 }
 
 export function render(oldRender: any) {
-  document.documentElement.classList.add('leke-root')
   setRem()
  window.onresize = function () {
   console.log('resize');
