@@ -4,6 +4,9 @@ import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './index.less';
 
+import jiantouLeft from '@/assets/images/jiantou-left.png';
+import jiantouRight from '@/assets/images/jiantou-right.png';
+
 const ProductDetail: React.FC = () => {
   const [list, setList] = useState([
     {
@@ -173,6 +176,7 @@ const ProductDetail: React.FC = () => {
         {/* 轮播图 */}
         <div className="fl-product-detail-core-banner">
           <Swiper
+          className='fl-product-detail-banner-swiper'
             modules={[Navigation, Pagination, Autoplay, EffectFade]}
             spaceBetween={0}
             slidesPerView={1}
@@ -180,10 +184,14 @@ const ProductDetail: React.FC = () => {
             fadeEffect={{
               crossFade: true,
             }}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
+            navigation={{
+              nextEl: '.swiper-next',
+              prevEl: '.swiper-prev',
             }}
+            // autoplay={{
+            //   delay: 3000,
+            //   disableOnInteraction: false,
+            // }}
             loop
             pagination={{
               clickable: true,
@@ -202,17 +210,28 @@ const ProductDetail: React.FC = () => {
           >
             {list.map((item, index) => (
               <SwiperSlide key={index}>
-                <div className='fl-product-detail-banner-box'>
-                    <div className='fl-product-detail-banner-left'>
-                        <div>{item.title}</div>
-                        <div dangerouslySetInnerHTML={{__html: item.desc}}></div>
+                <div className="fl-product-detail-banner-box">
+                  <div className="fl-product-detail-banner-left">
+                    <div className="fl-product-detail-banner-title gradient-text">
+                      {item.title}
                     </div>
-                    <div className='fl-product-detail-banner-right'>
-                        <img src={item.url} alt="" />
-                    </div>
+                    <div
+                      className="fl-product-detail-banner-desc"
+                      dangerouslySetInnerHTML={{ __html: item.desc }}
+                    ></div>
+                  </div>
+                  <div className="fl-product-detail-banner-right">
+                    <img src={item.url} alt="" />
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
+            <div className="swiper-next">
+              <img src={jiantouRight} alt="" />
+            </div>
+            <div className="swiper-prev">
+              <img src={jiantouLeft} alt="" />
+            </div>
           </Swiper>
         </div>
       </div>

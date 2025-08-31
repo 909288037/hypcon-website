@@ -118,7 +118,7 @@
           margin-left: 0;
         }
         &-img {
-        width: 100%;
+          width: 100%;
           position: relative;
           height: 389px;
           border-radius: 20px;
@@ -138,7 +138,7 @@
       }
     }
     &-item {
-        margin-bottom: 108px;
+      margin-bottom: 108px;
       &-desc {
         font-weight: 300;
         font-size: 14px;
@@ -150,8 +150,15 @@
   }
   &-core {
     min-height: 100vh;
-    background: linear-gradient( 180deg, #CEECFF 6%, #EDF1F3 26%, rgba(237,241,243,0) 32%), #FAFAFA;
-    &-title { 
+    background:
+      linear-gradient(
+        180deg,
+        #ceecff 6%,
+        #edf1f3 26%,
+        rgba(237, 241, 243, 0) 32%
+      ),
+      #fafafa;
+    &-title {
       font-size: 32px;
       line-height: 32px;
       color: #666666;
@@ -164,6 +171,68 @@
       line-height: 52px;
       text-align: center;
       margin-top: 28px;
+    }
+    &-banner {
+      margin-top: 172px;
+      .fl-product-detail-banner-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-left: 216px;
+        padding-right: 140px;
+        .fl-product-detail-banner-left {
+          width: 642px;
+          .fl-product-detail-banner-title {
+            font-weight: 500;
+            font-size: 32px;
+            line-height: 48px;
+          }
+          .fl-product-detail-banner-desc {
+            line-height: 21px;
+            margin-top: 43px;
+          }
+        }
+        .fl-product-detail-banner-right {
+          width: 902px;
+          height: 522px;
+          background: #eee;
+          margin-bottom: 138px;
+        }
+      }
+      .fl-product-detail-banner-swiper {
+        position: relative;
+      }
+      .swiper-next, .swiper-prev {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+        cursor: pointer;
+        user-select: none;
+        img {
+            width: 14px;
+            height: 24px;
+        }
+        &:hover {
+            background: linear-gradient(90deg, #007ECA 0%, #22C55E 100%);
+
+        }
+      }
+      .swiper-prev {
+        left: 80px;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+      .swiper-next {
+        right: 80px;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
     }
   }
 }

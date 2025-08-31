@@ -10,7 +10,7 @@ import {
 import './index.less';
 
 const baseSize = 192; //设计稿宽度%10 比如 1920
-
+import 'normalize.css/normalize.css'
 export default function Layout() {
   return (
     <StyleProvider
