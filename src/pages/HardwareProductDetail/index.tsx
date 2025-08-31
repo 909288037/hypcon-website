@@ -1,5 +1,7 @@
+import arrowIcon from '@/assets/images/jiantou-right.png';
 import Header from '@/components/Header';
 import { Tabs } from 'antd';
+import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import './index.less';
 
@@ -26,6 +28,7 @@ const HardwareProductDetail = () => {
   const [currentKey, setCurrentKey] = useState(tabItems[0].key);
   //   相关产品列表
   const [relatedList, setRelatedList] = useState([{}, {}, {}, {}, {}]);
+  const [currentNavKey, setCurrentNavKey] = useState('1');
   const onTabChange = (key: string) => {
     console.log(key);
     setCurrentKey(key);
@@ -146,7 +149,75 @@ const HardwareProductDetail = () => {
       )}
 
       {/* 规格参数 */}
-      {currentKey === '2' && <div></div>}
+      {currentKey === '2' && (
+        <div className="hardware-product-specs">
+          <div className="hardware-product-specs-item">
+            <div className="hardware-product-specs-item-title">
+              <div className="gradient-text">FCS100控制系统CPU模块</div>
+            </div>
+            <div className="hardware-product-specs-item-content">
+              <img src="" alt="" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 资料下载 */}
+      {currentKey === '3' && (
+        <div className="hardware-product-download">
+          <div className="hardware-product-download-nav">
+            <div
+              className="hardware-product-download-nav-item"
+              onClick={() => {}}
+            >
+              <div
+                className={classNames(
+                  'hardware-product-download-nav-item-title',
+                  {
+                    'gradient-text': currentNavKey === '1',
+                  },
+                )}
+              >
+                产品手册
+              </div>
+              <div className="hardware-product-download-nav-item-arrow">
+                <img src={arrowIcon} alt="" />
+              </div>
+            </div>
+            <div className="hardware-product-download-nav-item">
+              <div
+                className={classNames(
+                  'hardware-product-download-nav-item-title',
+                )}
+              >
+                产品彩页
+              </div>
+            </div>
+          </div>
+          <div className="hardware-product-download-list">
+            <div className="hardware-product-download-list-item">
+              <div>
+                <img src="" alt="" />
+              </div>
+              <div>
+                <div>FCS101 一体化控制器模块</div>
+                <div>
+                  <div>
+                    <div>发现日期：</div>
+                    <div>版本号：</div>
+                    <div>资料编号：</div>
+                  </div>
+                  <div>
+                    <div>预览</div>
+                    <div>下载</div>
+                    <div>二维码</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
