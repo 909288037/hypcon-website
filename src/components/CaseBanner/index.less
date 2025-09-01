@@ -1,11 +1,30 @@
 .fl-case-banner {
+  position: relative;
   padding: 140px 0 180px;
-  background: linear-gradient(
-    159.77deg,
-    rgba(34, 197, 94, 0) 16.05%,
-    rgba(3, 102, 164, 0.5) 47.31%,
-    rgba(0, 126, 202, 0) 71.17%
-  );
+
+  &::after {
+    content: '';
+    background:
+      linear-gradient(
+        159.77deg,
+        rgba(34, 197, 94, 0) 16.05%,
+        rgba(3, 102, 164, 0.5) 47.31%,
+        rgba(0, 126, 202, 0) 71.17%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(0, 126, 202, 0) 71.06%,
+        rgba(0, 126, 202, 0.1) 100%
+      );
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
 
   &-header {
     display: flex;

@@ -1,0 +1,287 @@
+.fl-solution {
+  &-header {
+    position: absolute;
+  }
+  &-cover {
+    position: relative;
+    width: 100%;
+    height: 44.79vw;
+    background-color: #fff;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    &-title {
+      position: absolute;
+      left: 120px;
+      bottom: 120px;
+      font-weight: 500;
+      font-size: 72px;
+      color: #ffffff;
+    }
+  }
+  &-content {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 120px;
+    overflow: hidden;
+    &-item {
+    }
+    &::after {
+      position: absolute;
+      top: -531.66px;
+      right: -241px;
+      content: '';
+      filter: blur(620px);
+      width: 634px;
+      height: 674px;
+      transform: rotate(35.65deg);
+      opacity: 0.4;
+      background: linear-gradient(204.16deg, #22c55e 29%, #2e92e3 63.03%);
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      top: 277px;
+      left: -574px;
+      width: 1011px;
+      height: 1075px;
+      background: #2e92e3;
+      filter: blur(620px);
+      transform: rotate(35.65deg);
+      opacity: 0.2;
+    }
+    &-left {
+      width: 680px;
+      &-title {
+        font-size: 52px;
+        margin-top: 37px;
+        .gradient-text {
+          font-weight: 500;
+        }
+      }
+      &-desc {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 26px;
+        color: #333333;
+        margin-top: 80px;
+      }
+
+      &-list {
+        display: flex;
+        align-items: center;
+        margin-top: 110px;
+
+        &-item {
+          margin-left: 60px;
+          &:first-child {
+            margin-left: 0;
+          }
+          &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0px 2.35px 7.06px 0px #0000000f;
+            img {
+              width: 42px;
+              height: 42px;
+            }
+          }
+          &-title {
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 16px;
+            font-weight: 500;
+            text-align: center;
+          }
+          &-num {
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: #999999;
+            line-height: 20px;
+            margin-top: 8px;
+          }
+        }
+      }
+    }
+
+    &-right {
+      width: 860px;
+      height: 560px;
+      background: skyblue;
+      border-radius: 20px;
+    }
+  }
+  &-section {
+    padding: 140px 120px 130px;
+    .fl-solution-title {
+      font-weight: 500;
+      font-size: 52px;
+      color: #000000;
+    }
+  }
+  .product-service {
+    position: relative;
+    height: 1100px;
+    background: transparent;
+    &::after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      background: url('../HardwareProductDetail/images/xtjg.png') no-repeat
+        center;
+      background-size: 100% 100%;
+      z-index: -1;
+      opacity: 0.35;
+    }
+
+    .fl-solution-tag {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      font-size: 13px;
+      &-text {
+        font-family: MiSans, MiSans;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 35px;
+        color: #999999;
+        flex-shrink: 0;
+      }
+      &-list {
+        max-width: 283px;
+        display: flex;
+        flex-wrap: wrap;
+
+        .fl-solution-tag-item {
+          text-align: center;
+          padding: 10px 22px;
+          border-radius: 20px;
+          border: 1px solid #007eca;
+          font-size: 13px;
+          line-height: 13px;
+          color: #007eca;
+          margin-left: 3px;
+          margin-bottom: 20px;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.6;
+          }
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+  &-value {
+    min-height: 56.25vw;
+
+    background:
+      url('./images/jzld.png') no-repeat bottom,
+      linear-gradient(0deg, rgba(0, 126, 202, 0.04), rgba(0, 126, 202, 0.04)),
+      linear-gradient(
+        0deg,
+        rgba(0, 126, 202, 0) 69.97%,
+        rgba(0, 126, 202, 0.1) 100%
+      );
+    background-size: 100% 100%;
+
+    &-banner {
+      margin-top: 158px;
+
+      &-item {
+        width: 375px;
+        padding: 0 40px;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px 0px rgba(0, 77, 161, 0.1);
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &-icon {
+          width: 60px;
+          height: 60px;
+          margin-top: 40px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        &-title {
+          font-weight: 500;
+          font-size: 24px;
+          color: #000000;
+          line-height: 32px;
+          margin-top: 40px;
+        }
+        &-desc {
+          font-family: MiSans, MiSans;
+          font-weight: 300;
+          font-size: 16px;
+          color: #000000;
+          &-item {
+            display: flex;
+            align-items: flex-start;
+            font-style: normal;
+            line-height: 21px;
+            margin-bottom: 25px;
+            &::before {
+              content: '';
+              flex-shrink: 0;
+              display: inline-block;
+              width: 4px;
+              height: 4px;
+              margin-top: 6px;
+              background: #000000;
+              border-radius: 99999px;
+              margin-right: 8px;
+            }
+            &:last-child {
+              margin-bottom: 49px;
+            }
+          }
+        }
+        &-count {
+            margin-bottom: 40px;
+          &-num {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 48px;
+            line-height: 60px;
+            .count-icon {
+                width: 45px;
+                height: 50px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    vertical-align: top;
+                }
+            }
+          }
+          &-title {
+            font-weight: 500;
+            font-size: 13px;
+            color: #000000;
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
+  &-case {
+
+  }
+}

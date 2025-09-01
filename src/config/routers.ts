@@ -30,11 +30,17 @@ export default [
         component: './ProductDetail',
       },
       // 硬件产品详情
-    {
-      name: '硬件产品详情',
-      path: '/product-hardware/:id',
-      component: './HardwareProductDetail',
-    }
+      {
+        name: '硬件产品详情',
+        path: '/product-hardware/:id',
+        component: './HardwareProductDetail',
+      },
+      // 解决方案
+      {
+        name: '解决方案',
+        path: '/solution',
+        component: './Solution',
+      }
     ],
   },
 ];

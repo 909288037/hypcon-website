@@ -1,10 +1,13 @@
 import arrowIcon from '@/assets/images/jiantou-right.png';
 import Header from '@/components/Header';
-import { Tabs } from 'antd';
+import { downloadFile } from '@/utils';
+import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
+import { Image, Popover, QRCode, Tabs } from 'antd';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
+import { ReactSVG } from 'react-svg';
+import qrcodeIcon from './images/qrcode.svg';
 import './index.less';
-
 const HardwareProductDetail = () => {
   const tabItems = useMemo(() => {
     return [
@@ -29,6 +32,10 @@ const HardwareProductDetail = () => {
   //   相关产品列表
   const [relatedList, setRelatedList] = useState([{}, {}, {}, {}, {}]);
   const [currentNavKey, setCurrentNavKey] = useState('1');
+  const [imgVisible, setImgVisible] = useState({
+    visible: false,
+    url: '',
+  });
   const onTabChange = (key: string) => {
     console.log(key);
     setCurrentKey(key);
@@ -196,26 +203,76 @@ const HardwareProductDetail = () => {
           </div>
           <div className="hardware-product-download-list">
             <div className="hardware-product-download-list-item">
-              <div>
-                <img src="" alt="" />
-              </div>
-              <div>
-                <div>FCS101 一体化控制器模块</div>
-                <div>
-                  <div>
+              <div className="hardware-product-download-list-item-img" />
+              <div className="hardware-product-download-list-item-text">
+                <div className="hardware-product-download-list-item-text-title">
+                  <span>FCS101 一体化控制器模块</span>
+                </div>
+                <div className="hardware-product-download-list-item-text-footer">
+                  <div className="hardware-product-download-list-item-text-footer-left">
                     <div>发现日期：</div>
                     <div>版本号：</div>
                     <div>资料编号：</div>
                   </div>
-                  <div>
-                    <div>预览</div>
-                    <div>下载</div>
-                    <div>二维码</div>
+                  <div className="hardware-product-download-list-item-text-footer-right">
+                    <div
+                      onClick={() => {
+                        // 如果是pdf直接打开
+                        // if (item.fileName.endsWith('.pdf')) {
+                        //   // window.open(item.fileUrl)
+                        // } else {
+                        setImgVisible({
+                          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200',
+                          visible: true,
+                        });
+                        // }
+                      }}
+                    >
+                      预览
+                      <EyeOutlined />
+                    </div>
+                    <div
+                      onClick={() => {
+                        downloadFile(
+                          'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200',
+                          '下载.png',
+                        );
+                      }}
+                    >
+                      下载
+                      <DownloadOutlined />
+                    </div>
+                    <Popover
+                      content={
+                        <QRCode value="https://ant.design" bordered={false} />
+                      }
+                    >
+                      <div>
+                        二维码
+                        <span>
+                          <ReactSVG src={qrcodeIcon} />
+                        </span>
+                      </div>
+                    </Popover>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <Image
+            style={{ display: 'none' }}
+            src={imgVisible?.url}
+            preview={{
+              visible: imgVisible.visible,
+              src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+              onVisibleChange: (value) => {
+                setImgVisible({
+                  ...imgVisible,
+                  visible: value,
+                });
+              },
+            }}
+          />
         </div>
       )}
     </div>
