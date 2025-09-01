@@ -152,6 +152,7 @@
     // min-height: 100vh;
     padding-bottom: 138px;
     background:
+      url("../../assets/images/product-hxgn.png") no-repeat center,
       linear-gradient(
         180deg,
         #ceecff 6%,
@@ -159,6 +160,7 @@
         rgba(237, 241, 243, 0) 32%
       ),
       #fafafa;
+      background-size: 100% 100%;
     &-title {
       font-size: 32px;
       line-height: 32px;
@@ -202,6 +204,7 @@
       }
       .fl-product-detail-banner-swiper {
         position: relative;
+        overflow: inherit;
         .swiper-pagination-bullets {
           position: absolute;
           right: 140px;
@@ -221,8 +224,8 @@
         .swiper-pagination-bullet-active {
           position: relative;
           width: 69px;
-          height: 10px;
-          background: rgba(255, 255, 255, 0.5);
+          height: 7px;
+          background: rgba(255, 255, 255, 1);
           border-radius: 50px;
           overflow: hidden;
           &::after {

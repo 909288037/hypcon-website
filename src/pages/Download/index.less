@@ -1,0 +1,142 @@
+.fl-download {
+  &-header {
+    position: absolute;
+  }
+  &-bg {
+    position: relative;
+    height: 44.7917vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      linear-gradient(
+        0,
+        rgba(156, 187, 222, 0) 39.45%,
+        rgba(74, 127, 199, 0.44) 80.79%
+      ),
+      //   linear-gradient(
+      //     180deg,
+      //     rgba(156, 187, 222, 0) 39.45%,
+      //     rgba(74, 127, 199, 0.44) 80.79%
+      //   ),
+      url('./images/bg.jpg') no-repeat center;
+    background-size: 100% 100%;
+    &-title {
+      position: absolute;
+      bottom: 120px;
+      left: 120px;
+      font-weight: 500;
+      font-size: 72px;
+    }
+
+    &-search {
+      &-box {
+      }
+      display: flex;
+      align-items: center;
+
+      &-btn {
+        position: relative;
+        width: 260px;
+        height: 66px;
+        background: #ffffff;
+        box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 50px 50px 50px 50px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.3s;
+        &-title {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-weight: 500;
+          font-size: 24px;
+          line-height: normal;
+          padding: 0 28px;
+          z-index: 10;
+          border-radius: 50px;
+          &-icon {
+            img {
+              width: 14px;
+              height: auto;
+            }
+          }
+        }
+
+        &.active {
+          .fl-download-bg-search-btn-title {
+            box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.1);
+            background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+          }
+          .gradient-text {
+            color: #fff;
+            background-image: none;
+            transition: all 0.3s;
+          }
+          .fl-download-bg-search-list {
+            transition: all 0.5s;
+            opacity: 1;
+            overflow: auto;
+            z-index: 1;
+          }
+        }
+      }
+
+      &-list {
+        position: absolute;
+        top: 12px;
+        width: 100%;
+        background: #ffffff;
+        box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 24px;
+        padding: 68px 28px 16px;
+        overflow: hidden;
+        opacity: 0;
+        z-index: -1;
+
+
+        &-item {
+          margin-top: 20px;
+          font-weight: 500;
+          font-size: 16px;
+          color: #666666;
+          cursor: pointer;
+          &:hover {
+            color: #007eca;
+          }
+
+          &:first-child {
+            margin-top: 0;
+          }
+          &-icon {
+            margin-left: 25px;
+          }
+          &-sub {
+            padding-left: 72px;
+            margin-top: 10px;
+
+            &-item {
+              font-weight: 500;
+              font-size: 16px;
+              color: #666666;
+              margin-bottom: 20px;
+              &:hover {
+                color: #007eca;
+              }
+              &:last-child {
+                margin-bottom: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

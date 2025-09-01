@@ -221,7 +221,7 @@ const ProductDetail: React.FC = () => {
           <div className="gradient-text">全方位覆盖楼宇管理需求</div>
         </div>
         {/* 轮播图 */}
-        <div className="fl-product-detail-core-banner">
+        <div className="fl-product-detail-core-banner" ref={bannerRef}>
           <Swiper
             className="fl-product-detail-banner-swiper"
             modules={[Navigation, Pagination, Autoplay, EffectFade]}

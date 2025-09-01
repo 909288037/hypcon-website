@@ -40,7 +40,13 @@ export default [
         name: '解决方案',
         path: '/solution',
         component: './Solution',
-      }
+      },
+      // 资料下载
+      {
+        name: '资料下载',
+        path: '/download',
+        component: './Download',
+      },
     ],
   },
 ];

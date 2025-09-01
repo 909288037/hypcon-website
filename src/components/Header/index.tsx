@@ -16,6 +16,7 @@ import logo from '../../assets/images/logo.png';
 import logoActive from '../../assets/images/logo-active.png';
 import searchIcon from '../../assets/images/search.svg';
 import zkxx from '../../assets/images/zkxx.png';
+import zkxxActive from '../../assets/images/zkxx-active.png';
 import './index.less';
 
 interface BaseProps {
@@ -248,7 +249,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
       </div>
       <div className="fl-header-right">
         <div className="fl-header-right-logo">
-          <img src={zkxx} alt="" />
+          <img src={(currentIndex > -1 || theme !== 'default') ? zkxxActive : zkxx} alt="" />
         </div>
         <div className="fl-header-right-search">
           <ReactSVG className="search-icon" src={searchIcon}></ReactSVG>
