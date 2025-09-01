@@ -63,6 +63,9 @@
           z-index: 10;
           border-radius: 50px;
           &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             img {
               width: 14px;
               height: auto;
@@ -72,7 +75,7 @@
 
         &.active {
           .fl-download-bg-search-btn-title {
-            box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.1);
+            box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
             background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
           }
           .gradient-text {
@@ -101,7 +104,6 @@
         opacity: 0;
         z-index: -1;
 
-
         &-item {
           margin-top: 20px;
           font-weight: 500;
@@ -117,11 +119,14 @@
           }
           &-icon {
             margin-left: 25px;
+            span {
+              transform: rotate(270deg);
+            }
           }
           &-sub {
             padding-left: 72px;
-            margin-top: 10px;
-
+            max-height: 0;
+            overflow: hidden;
             &-item {
               font-weight: 500;
               font-size: 16px;
@@ -133,6 +138,19 @@
               &:last-child {
                 margin-bottom: 0;
               }
+            }
+          }
+          &.sub-show {
+            .fl-download-bg-search-list-item-icon {
+              span {
+                transform: rotate(360deg);
+                transition: all 0.3s;
+              }
+            }
+            .fl-download-bg-search-list-item-sub {
+              max-height: 600px;
+              margin-top: 10px;
+              transition: all 0.3s;
             }
           }
         }
