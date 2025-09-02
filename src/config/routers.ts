@@ -52,7 +52,13 @@ export default [
       name: '服务网络',
       path: '/service-network',
       component: './ServiceNetwork',
-     }
+     },
+    //  产品咨询
+    {
+      name: '产品咨询',
+      path: '/product-consult',
+      component: './ProductConsult',
+    },
     ],
   },
 ];

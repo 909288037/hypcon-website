@@ -232,24 +232,6 @@ const ChinaMapChart = () => {
               },
             },
             roam: true,
-            itemStyle: {
-              normal: {
-                areaColor: (params: any) => {
-                  // 根据省份设置不同背景色
-                  const provinceName = params.name;
-                  return (
-                    provinceColors[provinceName] || provinceColors['default']
-                  );
-                },
-                borderColor: '#FFFFFF',
-              },
-              emphasis: {
-                areaColor: '#2B91B7',
-              },
-            },
-            emphasis: {
-              disabled: true, // 禁用默认点击高亮效果 (ECharts 5.3+特性)
-            },
             animation: false,
           },
           // 2. 其他城市的散点动画层
