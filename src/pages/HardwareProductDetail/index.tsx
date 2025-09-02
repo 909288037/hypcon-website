@@ -6,7 +6,7 @@ import { Image, Popover, QRCode, Tabs } from 'antd';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import { ReactSVG } from 'react-svg';
-import qrcodeIcon from './images/qrcode.svg';
+import qrcodeIcon from '@/assets/images/qrcode.svg';
 import './index.less';
 const HardwareProductDetail = () => {
   const tabItems = useMemo(() => {
