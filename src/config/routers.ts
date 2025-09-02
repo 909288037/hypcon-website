@@ -47,6 +47,12 @@ export default [
         path: '/download',
         component: './Download',
       },
+      // 服务网络
+     {
+      name: '服务网络',
+      path: '/service-network',
+      component: './ServiceNetwork',
+     }
     ],
   },
 ];

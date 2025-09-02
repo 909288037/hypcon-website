@@ -69,7 +69,21 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
       title: '解决方案',
     },
     {
-      title: '服务与支持',
+      title: '服务支持',
+      children: [
+        {
+          title: '服务保障',
+          children: [
+            {
+              title: '服务网络',
+            },
+          ]
+        },
+        {
+          title: '资料下载',
+          url: '/download',
+        },
+      ],
     },
     {
       title: '新闻资讯',
