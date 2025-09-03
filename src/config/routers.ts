@@ -71,6 +71,24 @@ export default [
         path: '/training-service',
         component: './TrainingService',
       },
+      // 常见问题
+      {
+        name: '常见问题',
+        path: '/faq',
+        component: './FAQ',
+      },
+      // 产品公告
+      {
+        name: '产品公告',
+        path: '/product-notice',
+        component: './ProductNotice',
+      },
+      // 公告详情
+      {
+        name: '公告详情',
+        path: '/product-notice/:id',
+        component: './ProductNoticeDetail',
+      },
     ],
   },
 ];
