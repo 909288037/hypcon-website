@@ -59,6 +59,12 @@ export default [
       path: '/product-consult',
       component: './ProductConsult',
     },
+    // 意见反馈
+    {
+      name: '意见反馈',
+      path: '/feedback',
+      component: './Feedback',
+    },
     ],
   },
 ];

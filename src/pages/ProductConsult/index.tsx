@@ -1,6 +1,28 @@
 import Header from '@/components/Header';
 import { Button, Col, Form, Input, Row, Select } from 'antd';
 import './index.less';
+import rightArrowImg from '@/assets/images/right-arrow.png';
+
+// 省份options
+const provinceOptions = [
+  {
+    label: '上海市',
+    value: '上海市',
+  },
+  {
+    label: '江苏省',
+    value: '江苏省',
+  },
+  {
+    label: '浙江省',
+    value: '浙江省',
+  },
+  {
+    label: '安徽省',
+    value: '安徽省',
+  },
+ 
+]
 const ProductConsult = () => {
   return (
     <div className="product-consult">
@@ -50,7 +72,7 @@ const ProductConsult = () => {
                   rules={[{ required: true, message: '请选择所在地区' }]}
                   layout="vertical"
                 >
-                  <Select placeholder="请选择您的所在地" />
+                  <Select placeholder="请选择您的所在地" options={provinceOptions}/>
                 </Form.Item>
               </Col>
             </Row>
@@ -93,7 +115,9 @@ const ProductConsult = () => {
                 >
                   <Input.TextArea
                     placeholder="请详细描述您想咨询的内容（例如：FCS100系列产品报价咨询/需要了解HypView行业定制方案，想了解部署周期和预算）"
-                    rows={4}
+                    autoSize={{
+                      minRows: 4,
+                    }}
                   />
                 </Form.Item>
               </Col>
@@ -104,7 +128,9 @@ const ProductConsult = () => {
                 <Form.Item label={<div>应用场景</div>} layout="vertical">
                   <Input.TextArea
                     placeholder="您的需求应用在什么场景/行业？了解场景后，我们会匹配对应行业经验的顾问为您解答"
-                    rows={4}
+                    autoSize={{
+                      minRows: 4,
+                    }}
                   />
                 </Form.Item>
               </Col>
@@ -116,6 +142,7 @@ const ProductConsult = () => {
             >
               <Button type="primary" htmlType="submit">
                 确认提交
+                <img src={rightArrowImg} alt="" />
               </Button>
             </Form.Item>
           </Form>
