@@ -1,4 +1,16 @@
 .fl-news {
+  .gradient-text {
+    color: transparent;
+    /* 设置线性渐变，从红色渐变到蓝色 */
+    background-image: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+
+    /* 使用 -webkit-background-clip 属性将背景剪裁至文本形状 */
+    -webkit-background-clip: text;
+    /* 非Webkit内核浏览器需要使用标准前缀 */
+    background-clip: text;
+    /* 把当前元素设置为行内块，以便能够应用背景 */
+    display: inline-block;
+  }
   background: #f7f7f7;
   &-header {
     position: absolute;
@@ -23,7 +35,7 @@
         font-weight: 500;
         font-size: 52px;
         padding-bottom: 41px;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       }
     }
   }
