@@ -48,23 +48,29 @@ export default [
         component: './Download',
       },
       // 服务网络
-     {
-      name: '服务网络',
-      path: '/service-network',
-      component: './ServiceNetwork',
-     },
-    //  产品咨询
-    {
-      name: '产品咨询',
-      path: '/product-consult',
-      component: './ProductConsult',
-    },
-    // 意见反馈
-    {
-      name: '意见反馈',
-      path: '/feedback',
-      component: './Feedback',
-    },
+      {
+        name: '服务网络',
+        path: '/service-network',
+        component: './ServiceNetwork',
+      },
+      //  产品咨询
+      {
+        name: '产品咨询',
+        path: '/product-consult',
+        component: './ProductConsult',
+      },
+      // 意见反馈
+      {
+        name: '意见反馈',
+        path: '/feedback',
+        component: './Feedback',
+      },
+      // 培训服务
+      {
+        name: '培训服务',
+        path: '/training-service',
+        component: './TrainingService',
+      },
     ],
   },
 ];

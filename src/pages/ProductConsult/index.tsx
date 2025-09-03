@@ -1,7 +1,9 @@
 import Header from '@/components/Header';
-import { Button, Col, Form, Input, Row, Select } from 'antd';
+import { Button, Col, Form, Input, Modal, Row, Select } from 'antd';
 import './index.less';
 import rightArrowImg from '@/assets/images/right-arrow.png';
+import { useState } from 'react';
+import modalImg from '@/assets/images/success.png';
 
 // 省份options
 const provinceOptions = [
@@ -24,6 +26,8 @@ const provinceOptions = [
  
 ]
 const ProductConsult = () => {
+    const [modalVisible, setModalVisible] = useState(true);
+  const [form] = Form.useForm();
   return (
     <div className="product-consult">
       <Header theme="light" className="product-consult-header" />
@@ -38,6 +42,7 @@ const ProductConsult = () => {
         </div>
         <div className="product-consult-content-form">
           <Form
+            form={form}
             requiredMark={false}
             scrollToFirstError={{
               behavior: 'instant',
@@ -89,6 +94,40 @@ const ProductConsult = () => {
                   layout="vertical"
                 >
                   <Input placeholder="请输入您的姓名" />
+                </Form.Item>
+              </Col>
+               <Col span={12}>
+                <Form.Item
+                  label={
+                    <div>
+                      联系电话<span style={{ color: '#FF5858' }}>※</span>
+                    </div>
+                  }
+                  name="联系电话"
+                  rules={[
+                    {
+                      required: true,
+                      validator(rule, value) {
+                        if (!value) {
+                          return Promise.reject(new Error('请输入联系电话'));
+                        } else if (
+                          !/^(?:(?:\+|00)86)?1\d{10}$/.test(value) &&
+                          !/^(?:(?:\d{3}-)?\d{8}|^(?:\d{4}-)?\d{7,8})(?:-\d+)?$/.test(
+                            value,
+                          )
+                        ) {
+                          return Promise.reject(
+                            new Error('请输入正确的联系电话'),
+                          );
+                        } else {
+                          return Promise.resolve();
+                        }
+                      },
+                    },
+                  ]}
+                  layout="vertical"
+                >
+                  <Input placeholder="请输入联系电话" type="tel" />
                 </Form.Item>
               </Col>
             </Row>
@@ -148,6 +187,30 @@ const ProductConsult = () => {
           </Form>
         </div>
       </div>
+      <Modal
+        footer={null}
+        className="custom-modal"
+        open={modalVisible}
+        closable={false}
+        centered
+      >
+        <div className="custom-modal_header">
+          <img src={modalImg} alt="" />
+        </div>
+        <div className="custom-modal_content">
+          咨询需求提交成功！
+          <br />
+          我们已收到您的信息，专属顾问将在 24 小时 <br />
+          内通过您预留的电话联系您 <br />
+          问题，会通过您留的联系方式同步处理进展。
+          感谢您的信任，我们会尽快为您解答～
+        </div>
+        <div className='custom-modal_footer'>
+          <Button className='custom-modal-btn' onClick={() => setModalVisible(false)}>
+            已收到
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };
