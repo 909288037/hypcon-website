@@ -89,6 +89,12 @@ export default [
         path: '/product-notice/:id',
         component: './ProductNoticeDetail',
       },
+      // 新闻资讯
+      {
+        name: '新闻资讯',
+        path: '/news',
+        component: './News',
+      },
     ],
   },
 ];
