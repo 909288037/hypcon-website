@@ -1,106 +1,112 @@
+import chinaGeoJson from '@/assets/map/geoGpsMap.json';
 import * as echarts from 'echarts';
 import { useEffect, useRef } from 'react';
-// 引入 ECharts 中国地图 JSON 数据（建议本地导入，避免跨域问题）
-import chinaGeoJson from '@/assets/map/geoGpsMap.json'; // 需自行准备 china.json 地图数据文件
 import './index.less';
-const targetCities = [
-  '北京',
-  '石家庄',
-  //   '华中大区',
-  '西安',
-  '成都',
-  '重庆',
-  '上海',
-  '杭州',
-  '武汉',
-  //   '河南',
-  //   '湖北',
-  //   '湖南',
-  //   '安徽',
-  '广东',
-  '深圳',
-  '珠海',
-];
+
+// 地理坐标映射
+const geoCoordMap = {
+  北京: [116.405285, 39.904989],
+  石家庄: [114.502461, 38.045474],
+  西安: [108.948024, 34.263159],
+  成都: [104.065735, 30.659462],
+  重庆: [106.550464, 29.563226],
+  上海: [121.473701, 31.230416],
+  杭州: [120.15507, 30.274084],
+  武汉: [114.305419, 30.592977],
+  广东: [113.264385, 23.12911],
+  深圳: [114.057931, 22.543096],
+  珠海: [113.52185, 22.27893],
+  南京: [118.797766, 32.060826],
+};
+
+const targetCities = Object.keys(geoCoordMap);
 const valueData: any = {};
 targetCities.forEach((city) => {
-  if (city === '杭州') {
-    valueData[city] = 30000;
-    return;
-  }
-  valueData[city] = 10000;
+  valueData[city] = city === '杭州' ? 30000 : 10000;
 });
 
 // React 组件
 const ChinaMapChart = () => {
-  // 1. 定义 ECharts 实例引用（替代 jQuery 的 DOM 选择器）
   const chartRef = useRef(null);
   let myChart = useRef(null);
 
-  // 2. 原代码中的配置数据（直接迁移并适配 React 语法）
-  // 地理坐标映射
-  const geoCoordMap = {
-    北京: [116.405285, 39.904989],
-    石家庄: [114.502461, 38.045474],
-    西安: [108.948024, 34.263159],
-    成都: [104.065735, 30.659462],
-    重庆: [106.550464, 29.563226],
-    上海: [121.473701, 31.230416],
-    杭州: [120.15507, 30.274084],
-    武汉: [114.305419, 30.592977],
-    广东: [113.264385, 23.12911],
-    深圳: [114.057931, 22.543096],
-    珠海: [113.52185, 22.27893],
-    // 华中大区: [113.665412, 34.757975],
-    // 河南: [113.665412, 34.757975],
-    // 湖北: [114.305419, 30.592977],
-    // 湖南: [112.982279, 28.19409],
-    // 安徽: [117.283042, 31.86119],
-  };
-
-  const provinceColors: any = {
-    北京: '#FF0000',
-    上海: '#00FF00',
-    广东: '#0000FF',
-    浙江: '#FFFF00',
-    江苏: '#FF00FF',
-    山东: '#00FFFF',
-    河南: '#FFA500',
-    河北: '#800080',
-    湖南: '#FFC0CB',
-    湖北: '#40E0D0',
-    安徽: '#9370DB',
-    // 可以为更多省份添加颜色
-    // 默认颜色
-    default: '#ccc',
-  };
   const cityToProvinceMap: any = {
     武汉: ['河南', '湖北', '湖南', '安徽'],
-    // 可以添加更多城市的映射关系
+    成都: ['四川', '贵州', '广西', '云南', '西藏', '重庆'],
+    重庆: ['四川', '贵州', '广西', '云南', '西藏', '重庆'],
+    西安: ['陕西', '甘肃', '宁夏', '青海', '新疆'],
+    北京: ['北京', '天津', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江'],
+    石家庄: [
+      '北京',
+      '天津',
+      '河北',
+      '山西',
+      '内蒙古',
+      '辽宁',
+      '吉林',
+      '黑龙江',
+    ],
+    广州: ['广东', '福建', '江西', '海南'],
+    珠海: ['广东', '福建', '江西', '海南'],
+    深圳: ['广东', '福建', '江西', '海南'],
+    南京: ['江苏', '山东', '上海'],
+    上海: ['江苏', '山东', '上海'],
+    杭州: ['浙江'],
   };
-  // 中心点坐标（杭州）
-  const geoGpsMap = [120.15507, 30.274084];
-  const colors = '#25CEF3';
 
-  // 3. 数据处理函数（原代码中的 convertData / convertToLineData）
+  // 大区映射 - 直接映射省份到大区，更直观
+  const provinceToRegionMap = {
+    四川: '西南大区',
+    贵州: '西南大区',
+    广西: '西南大区',
+    云南: '西南大区',
+    西藏: '西南大区',
+    重庆: '西南大区',
+    河南: '华中大区',
+    湖北: '华中大区',
+    湖南: '华中大区',
+    安徽: '华中大区',
+    陕西: '西北大区',
+    甘肃: '西北大区',
+    宁夏: '西北大区',
+    青海: '西北大区',
+    新疆: '西北大区',
+    北京: '华北大区',
+    天津: '华北大区',
+    河北: '华北大区',
+    山西: '华北大区',
+    内蒙古: '华北大区',
+    辽宁: '华北大区',
+    吉林: '华北大区',
+    黑龙江: '华北大区',
+    广东: '华南大区',
+    福建: '华南大区',
+    江西: '华南大区',
+    海南: '华南大区',
+    江苏: '华东大区',
+    山东: '华东大区',
+    上海: '华东大区',
+    浙江: '浙江大区',
+  };
+
+  const geoGpsMap = [120.15507, 30.274084];
+  const colors = '#1D94C9';
+
+  // 数据处理函数
   const convertData = (data) => {
     const res = [];
     for (let i = 0; i < data.length; i++) {
       const geoCoord = geoCoordMap[data[i].name];
-      //  过滤河南 湖北 湖南 安徽
-      // if (["河南", "安徽" , "湖南" , "湖北"].includes(data[i].name)) {
-      //   continue;
-      // }
       if (geoCoord) {
         res.push({
           name: data[i].name,
-          value: geoCoord.concat(data[i].value), // 拼接 [经度, 纬度, 数值]
+          value: geoCoord.concat(data[i].value),
         });
       }
     }
     return res;
   };
 
-  // 分离杭州和其他城市的数据
   const separateHangzhouData = (data) => {
     const hangzhouData = [];
     const hzdqData = [];
@@ -126,62 +132,63 @@ const ChinaMapChart = () => {
     for (let i = 0; i < data.length; i++) {
       const dataItem = data[i];
       const toCoord = geoCoordMap[dataItem.name];
-      const fromCoord = gps; // 起点坐标（杭州）
+      const fromCoord = gps;
       if (fromCoord && toCoord) {
         res.push([
-          { coord: fromCoord, value: dataItem.value }, // 起点
-          { coord: toCoord }, // 终点
+          { coord: fromCoord, value: dataItem.value },
+          { coord: toCoord },
         ]);
       }
     }
     return res;
   };
 
-  // 4. 初始化地图数据（原代码中的 mapData 构建）
   const getMapData = () => {
     const mapData = [];
-    // 遍历省份构建数据
     for (const key in geoCoordMap) {
       mapData.push({
         year: '杭州',
         name: key,
-        value: valueData[key] / 100, // 数值缩放
+        value: valueData[key] / 100,
         value1: valueData[key] / 100,
       });
     }
-    // 按数值排序（原代码逻辑）
     mapData.sort((a, b) => a.value - b.value);
     return mapData;
   };
 
-  // 5. ECharts 初始化（核心逻辑，替代 jQuery 的 $(function() {})）
   useEffect(() => {
-    // 初始化 ECharts 实例（确保 DOM 已挂载）
     if (chartRef.current && !myChart.current) {
       myChart.current = echarts.init(chartRef.current);
-
-      // 注册中国地图（原代码中的 $.getJSON 逻辑，改为本地导入避免跨域）
       echarts.registerMap('china', chinaGeoJson);
 
-      // 构建地图数据
       const mapData = getMapData();
       const sortedMapData = mapData
         .sort((a, b) => b.value - a.value)
         .slice(0, 20);
-      const { hangzhouData, otherData, hzdqData } =
-        separateHangzhouData(sortedMapData);
+      const { hangzhouData, otherData } = separateHangzhouData(sortedMapData);
 
-      // ECharts 配置项（原代码中的 optionXyMap01）
+      // 存储原始涟漪效果配置
+      let originalEffectShowConfig = {
+        effectScatter: [],
+        linesEffectShow: true,
+      };
+
       const option = {
         backgroundColor: 'transparent',
         geo: {
           show: true,
           map: 'china',
-          roam: false, // 允许缩放和平移
+          roam: false,
           zoom: 1,
-          //   center: geoGpsMap, // 地图中心点（
           label: {
-            emphasis: { show: false },
+            emphasis: {
+              show: true,
+              fontSize: 14,
+              color: '#007ECA',
+              fontWeight: 'bold',
+              lineHeight: 20, // 增加行高，让省份和大区名称更清晰
+            },
           },
           itemStyle: {
             normal: {
@@ -194,16 +201,10 @@ const ChinaMapChart = () => {
                 x2: 0,
                 y2: 1,
                 colorStops: [
-                  {
-                    offset: 0,
-                    color: '#E7F5FD', // 0% 处的颜色
-                  },
-                  {
-                    offset: 1,
-                    color: '#E0F2FE', // 100% 处的颜色
-                  },
+                  { offset: 0, color: '#E7F5FD' },
+                  { offset: 1, color: '#E0F2FE' },
                 ],
-                global: false, // 缺省为 false
+                global: false,
               },
               shadowColor: '#96BBDA',
               shadowOffsetX: 0,
@@ -212,48 +213,55 @@ const ChinaMapChart = () => {
             },
             emphasis: {
               areaColor: '#ABE1FF',
-              //   borderWidth: 0,
             },
           },
         },
         series: [
-          // 1. 基础地图层
+          // 基础地图层 - 重点修改标签显示逻辑
           {
             type: 'map',
             map: 'china',
             geoIndex: 0,
-            aspectScale: 0.75, // 长宽比
+            aspectScale: 0.75,
             showLegendSymbol: false,
             label: {
               normal: { show: false },
               emphasis: {
-                show: false,
-                textStyle: { color: '#fff' },
+                show: true,
+                textStyle: {
+                  color: '#000',
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                },
+                // 关键修改：直接通过省份查找对应的大区
+                formatter: function (params: any) {
+                  const region = provinceToRegionMap[params.name];
+                  // 确保大区存在才显示，用换行分隔省份和大区
+                  return region ? `${params.name}\n${region}` : params.name;
+                },
               },
             },
             roam: true,
             animation: false,
           },
-          // 2. 其他城市的散点动画层
+          // 其他城市的散点动画层
           {
             type: 'effectScatter',
             coordinateSystem: 'geo',
             data: convertData(otherData),
             symbolSize: function (val: any) {
               return val[2] / 10;
-            }, // 散点大小随数值变化
+            },
             showEffectOn: 'render',
             rippleEffect: { brushType: 'stroke' },
             hoverAnimation: true,
             label: {
               normal: {
-                // 使用富文本格式化，根据不同城市设置不同字体大小
                 formatter: function (params: any) {
                   return `{other|${params.name}}`;
                 },
-                position: 'top', // 其他城市标签在上方
+                position: 'top',
                 show: true,
-                // 定义富文本样式
                 rich: {
                   other: {
                     color: '#007ECA',
@@ -272,26 +280,24 @@ const ChinaMapChart = () => {
             },
             zlevel: 1,
           },
-          // 3. 杭州的散点动画层
+          // 杭州的散点动画层
           {
             type: 'effectScatter',
             coordinateSystem: 'geo',
             data: convertData(hangzhouData),
             symbolSize: function (val: any) {
               return val[2] / 10;
-            }, // 散点大小随数值变化
+            },
             showEffectOn: 'render',
             rippleEffect: { brushType: 'fill' },
             hoverAnimation: true,
             label: {
               normal: {
-                // 使用富文本格式化，根据不同城市设置不同字体大小
                 formatter: function (params: any) {
                   return `{hz|${params.name}}`;
                 },
-                position: 'right', // 杭州标签在右侧
+                position: 'right',
                 show: true,
-                // 定义富文本样式
                 rich: {
                   hz: {
                     color: '#007ECA',
@@ -310,24 +316,24 @@ const ChinaMapChart = () => {
             },
             zlevel: 1,
           },
-          // 4. 连线动画层
+          // 连线动画层
           {
             name: 'lines',
             type: 'lines',
             zlevel: 2,
             effect: {
               show: true,
-              period: 4, // 箭头速度（越小越快）
-              trailLength: 0.2, // 尾迹长度
-              symbol: 'arrow', // 箭头图标
-              symbolSize: 5, // 图标大小
+              period: 4,
+              trailLength: 0.2,
+              symbol: 'arrow',
+              symbolSize: 5,
             },
             lineStyle: {
               normal: {
                 color: colors,
-                width: 1, // 线条宽度
-                opacity: 1, // 透明度
-                curveness: 0.1, // 线条曲度
+                width: 1,
+                opacity: 0.2,
+                curveness: -0.2,
               },
             },
             data: convertToLineData(mapData, geoGpsMap),
@@ -335,48 +341,36 @@ const ChinaMapChart = () => {
         ],
       };
 
-      // 设置配置项并渲染
       myChart.current.setOption(option);
 
-      let originalEffectScatterOption: any = null;
-      let originalLinesOption: any = null;
+      // 保存原始效果配置
+      const originalOption = myChart.current.getOption();
+      originalEffectShowConfig.effectScatter = originalOption.series
+        .filter((s: any) => s.type === 'effectScatter')
+        .map((s: any) => s.showEffectOn);
+      originalEffectShowConfig.linesEffectShow =
+        originalOption.series.find((s: any) => s.type === 'lines')?.effect
+          ?.show || true;
 
-      // 添加鼠标事件监听器
+      // 鼠标悬停事件
       myChart.current.on('mouseover', function (params: any) {
         if (
           params.componentType === 'series' &&
           (params.seriesType === 'effectScatter' ||
             params.seriesType === 'scatter')
         ) {
-          // 保存原始配置
-          if (!originalEffectScatterOption) {
-            originalEffectScatterOption = myChart.current
-              .getOption()
-              .series.find((s: any) => s.type === 'effectScatter');
-          }
-
-          if (!originalLinesOption) {
-            originalLinesOption = myChart.current
-              .getOption()
-              .series.find((s: any) => s.type === 'lines');
-          }
-
           // 停止涟漪效果
           myChart.current.setOption({
             series: myChart.current.getOption().series.map((s: any) => {
               if (s.type === 'effectScatter') {
-                return {
-                  ...s,
-                  showEffectOn: 'none', // 停止涟漪效果
-                };
+                return { ...s, showEffectOn: 'none' };
               }
               if (s.type === 'lines') {
+                console.log('🚀 ~ ChinaMapChart ~ s:', s);
                 return {
                   ...s,
-                  effect: {
-                    ...s.effect,
-                    show: false,
-                  },
+                  lineStyle: { ...s.lineStyle, normal: { width: 0 } },
+                  effect: { ...s.effect, show: false },
                 };
               }
               return s;
@@ -397,6 +391,7 @@ const ChinaMapChart = () => {
         }
       });
 
+      // 鼠标离开事件
       myChart.current.on('mouseout', function (params: any) {
         if (
           params.componentType === 'series' &&
@@ -405,27 +400,39 @@ const ChinaMapChart = () => {
         ) {
           // 恢复涟漪效果
           myChart.current.setOption({
-            series: myChart.current.getOption().series.map((s: any) => {
-              if (s.type === 'effectScatter') {
-                return {
-                  ...s,
-                  showEffectOn: 'render', // 恢复涟漪效果
-                };
-              }
-              if (s.type === 'lines') {
-                return {
-                  ...s,
-                  effect: {
-                    ...s.effect,
-                    show: true,
-                  },
-                };
-              }
-              return s;
-            }),
+            series: myChart.current
+              .getOption()
+              .series.map((s: any, index: number) => {
+                if (s.type === 'effectScatter') {
+                  return {
+                    ...s,
+                    showEffectOn:
+                      originalEffectShowConfig.effectScatter.shift() ||
+                      'render',
+                  };
+                }
+                if (s.type === 'lines') {
+                  return {
+                    ...s,
+                    lineStyle: {
+                      normal: {
+                        color: colors,
+                        width: 1,
+                        opacity: 0.2,
+                        curveness: -0.2,
+                      },
+                    },
+                    effect: {
+                      ...s.effect,
+                      show: originalEffectShowConfig.linesEffectShow,
+                    },
+                  };
+                }
+                return s;
+              }),
           });
 
-          // 取消高亮相关省份
+          // 取消高亮
           const cityName = params.name;
           const provincesToHighlight = cityToProvinceMap[cityName];
           if (provincesToHighlight) {
@@ -440,13 +447,13 @@ const ChinaMapChart = () => {
       });
     }
 
-    // 6. 窗口 resize 适配（优化体验）
+    // 窗口大小调整
     const handleResize = () => {
       myChart.current?.resize();
     };
     window.addEventListener('resize', handleResize);
 
-    // 7. 组件卸载时清理（避免内存泄漏）
+    // 组件卸载清理
     return () => {
       window.removeEventListener('resize', handleResize);
       myChart.current?.dispose();
@@ -454,7 +461,6 @@ const ChinaMapChart = () => {
     };
   }, []);
 
-  // 8. 渲染 DOM（地图容器）
   return <div className="map-container" ref={chartRef} />;
 };
 
