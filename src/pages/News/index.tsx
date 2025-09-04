@@ -1,9 +1,11 @@
 import rightArrowImg from '@/assets/images/right-arrow.png';
 import Header from '@/components/Header';
 import { CaretDownOutlined, SearchOutlined } from '@ant-design/icons';
-import { Input, Select, Typography } from 'antd';
+import { Input, Pagination, PaginationProps, Select, Typography } from 'antd';
 import { useState } from 'react';
 import './index.less';
+import arrowRight from '@/assets/images/right-arrow-primary.png';
+
 const { Paragraph } = Typography;
 const News = () => {
   // 重点新闻
@@ -32,6 +34,22 @@ const News = () => {
   });
   const onSearch = () => {
     console.log('触发搜索');
+  };
+
+  const itemRender: PaginationProps['itemRender'] = (
+    _,
+    type,
+    originalElement,
+  ) => {
+    if (type === 'prev') {
+      return (
+        <img src={arrowRight} alt="" style={{ transform: 'rotate(180deg)' }} />
+      );
+    }
+    if (type === 'next') {
+      return <img src={arrowRight} alt="" />;
+    }
+    return originalElement;
   };
 
   return (
@@ -79,49 +97,74 @@ const News = () => {
             })}
           </div>
 
-          <div className="fl-news-content-key-title solution">
-            <div className="solution-select">
-              <div className="solution-select-year">
-                <Select
-                  options={yearList}
-                  placeholder={yearList[0].label}
-                  suffixIcon={<CaretDownOutlined />}
-                />
-              </div>
-              <div className="solution-select-month">
-                <Select
-                  options={monthList}
-                  placeholder={new Date().getMonth() + 1 + '月'}
-                  suffixIcon={<CaretDownOutlined />}
-                />
-              </div>
-            </div>
-            <div className="solution-search">
-              {!searchVal && (
-                <div className="solution-search-placeholder">
-                  <div className="gradient-text">输入关键词</div>
+          <div className="solution">
+            <div className="fl-news-content-key-title">
+              <div className="solution-select">
+                <div className="solution-select-year">
+                  <Select
+                    options={yearList}
+                    placeholder={yearList[0].label}
+                    suffixIcon={<CaretDownOutlined />}
+                  />
                 </div>
-              )}
-              <Input
-                className="solution-search-input"
-                variant="borderless"
-                size="large"
-                onChange={(e) => {
-                  setSearchVal(e.target.value);
-                }}
-                onPressEnter={() => {
-                  onSearch();
-                }}
-              ></Input>
-              <div
-                className="solution-search-button"
-                onClick={() => {
-                  onSearch();
-                }}
-              >
-                <SearchOutlined />
+                <div className="solution-select-month">
+                  <Select
+                    options={monthList}
+                    placeholder={new Date().getMonth() + 1 + '月'}
+                    suffixIcon={<CaretDownOutlined />}
+                  />
+                </div>
+              </div>
+              <div className="solution-search">
+                {!searchVal && (
+                  <div className="solution-search-placeholder">
+                    <div className="gradient-text">输入关键词</div>
+                  </div>
+                )}
+                <Input
+                  className="solution-search-input"
+                  variant="borderless"
+                  size="large"
+                  onChange={(e) => {
+                    setSearchVal(e.target.value);
+                  }}
+                  onPressEnter={() => {
+                    onSearch();
+                  }}
+                ></Input>
+                <div
+                  className="solution-search-button"
+                  onClick={() => {
+                    onSearch();
+                  }}
+                >
+                  <SearchOutlined />
+                </div>
               </div>
             </div>
+            <div className="solution-list">
+              {solutionList.map((item, index) => {
+                return (
+                  <div className="solution-list-item" key={index}>
+                    <div className="solution-list-item-img"></div>
+                    <div className="solution-list-item-content">
+                      <div className="solution-list-item-title">
+                        泛联智控HypView楼宇自动化监控软件：开启楼宇智慧运营新时代
+                      </div>
+                      <div className="solution-list-item-text">
+                        在城市智能化进程加速与物联网技术迭代的双重浪潮下，楼宇已从单一的建筑空间进化为融合办公、生活、服务的复合型生态载体。
+                      </div>
+                      <div className="solution-list-item-date">2025.05.21</div>
+                    </div>
+                  </div>
+                );
+              })}
+
+             
+            </div>
+             <div className="solution-pagination">
+                <Pagination total={50} itemRender={itemRender} align="center" />
+              </div>
           </div>
         </div>
       </div>
