@@ -15,6 +15,7 @@ const StyledSlotMachine = ({
   const animationFrameRef = useRef(null);
   const startTimeRef = useRef(null);
   const prevValueRef = useRef(value);
+  const containerRef = useRef(null); // 添加容器引用
   
   // 解析值为数字和符号
   const parseValue = (val) => {
@@ -106,6 +107,43 @@ const StyledSlotMachine = ({
     }
   }, [value, forceRoll]);
   
+  // 添加尺寸变化监听，更新位置
+  useEffect(() => {
+    const updatePositionOnResize = () => {
+      // 如果正在滚动，不处理尺寸变化
+      if (isRolling || !rollerRef.current) return;
+      
+      // 重新计算位置
+      const itemHeight = rollerRef.current?.firstChild?.offsetHeight || 60;
+      const rollContentLength = rollerRef.current?.children?.length || 1;
+      const totalHeight = itemHeight * rollContentLength;
+      
+      // 更新位置以适应新的尺寸
+      const newPosition = Math.max(0, totalHeight - itemHeight * 2);
+      setRollPosition(newPosition);
+    };
+    
+    // 初始化位置
+    updatePositionOnResize();
+    
+    // 监听窗口大小变化
+    window.addEventListener('resize', updatePositionOnResize);
+    
+    // 使用 ResizeObserver 监听容器大小变化 (更精确)
+    let resizeObserver;
+    if (window.ResizeObserver && containerRef.current) {
+      resizeObserver = new ResizeObserver(updatePositionOnResize);
+      resizeObserver.observe(containerRef.current);
+    }
+    
+    return () => {
+      window.removeEventListener('resize', updatePositionOnResize);
+      if (resizeObserver && containerRef.current) {
+        resizeObserver.unobserve(containerRef.current);
+      }
+    };
+  }, [isRolling]); // 依赖于 isRolling 状态
+  
   // 清理动画
   useEffect(() => {
     return () => {
@@ -116,7 +154,7 @@ const StyledSlotMachine = ({
   }, []);
   
   return (
-    <div className={`slot-machine-wrapper ${className}`}>
+    <div className={`slot-machine-wrapper ${className}`} ref={containerRef}>
       {/* 老虎机外壳 */}
       <div className="slot-machine-body">
         {/* 老虎机滚筒容器 */}
@@ -136,16 +174,10 @@ const StyledSlotMachine = ({
               </div>
             </div>
           </div>
-          
-       
         </div>
-        
-       
       </div>
     </div>
   );
 };
-
-
 
 export default StyledSlotMachine;

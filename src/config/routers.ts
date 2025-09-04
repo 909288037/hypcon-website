@@ -95,6 +95,12 @@ export default [
         path: '/news',
         component: './News',
       },
+      // 企业简介
+      {
+        name: '企业简介',
+        path: '/introduction',
+        component: './Introduction',
+      },
     ],
   },
 ];

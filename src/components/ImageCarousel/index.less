@@ -1,0 +1,114 @@
+// CircularCarousel.less
+#carousel {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+
+  .swiper {
+    padding-top: 20px;
+    padding-bottom: 40px;
+
+    .swiper-wrapper {
+      width: 740px;
+      height: 540px;
+    }
+
+    .swiper-slide {
+      width: 740px;
+      height: 540px;
+      background: transparent;
+      box-shadow: 0 8px 20px #ddd;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+
+      .slide-image {
+        display: block;
+        width: 740px;
+        height: 540px;
+      }
+
+      .slide-title {
+        line-height: 58px;
+        padding-top: 0;
+        text-align: center;
+        color: #636363;
+        font-size: 0.8em;
+        margin: 0;
+      }
+
+      .object-cover {
+        width: 100%;
+        height: 100%;
+       object-fit: contain;
+      }
+    }
+  }
+
+  .swiper-pagination {
+    width: 100%;
+    bottom: 20px;
+    position: absolute;
+
+    .swiper-pagination-bullets {
+      .swiper-pagination-bullet {
+        margin: 0 5px;
+        background-color: #e8f5ff;
+        width: 20px;
+        height: 10px;
+        opacity: 1;
+        border-radius: 5px;
+      }
+
+      .swiper-pagination-bullet-active {
+        background-color: #3eb2f3;
+        width: 35px;
+      }
+    }
+  }
+
+  .swiper-button-prev {
+    left: -30px;
+    width: 45px;
+    height: 45px;
+    background: url('https://picsum.photos/id/237/45/185') no-repeat;
+    background-position: 0 0;
+    background-size: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    &:hover {
+      background-position: 0 -46px;
+      background-size: 100%;
+    }
+  }
+
+  .swiper-button-next {
+    right: -30px;
+    width: 45px;
+    height: 45px;
+    background: url('https://picsum.photos/id/237/45/185') no-repeat;
+    background-position: 0 -93px;
+    background-size: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    &:hover {
+      background-position: 0 -139px;
+      background-size: 100%;
+    }
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    content: '';
+  }
+}
+
+// 响应式适配
+@media (max-width: 1200px) {
+  #carousel {
+    width: 90%;
+  }
+}
