@@ -101,6 +101,18 @@ export default [
         path: '/introduction',
         component: './Introduction',
       },
+      // 联系我们
+      {
+        name: '联系我们',
+        path: '/contact',
+        component: './Contact',
+      },
+      // 加入我们
+      {
+        name: '加入我们',
+        path: '/join',
+        component: './Join',
+      },
     ],
   },
 ];
