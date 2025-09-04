@@ -23,6 +23,13 @@ export default defineConfig({
         minPixelValue: 3 // 设置要替换的最小像素值
     }}
   ],
+  proxy: {
+    '/proxy': {
+      target: 'http://121.40.200.150:8089/prod',
+      changeOrigin: true,
+      pathRewrite: { '^/proxy': '' },
+    }, 
+  },
   // hash: true,
   //  history: {
   //   type: 'hash'

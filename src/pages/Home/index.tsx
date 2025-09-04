@@ -2,14 +2,24 @@ import Header from '@/components/Header';
 import ProductBanner from '@/components/ProductBanner';
 import SolutionBanner from '@/components/SolutionBanner';
 import TopBanner from '@/components/TopBanner';
+import { useRequest } from '@umijs/max';
 
 import AdvantageBanner from '@/components/AdvantageBanner';
 import CaseBanner from '@/components/CaseBanner';
 import NewsBlock from '@/components/NewsBlock';
+import { getHomeBanner } from '@/services/HomeController';
 import React, { useEffect } from 'react';
 import './index.less';
 
 const HomePage: React.FC = () => {
+  const {
+    data: bannerData,
+    error,
+    loading,
+  } = useRequest(() => {
+    return getHomeBanner();
+  });
+  console.log('🚀 ~ HomePage ~ data:', bannerData);
   useEffect(() => {
     return () => {};
   }, []);
@@ -21,7 +31,7 @@ const HomePage: React.FC = () => {
 
       {/* 首页轮播图 */}
       <div className="fl-home-banner">
-        <TopBanner />
+        <TopBanner dataSource={bannerData} />
       </div>
       {/* 产品轮播图 */}
       <div className="fl-home-product">

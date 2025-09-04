@@ -49,3 +49,14 @@ export async function downloadFile(imageUrl, filename = 'download.jpg') {
     }
 }
 
+// 判断url地址是图片还是视频
+export function isImage(url: string): boolean {
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg'];
+  for (const ext of imageExtensions) {
+    if (url.endsWith(ext)) {
+      return true;
+    }
+  }
+  return false;
+}
+

@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { isImage } from '@/utils';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
@@ -9,29 +10,7 @@ import 'swiper/css/pagination';
 import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
 import './index.less';
 
-const TopBanner = () => {
-  const [list, setList] = useState([
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-    },
-  ]);
+const TopBanner = ({ dataSource }) => {
   const homeBannerRef = useRef(null);
   return (
     <div ref={homeBannerRef} className="fl-home-banner">
@@ -63,22 +42,36 @@ const TopBanner = () => {
           );
         }}
       >
-        {list.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className="fl-home-banner-img">
-              <img src={item.url} alt="" />
-              <div
-                className="fl-home-banner-link"
-                onClick={() => {
-                  window.open(item.link);
-                }}
-              >
-                <div className="fl-home-banner-link-text">了解更多</div>
-                <div className="fl-home-banner-link-arrow"></div>
+        {dataSource?.map((item, index) => {
+          return (
+            <SwiperSlide key={index}>
+              <div className="fl-home-banner-img">
+                {isImage(item.image) ? (
+                  <img src={item.image} alt="" />
+                ) : (
+                  <video
+                    src={item.image}
+                    controls={false}
+                    muted
+                    autoPlay
+                    loop
+                  ></video>
+                )}
+                {item.link && (
+                  <div
+                    className="fl-home-banner-link"
+                    onClick={() => {
+                      window.open(item.link);
+                    }}
+                  >
+                    <div className="fl-home-banner-link-text">了解更多</div>
+                    <div className="fl-home-banner-link-arrow"></div>
+                  </div>
+                )}
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );

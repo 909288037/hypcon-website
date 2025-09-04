@@ -1,9 +1,10 @@
 import { RightOutlined } from '@ant-design/icons';
-import { history } from '@umijs/max';
+import { history, useRequest } from '@umijs/max';
 import classNames from 'classnames';
 import { FC, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 
+import { getProductList } from '@/services/HomeController';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
@@ -12,11 +13,11 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import downArrow from '../../assets/images/down-arrow.svg';
 import localeIcon from '../../assets/images/locale.svg';
-import logo from '../../assets/images/logo.png';
 import logoActive from '../../assets/images/logo-active.png';
+import logo from '../../assets/images/logo.png';
 import searchIcon from '../../assets/images/search.svg';
-import zkxx from '../../assets/images/zkxx.png';
 import zkxxActive from '../../assets/images/zkxx-active.png';
+import zkxx from '../../assets/images/zkxx.png';
 import './index.less';
 
 interface BaseProps {
@@ -25,6 +26,14 @@ interface BaseProps {
 }
 
 const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
+  const {
+    data: productList,
+    error,
+    loading,
+  } = useRequest(() => {
+    return getProductList();
+  });
+  console.log('🚀 ~ Header ~ productList:', productList);
   const [menuArr, setMenuArr] = useState([
     {
       title: '产品中心',
@@ -77,7 +86,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
             {
               title: '服务网络',
             },
-          ]
+          ],
         },
         {
           title: '资料下载',
@@ -93,7 +102,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
     },
   ]);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  console.log("🚀 ~ Header ~ currentIndex:", currentIndex,theme)
+  console.log('🚀 ~ Header ~ currentIndex:', currentIndex, theme);
   const [cascaderData, setCascaderData] = useState([]);
   return (
     <div
@@ -108,7 +117,10 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
           history.push('/');
         }}
       >
-        <img src={(currentIndex > -1 || theme !== 'default') ? logoActive :logo} alt="泛联·HYPCON" />
+        <img
+          src={currentIndex > -1 || theme !== 'default' ? logoActive : logo}
+          alt="泛联·HYPCON"
+        />
       </div>
       <div
         className="fl-header-menu"
@@ -263,7 +275,10 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
       </div>
       <div className="fl-header-right">
         <div className="fl-header-right-logo">
-          <img src={(currentIndex > -1 || theme !== 'default') ? zkxxActive : zkxx} alt="" />
+          <img
+            src={currentIndex > -1 || theme !== 'default' ? zkxxActive : zkxx}
+            alt=""
+          />
         </div>
         <div className="fl-header-right-search">
           <ReactSVG className="search-icon" src={searchIcon}></ReactSVG>
