@@ -43,7 +43,6 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
     return getSolutionList();
   });
 
-
   const menuArr = useMemo(() => {
     const menu = [
       {
@@ -55,6 +54,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
         children: solutionList?.map((item) => {
           return {
             ...item,
+            isSolution: true,
             name: item.title,
           };
         }),
@@ -111,10 +111,15 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [cascaderData, setCascaderData] = useState([]);
   const [imagesSwiperArr, setImagesSwiperArr] = useState([]);
-  console.log("🚀 ~ Header ~ imagesSwiperArr:", imagesSwiperArr)
+  console.log('🚀 ~ Header ~ imagesSwiperArr:', imagesSwiperArr);
   // 跳转页面
   const goPage = (item: any) => {
     console.log('🚀 ~ goPage ~ item:', item);
+    // 跳转解决方案
+    if (item.isSolution) {
+      history.push(`/solution/${item.id}`);
+      return;
+    }
     // 跳转产品列表
     if (item.products?.length > 0) {
       if (item.products.image) {
@@ -138,10 +143,10 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
     }
     // 跳转软件详情
     if (item.type === '0') {
-      history.push(`/product/${item.id}`);
+      history.push(`/product/${item.type}/${item.id}`);
     } else if (item.type === '1') {
       // 跳转硬件详情
-      history.push(`/product-hardware/${item.id}`);
+      history.push(`/product-hardware/${item.type}/${item.id}`);
     }
   };
   return (
@@ -167,7 +172,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
         onMouseLeave={() => {
           setCurrentIndex(-1);
           setCascaderData([]);
-          setImagesSwiperArr([])
+          setImagesSwiperArr([]);
         }}
       >
         {menuArr.map((item, index) => {
@@ -367,11 +372,15 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
                 {imagesSwiperArr?.map((item) => {
                   return (
                     <SwiperSlide key={item}>
-                      <img src={item} alt="" style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'contain'
-                      }}/>
+                      <img
+                        src={item}
+                        alt=""
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'contain',
+                        }}
+                      />
                     </SwiperSlide>
                   );
                 })}

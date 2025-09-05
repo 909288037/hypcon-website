@@ -14,8 +14,17 @@ import './index.less';
 
 import jiantouLeft from '@/assets/images/jiantou-left.png';
 import jiantouRight from '@/assets/images/jiantou-right.png';
+import { getProductDetail } from '@/services/ProductController';
+import { useParams, useRequest } from '@umijs/max';
 
 const ProductDetail: React.FC = () => {
+  const params = useParams();
+  console.log('🚀 ~ ProductDetail ~ params:', params);
+  // 获取产品详情
+  const { data: productDetail } = useRequest(() => {
+    return getProductDetail(params.type, params.id);
+  });
+  console.log('🚀 ~ ProductDetail ~ productDetail:', productDetail);
   const [list, setList] = useState([
     {
       url: '',
@@ -81,11 +90,11 @@ const ProductDetail: React.FC = () => {
       <Header className="fl-product-detail-header" />
       <div className="fl-product-detail-banner">
         <div className="fl-product-detail-banner-img">
-          <img src="" alt="" />
+          <img src={productDetail?.image} alt="" />
         </div>
         <div className="fl-product-detail-banner-text">
           <div className="fl-product-detail-banner-text-title">
-            HypView监控软件
+            {productDetail?.name}
           </div>
           <div className="fl-product-detail-banner-text-desc">
             <div className="fl-product-detail-banner-text-desc-item">

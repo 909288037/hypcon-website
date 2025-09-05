@@ -115,8 +115,11 @@
     &-right {
       width: 860px;
       height: 560px;
-      background: skyblue;
-      border-radius: 20px;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+      }
     }
   }
   &-section {
@@ -129,7 +132,6 @@
   }
   .product-service {
     position: relative;
-    height: 1100px;
     background: transparent;
     &::after {
       content: '';
@@ -145,12 +147,20 @@
       z-index: -1;
       opacity: 0.35;
     }
-
+    .fl-solution-img {
+      width: 100%;
+      margin-top: 99px;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
     .fl-solution-tag {
       display: flex;
       align-items: flex-start;
       justify-content: flex-start;
       font-size: 13px;
+      margin-top: 20px;
       &-text {
         font-family: MiSans, MiSans;
         font-weight: 300;
@@ -254,7 +264,7 @@
           }
         }
         &-count {
-            margin-bottom: 40px;
+          margin-bottom: 40px;
           &-num {
             display: flex;
             align-items: center;
@@ -262,13 +272,13 @@
             font-size: 48px;
             line-height: 60px;
             .count-icon {
-                width: 45px;
-                height: 50px;
-                img {
-                    width: 100%;
-                    height: 100%;
-                    vertical-align: top;
-                }
+              width: 45px;
+              height: 50px;
+              img {
+                width: 100%;
+                height: 100%;
+                vertical-align: top;
+              }
             }
           }
           &-title {
@@ -282,6 +292,5 @@
     }
   }
   &-case {
-
   }
 }

@@ -26,19 +26,19 @@ export default [
       // 软件产品详情
       {
         name: '软件产品详情',
-        path: '/product/:id',
+        path: '/product/:type/:id',
         component: './ProductDetail',
       },
       // 硬件产品详情
       {
         name: '硬件产品详情',
-        path: '/product-hardware/:id',
+        path: '/product-hardware/:type/:id',
         component: './HardwareProductDetail',
       },
       // 解决方案
       {
         name: '解决方案',
-        path: '/solution',
+        path: '/solution/:id',
         component: './Solution',
       },
       // 资料下载
