@@ -135,7 +135,8 @@
 
   .fl-solution-banner-pagination-box {
     position: absolute;
-    width: 56%;
+    // width: 56%;
+    min-width: 400px;
     left: 50%;
     transform: translateX(-50%);
     bottom: 90px;
@@ -143,9 +144,11 @@
     align-items: center;
     height: 66px;
     z-index: 110;
+    user-select: none;
     .fl-solution-banner-pagination-btn {
       border-radius: 50%;
       margin-right: 19px;
+      cursor: pointer;
       .ant-progress-inner {
         width: 66px !important;
         height: 66px !important;

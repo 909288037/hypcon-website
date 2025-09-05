@@ -56,129 +56,6 @@ const SolutionBanner = ({ dataSource }) => {
     return data;
   }, [listMemo]);
 
-  const [list, setList] = useState([
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-      groupTitle: '智慧枢纽',
-      tag: [
-        {
-          name: 'EC501 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-        {
-          name: 'FCS200',
-          link: 'https://www.baidu.com',
-        },
-        {
-          name: '数据采集器',
-          link: 'https://www.baidu.com',
-        },
-      ],
-      title: '智慧枢纽解决方案',
-      desc: '供需动态平衡，多维协同优化，实现舒适与绿色的完美融合。',
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-      groupTitle: '轨道交通',
-      tag: [
-        {
-          name: '轨道交通 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-      ],
-      title: '轨道交通解决方案',
-      desc: '轨道交通解决方案供需动态平衡，多维协同优化，实现舒适与绿色的完美融合。',
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-      groupTitle: '智慧水务',
-      tag: [
-        {
-          name: '智慧水务 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-      ],
-      title: '智慧水务解决方案',
-      desc: '智慧水务供需动态平衡，多维协同优化，实现舒适与绿色的完美融合。',
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-      groupTitle: '政府公建',
-      tag: [
-        {
-          name: '政府公建 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-      ],
-      title: '政府公建解决方案',
-      desc: '政府公建供需动态平衡，多维协同优化，实现舒适与绿色的完美融合。',
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-      groupTitle: '智慧医院',
-      tag: [
-        {
-          name: '智慧医院 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-      ],
-      title: '智慧医院解决方案',
-      desc: '智慧医院供需动态平衡，多维协同优化，实现舒适与绿色的完美融合。',
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-      groupTitle: '智慧园区',
-      title: '智慧园区解决方案',
-      tag: [
-        {
-          name: '智慧园区 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-        {
-          name: '智慧园区 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-      ],
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-      groupTitle: '智慧场馆',
-      title: '智慧场馆解决方案',
-      tag: [
-        {
-          name: '智慧场馆 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-        {
-          name: '智慧场馆 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-      ],
-    },
-    {
-      url: '',
-      link: 'https://www.baidu.com',
-      groupTitle: '电子厂房',
-      title: '电子厂房解决方案',
-      tag: [
-        {
-          name: '电子厂房 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-        {
-          name: '电子厂房 边缘物联控制器',
-          link: 'https://www.baidu.com',
-        },
-      ],
-    },
-  ]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [slideSwiper, setSlideSwiper] = useState(null);
@@ -225,7 +102,7 @@ const SolutionBanner = ({ dataSource }) => {
       }
       return;
     }
-   
+
     // 外链
     if (item.detailType === '2') {
       window.open(item.link);
@@ -349,7 +226,7 @@ const SolutionBanner = ({ dataSource }) => {
     // 触发动画
     setEndImgInfo(data);
   };
-    if(listMemo.length === 0) return null
+  if (listMemo.length === 0) return null;
   return (
     <div
       ref={productBannerRef}
@@ -382,6 +259,7 @@ const SolutionBanner = ({ dataSource }) => {
         // }}
         onSwiper={setSlideSwiper}
         onSlideChangeTransitionEnd={(swiper) => {
+          setIsStop(false);
           setCurrentIndex(swiper.realIndex);
         }}
         onAutoplayTimeLeft={(swiper, time, progress) => {
@@ -398,22 +276,26 @@ const SolutionBanner = ({ dataSource }) => {
                 {/* 简介 */}
                 <div className="fl-solution-banner-desc">{item.intro}</div>
                 {/* 推荐产品标签 */}
-                <div className="fl-solution-banner-tag">
-                  <div className="fl-solution-banner-tag-text">推荐产品：</div>
-                  <div className="fl-solution-banner-tag-list">
-                    {item.productList.map((tag, index) => (
-                      <span
-                        className="fl-solution-banner-tag-item"
-                        key={index}
-                        onClick={() => {
-                          goPage(tag)
-                        }}
-                      >
-                        {tag.name}
-                      </span>
-                    ))}
+                {item?.productList && (
+                  <div className="fl-solution-banner-tag">
+                    <div className="fl-solution-banner-tag-text">
+                      推荐产品：
+                    </div>
+                    <div className="fl-solution-banner-tag-list">
+                      {item?.productList?.map((tag, index) => (
+                        <span
+                          className="fl-solution-banner-tag-item"
+                          key={index}
+                          onClick={() => {
+                            goPage(tag);
+                          }}
+                        >
+                          {tag.name}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="custom-primary-btn" onClick={() => {}}>
                   <div className="custom-btn-text">了解更多</div>
@@ -460,7 +342,7 @@ const SolutionBanner = ({ dataSource }) => {
             Thumbs,
           ]}
           spaceBetween={43}
-          slidesPerView={8}
+          slidesPerView={listMemo?.length || 0}
           // mousewheel
           // freeMode
           watchSlidesProgress

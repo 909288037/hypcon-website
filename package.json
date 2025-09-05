@@ -19,6 +19,7 @@
     "ahooks": "^3.9.4",
     "antd": "^5.4.0",
     "classnames": "^2.5.1",
+    "dayjs": "^1.11.18",
     "echarts": "^6.0.0",
     "eslint": "^8.52.0",
     "normalize.css": "^8.0.1",

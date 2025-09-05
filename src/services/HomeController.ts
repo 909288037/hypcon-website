@@ -35,3 +35,16 @@ export async function getCaseList() {
   });
 }
 
+// 公司实力
+export async function getAbout() {
+  return request<any>('/proxy/api/home/about', {
+    method: 'GET',
+  });
+}
+
+// 获取新闻列表
+export async function getNewsList() {
+  return request<any>('/proxy/api/home/notice', {
+    method: 'GET',
+  });
+}

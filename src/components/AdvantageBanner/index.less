@@ -3,7 +3,14 @@
   padding: 192px 120px 0;
   width: 100%;
   height: 966px;
-  background: url('./images/bg.png') no-repeat center;
+  background:
+    url('./images/bg.png') no-repeat center,
+    linear-gradient(
+      206deg,
+      rgba(34, 197, 94, 0) 55.72%,
+      rgba(0, 126, 202, 0.2) 99.48%
+    );
+
   background-size: 100% 100%;
   overflow: hidden;
   &::after {
@@ -66,6 +73,10 @@
       justify-content: space-between;
       margin-bottom: 110px;
       &-item {
+        margin-left: 80px;
+        &:first-child {
+          margin-left: 0;
+        }
         &-num {
           width: 160px;
           color: transparent;
@@ -97,8 +108,25 @@
     flex: 0 0 800px;
     width: 800px;
     height: 602px;
-    background-color: pink;
     border-radius: 20px;
     margin-left: 208px;
+    overflow: hidden;
+    cursor: pointer;
+    img {
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s;
+    }
+    &:hover {
+      img,
+      video {
+        transform: scale(1.1);
+      }
+    }
   }
 }
