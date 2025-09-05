@@ -6,7 +6,10 @@ import { useParams, useRequest } from '@umijs/max';
 import { useState } from 'react';
 import { Autoplay, Mousewheel } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import downImg from './images/down.png';
+import upImg from './images/up.png';
 import './index.less';
+
 const Solution = () => {
   const params = useParams();
   // 获取解决方案详情
@@ -122,35 +125,33 @@ const Solution = () => {
             spaceBetween={60}
             slidesPerView={4}
           >
-            {advantageList.map((item, index) => {
+            {solutionDetail?.value?.map((item, index) => {
               return (
                 <SwiperSlide key={index}>
                   <div className="fl-solution-value-banner-item">
                     {/* 图标 */}
                     <div className="fl-solution-value-banner-item-icon">
-                      <img src={''} alt="" />
+                      <img src={item.image} alt="" />
                     </div>
                     <div className="fl-solution-value-banner-item-title">
-                      降低运营成本​
+                      {item.title}
                     </div>
-                    <div className="fl-solution-value-banner-item-desc">
-                      ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
-                      <div className="fl-solution-value-banner-item-desc-item">
-                        在部署方面，HypView采用B/S架构并取得了信创适配认证，支持多类型终端部署，可以节省软件部署和维护费。
-                      </div>
-                      <div className="fl-solution-value-banner-item-desc-item">
-                        在管理方面，采用设备原型化管理的方式，能够减少人工配置时间，降低管理成本。
-                      </div>
-                    </div>
+                    <div
+                      className="fl-solution-value-banner-item-desc"
+                      dangerouslySetInnerHTML={{
+                        __html: item.intro,
+                      }}
+                    />
+                    ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
                     <div className="fl-solution-value-banner-item-count">
                       <div className="fl-solution-value-banner-item-count-num">
-                        <div className="gradient-text">15%</div>
+                        <div className="gradient-text">{item.res1}%</div>
                         <div className="count-icon">
-                          <img src="" alt="" />
+                          <img src={item.res1 < 0 ? downImg : upImg} alt="" />
                         </div>
                       </div>
                       <div className="fl-solution-value-banner-item-count-title">
-                        业务体验
+                        {item.res2}
                       </div>
                     </div>
                   </div>
@@ -162,7 +163,15 @@ const Solution = () => {
       </div>
       {/* 典型案例 */}
       <div className="fl-solution-case">
-        <CaseBanner />
+        <CaseBanner
+          dataSource={[
+            {
+              id: 1,
+              title: solutionDetail?.title,
+              caseList: solutionDetail?.caseList,
+            },
+          ]}
+        />
       </div>
     </div>
   );
