@@ -349,6 +349,7 @@ const SolutionBanner = ({ dataSource }) => {
     // 触发动画
     setEndImgInfo(data);
   };
+    if(listMemo.length === 0) return null
   return (
     <div
       ref={productBannerRef}
@@ -405,7 +406,6 @@ const SolutionBanner = ({ dataSource }) => {
                         className="fl-solution-banner-tag-item"
                         key={index}
                         onClick={() => {
-    console.log("🚀 ~ goPage ~ tag:", tag)
                           goPage(tag)
                         }}
                       >
