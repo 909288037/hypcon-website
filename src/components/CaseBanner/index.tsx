@@ -13,7 +13,6 @@ const ImageSlider = ({ dataSource }) => {
   const swiperRef = useRef<any>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeBtn, setActiveBtn] = useState(-1);
-  console.log("🚀 ~ ImageSlider ~ dataSource:", dataSource,activeIndex)
 
   const images = [
     'https://via.placeholder.com/200x300/FF0000/FFFFFF?text=1',
@@ -70,13 +69,18 @@ const ImageSlider = ({ dataSource }) => {
   const curImgWidth = document.body.clientWidth * 0.4896;
 
   const _caseList = useMemo(() => {
-    let list = []
-    if(dataSource?.length > 0) {
-      list = dataSource?.[activeIndex]?.caseList
+    let list = [];
+    if (dataSource?.length > 0) {
+      list = dataSource?.[activeIndex]?.caseList || [];
     }
-    return list
-  }, [dataSource, activeIndex])
-
+    if (list.length > 1 && list.length < 4) {
+      // 循环添加之前数据
+      list = [...list, ...list];
+    }
+    return list;
+  }, [dataSource, activeIndex]);
+  console.log('🚀 ~ ImageSlider ~ _caseList:', _caseList);
+  if (!dataSource) return null;
   return (
     <div
       className="fl-case-banner"
@@ -110,7 +114,7 @@ const ImageSlider = ({ dataSource }) => {
           ))}
         </div>
       </div>
-      {dataSource?.[activeIndex]?.caseList?.length > 0 && (
+      {_caseList?.length > 0 && (
         <Swiper
           className="fl-case-banner-swiper"
           modules={[Pagination, EffectFade]}
@@ -138,36 +142,36 @@ const ImageSlider = ({ dataSource }) => {
           {_caseList?.map((item, index) => {
             return (
               <SwiperSlide
-                key={item.id}
+                key={item?.id}
                 className={classNames('fl-case-banner-swiper-item')}
               >
                 <div className="fl-case-banner-swiper-img">
-                  <img src={item.image} alt="" />
+                  <img src={item?.image} alt="" />
                 </div>
                 <div className="fl-case-banner-swiper-content">
                   <div className="fl-case-banner-swiper-content-title">
-                    {item.title}
+                    {item?.title}
                   </div>
                   <div className="fl-case-banner-swiper-content-desc">
                     <div className="fl-case-banner-swiper-content-desc-text">
-                      {item.intro}
+                      {item?.intro}
                     </div>
                     <div className="fl-case-banner-swiper-content-desc-tags">
                       <div className="fl-case-banner-swiper-content-desc-tag">
                         <div className="fl-case-banner-swiper-content-desc-tag-num">
-                          {item.res1}
+                          {item?.res1}
                         </div>
                         <div className="fl-case-banner-swiper-content-desc-tag-text">
-                          {item.res2}
+                          {item?.res2}
                         </div>
                       </div>
 
                       <div className="fl-case-banner-swiper-content-desc-tag">
                         <div className="fl-case-banner-swiper-content-desc-tag-num">
-                          {item.res5}
+                          {item?.res5}
                         </div>
                         <div className="fl-case-banner-swiper-content-desc-tag-text">
-                          {item.res6}
+                          {item?.res6}
                         </div>
                       </div>
                     </div>
@@ -175,21 +179,22 @@ const ImageSlider = ({ dataSource }) => {
                 </div>
               </SwiperSlide>
             );
-            
           })}
-          <div slot="container-start">
-            {/* 切换下一张 */}
-            <div
-              className="swiper-next-btn"
-              onClick={() => {
-                // document.querySelector('.fl-case-banner .swiper-slide-active')?.classList.add('fade-out');
-                // document.querySelector('.fl-case-banner .swiper-slide-next')?.classList.add('fade-in');
-                swiperRef.current?.slideNext();
-              }}
-            >
-              <ReactSVG src={jiantouIcon} />
+          {_caseList.length > 1 && (
+            <div slot="container-start">
+              {/* 切换下一张 */}
+              <div
+                className="swiper-next-btn"
+                onClick={() => {
+                  // document.querySelector('.fl-case-banner .swiper-slide-active')?.classList.add('fade-out');
+                  // document.querySelector('.fl-case-banner .swiper-slide-next')?.classList.add('fade-in');
+                  swiperRef.current?.slideNext();
+                }}
+              >
+                <ReactSVG src={jiantouIcon} />
+              </div>
             </div>
-          </div>
+          )}
         </Swiper>
       )}
     </div>
