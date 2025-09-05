@@ -38,7 +38,7 @@ const TopBanner = ({ dataSource }) => {
         onAutoplayTimeLeft={(swiper, time, progress) => {
           homeBannerRef.current?.style?.setProperty(
             '--progressWidth',
-            Math.round((1 - progress) * 100) + '%',
+            Math.min(Math.round((1 - progress) * 100), 100) + '%',
           );
         }}
       >

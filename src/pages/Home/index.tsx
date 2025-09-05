@@ -7,7 +7,7 @@ import { useRequest } from '@umijs/max';
 import AdvantageBanner from '@/components/AdvantageBanner';
 import CaseBanner from '@/components/CaseBanner';
 import NewsBlock from '@/components/NewsBlock';
-import { getHomeBanner } from '@/services/HomeController';
+import { getCaseList, getHomeBanner, getProductList, getRecommendProduct, getSolutionList } from '@/services/HomeController';
 import React, { useEffect } from 'react';
 import './index.less';
 
@@ -19,7 +19,33 @@ const HomePage: React.FC = () => {
   } = useRequest(() => {
     return getHomeBanner();
   });
-  console.log('🚀 ~ HomePage ~ data:', bannerData);
+
+  // 获取推荐产品列表
+  const {
+    data: productList,
+    error: productListError,
+    loading: productListLoading,
+  } = useRequest(() => {
+    return getRecommendProduct();
+  });
+
+  // 解决方案
+  const {
+    data: solutionList,
+    error: solutionListError,
+    loading: solutionListLoading,
+  } = useRequest(() => {
+    return getSolutionList();
+  });
+    // 典型案例
+    const {
+    data: caseList,
+    error: caseListError,
+    loading: caseListLoading,
+  } = useRequest(() => {
+    return getCaseList();
+  });
+
   useEffect(() => {
     return () => {};
   }, []);
@@ -27,7 +53,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="fl-home">
       {/* 头部 导航 */}
-      <Header className="fl-home-header" />
+      <Header className="fl-home-header" /> 
 
       {/* 首页轮播图 */}
       <div className="fl-home-banner">
@@ -35,15 +61,15 @@ const HomePage: React.FC = () => {
       </div>
       {/* 产品轮播图 */}
       <div className="fl-home-product">
-        <ProductBanner />
+        <ProductBanner dataSource={productList} />
       </div>
       {/* 解决方案 轮播图 */}
       <div className="fl-home-solution">
-        <SolutionBanner />
+        <SolutionBanner dataSource={solutionList} />
       </div>
       {/* 典型案例 */}
       <div className="fl-home-case">
-        <CaseBanner />
+        <CaseBanner dataSource={caseList} />
       </div>
       {/* 公司优势 */}
       <div className="fl-home-advantage">

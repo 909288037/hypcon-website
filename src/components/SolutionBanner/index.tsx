@@ -1,5 +1,6 @@
 import { useImageTransition } from '@/hooks/useImageTransition';
-import { useEffect, useRef, useState } from 'react';
+import { history } from '@umijs/max';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import bgImg from './images/background.png';
 
@@ -25,8 +26,36 @@ import {
 } from 'swiper/modules';
 import { imgConfig } from './const';
 import './index.less';
+const datakey = {
+  key1: 'zhsn',
+  key2: 'gdjt',
+  key3: 'zhsw',
+  key4: 'zfgj',
+  key5: 'zhyy',
+  key6: 'zhyq',
+  key7: 'zhcg',
+  key8: 'dzcf',
+};
+const SolutionBanner = ({ dataSource }) => {
+  const listMemo = useMemo(() => {
+    let data = [];
+    dataSource?.forEach((item) => {
+      data.push({
+        _key: datakey[item.bind],
+        ...item,
+      });
+    });
+    return data;
+  }, [dataSource]);
 
-const SolutionBanner = () => {
+  const hotspotMemo = useMemo(() => {
+    let data = [];
+    listMemo?.forEach((item) => {
+      data.push(imgConfig[item._key]);
+    });
+    return data;
+  }, [listMemo]);
+
   const [list, setList] = useState([
     {
       url: '',
@@ -184,6 +213,32 @@ const SolutionBanner = () => {
     duration: 500, // 动画时长
     switchThreshold: 0.9, // 距离时切换图片
   });
+  const goPage = (item: any) => {
+    // 跳转产品列表
+    if (item.products?.length > 0) {
+      if (item.products.image) {
+        // 有分类图
+        history.push(`/product`);
+      } else {
+        // 无分类图
+        history.push(`/product-list`);
+      }
+      return;
+    }
+   
+    // 外链
+    if (item.detailType === '2') {
+      window.open(item.link);
+      return;
+    }
+    // 跳转软件详情
+    if (item.type === '0') {
+      history.push(`/product/${item.id}`);
+    } else if (item.type === '1') {
+      // 跳转硬件详情
+      history.push(`/product-hardware/${item.id}`);
+    }
+  };
   const getImageDimensions = (
     url: string,
   ): Promise<{ width: number; height: number }> => {
@@ -332,33 +387,35 @@ const SolutionBanner = () => {
           setProgress(Math.round((1 - progress) * 100));
         }}
       >
-        {list.map((item, index) => (
+        {listMemo.map((item, index) => (
           <SwiperSlide key={index}>
             <div className="fl-solution-banner-img">
               <img src={bgImg} alt="" />
               {/* 标题 */}
               <div className="fl-solution-banner-title">
-                {item.title}
+                {item.secondTitle}
                 {/* 简介 */}
-                <div className="fl-solution-banner-desc">{item.desc}</div>
+                <div className="fl-solution-banner-desc">{item.intro}</div>
                 {/* 推荐产品标签 */}
                 <div className="fl-solution-banner-tag">
                   <div className="fl-solution-banner-tag-text">推荐产品：</div>
                   <div className="fl-solution-banner-tag-list">
-                    {item.tag.map((tag, index) => (
-                      <span className="fl-solution-banner-tag-item" key={index}>
+                    {item.productList.map((tag, index) => (
+                      <span
+                        className="fl-solution-banner-tag-item"
+                        key={index}
+                        onClick={() => {
+    console.log("🚀 ~ goPage ~ tag:", tag)
+                          goPage(tag)
+                        }}
+                      >
                         {tag.name}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                 <div
-                  className="custom-primary-btn"
-                  onClick={() => {
-
-                  }}
-                >
+                <div className="custom-primary-btn" onClick={() => {}}>
                   <div className="custom-btn-text">了解更多</div>
                   <div className="custom-btn-arrow"></div>
                 </div>
@@ -411,10 +468,10 @@ const SolutionBanner = () => {
           onSwiper={setThumbsSwiper}
         >
           <div className="fl-solution-banner-pagination-box">
-            {list.map((item, index) => (
+            {listMemo.map((item, index) => (
               <SwiperSlide key={index} className="fl-solution-banner-slide">
                 <div className="fl-solution-banner-title">
-                  {item.groupTitle}
+                  {item.title}
                   <div className="fl-solution-banner-line"></div>
                 </div>
               </SwiperSlide>
@@ -462,7 +519,7 @@ const SolutionBanner = () => {
 
       {/* 热区图层 */}
       <div className="fl-solution-banner-hotspot">
-        {Object.values(imgConfig).map((item, index) => {
+        {hotspotMemo.map((item, index) => {
           return (
             <div
               key={item.title}

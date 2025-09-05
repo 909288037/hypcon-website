@@ -26,6 +26,7 @@ export default defineConfig({
   proxy: {
     '/proxy': {
       target: 'http://121.40.200.150:8089/prod',
+      // target: 'http://192.168.150.71:8088',
       changeOrigin: true,
       pathRewrite: { '^/proxy': '' },
     }, 

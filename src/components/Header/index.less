@@ -145,7 +145,7 @@
   }
   .fl-header-cascader-box {
     display: flex;
-    align-items: center;
+    // align-items: center;
   }
   .fl-header-cascader-swiper {
     flex: 0 0 400px;
@@ -158,12 +158,15 @@
     }
   }
   .fl-header-cascader-menus {
-    height: 270px;
+    min-height: 270px;
     padding: 12px 60px;
     border-right: 1px solid #666;
 
     &:first-child {
       padding-left: 0;
+    }
+    &:last-child {
+      border-right: none;
     }
     &-menu {
       display: flex;
@@ -173,6 +176,9 @@
         .fl-header-cascader-menus-menu-title {
           color: #007eca;
         }
+      }
+      &:last-child {
+        margin-bottom: 0;
       }
       &-title {
         flex: 1;
