@@ -1,48 +1,70 @@
 import rightArrowImg from '@/assets/images/right-arrow.png';
-import downLoadImg from './images/download.png'
-import downLoadImgHover from './images/download-hover.png'
+import { history } from '@umijs/max';
 import './index.less';
 interface CardProps {
   type?: 'view' | 'download';
 }
-const Card: React.FC<CardProps> = ({ type = 'view' }) => {
-  if(type === 'download') {
+const Card: React.FC<CardProps> = ({ type = 'view', dataSource }) => {
+  if (type === 'download') {
     return (
-      <div className="card-download">
+      <div
+        className="card-download"
+        onClick={() => {
+          if (dataSource.detailType === '0') {
+            history.push(`/download/?search=${dataSource.name}`);
+            return;
+          }
+          // 跳转软件详情
+          if (dataSource.type === '0') {
+            history.push(`/product/${dataSource.type}/${dataSource.id}`);
+          } else if (dataSource.type === '1') {
+            // 跳转硬件详情
+            history.push(
+              `/product-hardware/${dataSource.type}/${dataSource.id}`,
+            );
+          }
+        }}
+      >
         <div className="card-download-header">
-          {/* <img src="" alt="" /> */}
+          <img src={dataSource?.image} alt="" />
         </div>
         <div className="card-download-body">
-          <div className="card-download-body-title">HypStuido开放自动化平台</div>
-          <div className="card-download-body-desc">
-            量程范围0-2000ppm
-            <br />
-            输出信号：0-10V/4-20mA拨码+RS-485通讯
-            <br />
-            供电电压：24VAC/DC（16-30VDC）
-            <br />
-            测量精度：±75ppm±3%FS
-            <br />
-            带1.3寸液晶显示屏；
-            <br />
-            最大功耗:3W
-          </div>
+          <div className="card-download-body-title">{dataSource?.name}</div>
+          <div
+            className="card-download-body-desc"
+            dangerouslySetInnerHTML={{
+              __html: dataSource?.description,
+            }}
+          ></div>
         </div>
-         <div className="card-download-btn">
-          </div>
+        <div className="card-download-btn"></div>
       </div>
-    )
+    );
   }
   return (
-    <div className="card">
+    <div
+      className="card"
+      onClick={() => {
+        // 跳转软件详情
+        if (dataSource.type === '0') {
+          history.push(`/product/${dataSource.type}/${dataSource.id}`);
+        } else if (dataSource.type === '1') {
+          // 跳转硬件详情
+          history.push(`/product-hardware/${dataSource.type}/${dataSource.id}`);
+        }
+      }}
+    >
       <div className="card-header">
-        {/* <img src="" alt="" /> */}
+        <img src={dataSource?.image} alt="" />
       </div>
       <div className="card-body">
-        <div className="card-body-title">HypStuido开放自动化平台</div>
-        <div className="card-body-desc">
-          泛联工业自动化产品线为智能制造提供强大核心动力。HypStudio开放自动化平台,打破传统限制,实现系统无缝集成与高效协同。
-        </div>
+        <div className="card-body-title">{dataSource?.name}</div>
+        <div
+          className="card-body-desc"
+          dangerouslySetInnerHTML={{
+            __html: dataSource?.description,
+          }}
+        ></div>
       </div>
       <div className="card-footer">
         <div className="card-footer-btn">

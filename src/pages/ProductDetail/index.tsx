@@ -1,5 +1,5 @@
 import Header from '@/components/Header';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
 import {
@@ -21,66 +21,10 @@ const ProductDetail: React.FC = () => {
   const params = useParams();
   console.log('🚀 ~ ProductDetail ~ params:', params);
   // 获取产品详情
-  const { data: productDetail } = useRequest(() => {
-    return getProductDetail(params.type, params.id);
-  });
-  console.log('🚀 ~ ProductDetail ~ productDetail:', productDetail);
-  const [list, setList] = useState([
-    {
-      url: '',
-      title: '设备监控与控制',
-      desc: `
-            <ul>
-                <li>实时采集空调、变配电、电梯等设备的温度、电压、速度等参数，以图表、曲线直观展示。</li>
-            </ul>
-          `,
-    },
-    {
-      url: '',
-      title: '测试数据',
-      desc: `
-            <ul>
-                <li>测试啊</li>
-            </ul>
-          `,
-    },
-    {
-      url: '',
-      title: '设备监控与控制',
-      desc: `
-            <ul>
-                <li>实时采集空调、变配电、电梯等设备的温度、电压、速度等参数，以图表、曲线直观展示。</li>
-            </ul>
-          `,
-    },
-    {
-      url: '',
-      title: '测试数据',
-      desc: `
-            <ul>
-                <li>测试啊</li>
-            </ul>
-          `,
-    },
-    {
-      url: '',
-      title: '设备监控与控制',
-      desc: `
-            <ul>
-                <li>实时采集空调、变配电、电梯等设备的温度、电压、速度等参数，以图表、曲线直观展示。</li>
-            </ul>
-          `,
-    },
-    {
-      url: '',
-      title: '测试数据',
-      desc: `
-            <ul>
-                <li>测试啊</li>
-            </ul>
-          `,
-    },
-  ]);
+  const { data: productDetail, run } = useRequest(getProductDetail);
+  useEffect(() => {
+    run(params.type, params.id);
+  }, [params.id]);
 
   // 产品价值列表
   const [advantageList, setAdvantageList] = useState(['', '', '', '']);
@@ -228,12 +172,16 @@ const ProductDetail: React.FC = () => {
                 </div>
               </SwiperSlide>
             ))}
-            <div className="swiper-next">
-              <img src={jiantouRight} alt="" />
-            </div>
-            <div className="swiper-prev">
-              <img src={jiantouLeft} alt="" />
-            </div>
+            {productDetail?.function?.detail?.length > 1 && (
+              <>
+                <div className="swiper-next">
+                  <img src={jiantouRight} alt="" />
+                </div>
+                <div className="swiper-prev">
+                  <img src={jiantouLeft} alt="" />
+                </div>
+              </>
+            )}
           </Swiper>
         </div>
       </div>

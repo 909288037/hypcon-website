@@ -12,7 +12,7 @@ import {
 } from '@/services/ProductController';
 import { isImage } from '@/utils';
 import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
-import { useParams, useRequest } from '@umijs/max';
+import { useParams, useRequest, useSearchParams } from '@umijs/max';
 import {
   Image,
   Pagination,
@@ -30,6 +30,8 @@ import './index.less';
 const pageSize = 6;
 const HardwareProductDetail = () => {
   const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const index = searchParams.get('index');
   console.log('🚀 ~ ProductDetail ~ params:', params);
   // 获取产品详情
   const { data } = useRequest(() => {
@@ -100,6 +102,13 @@ const HardwareProductDetail = () => {
       setCurrentNavKey(productFileList[0]);
     }
   }, [productFileList]);
+
+  useEffect(() => {
+    if (index) {
+      setCurrentKey(index);
+    }
+  }, [index]);
+
   const onTabChange = (key: string) => {
     console.log(key);
     setCurrentKey(key);
@@ -138,7 +147,12 @@ const HardwareProductDetail = () => {
           ))}
         </div>
         <div className="hardware-product-detail-tabs">
-          <Tabs defaultActiveKey="1" items={tabItems} onChange={onTabChange} />
+          <Tabs
+            defaultActiveKey="1"
+            activeKey={currentKey}
+            items={tabItems}
+            onChange={onTabChange}
+          />
         </div>
       </div>
       {/* 产品概述 */}

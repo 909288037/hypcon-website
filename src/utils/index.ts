@@ -62,23 +62,14 @@ export function isImage(url: string): boolean {
 }
 
 
-export  const goPage = (item: any) => {
+export const goPage = (item: any) => {
+    console.log("🚀 ~ goPage ~ item:", item)
     // 跳转解决方案
     if (item.isSolution) {
       history.push(`/solution/${item.id}`);
       return;
     }
-    // 跳转产品列表
-    if (item.products?.length > 0) {
-      if (item.products.image) {
-        // 有分类图
-        history.push(`/product`);
-      } else {
-        // 无分类图
-        history.push(`/product-list`);
-      }
-      return;
-    }
+
     // 本地导航跳转
     if (item.url) {
       history.push(item.url);
@@ -89,11 +80,32 @@ export  const goPage = (item: any) => {
       window.open(item.link);
       return;
     }
+    // 无详情
+    if(item.detailType === '0') {
+        history.push(`/download/?search=${item.name}`);
+        return
+      }
     // 跳转软件详情
     if (item.type === '0') {
+      
       history.push(`/product/${item.type}/${item.id}`);
     } else if (item.type === '1') {
       // 跳转硬件详情
       history.push(`/product-hardware/${item.type}/${item.id}`);
+    }
+
+    // 跳转产品列表
+    if (
+      item.products?.length > 0 ||
+      (item.children?.length === 0 && item.products?.length === 0)
+    ) {
+      if (item.image) {
+        // 有分类图
+        history.push(`/product/${item.id}`);
+      } else {
+        // 无分类图
+        history.push(`/product-list/${item.id}`);
+      }
+      return;
     }
   };

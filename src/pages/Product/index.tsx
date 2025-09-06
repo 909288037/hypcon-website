@@ -1,8 +1,27 @@
 import Card from '@/components/Card';
 import Header from '@/components/Header';
-import { useState } from 'react';
+import { getProductCategoryDetailList } from '@/services/ProductController';
+import { useParams, useRequest } from '@umijs/max';
+import { useEffect, useState } from 'react';
 import './index.less';
 const Product = () => {
+  const params = useParams();
+  console.log('🚀 ~ ProductList ~ params:', params);
+  // 获取产品列表
+  const {
+    data: data,
+    error: productListError,
+    loading: productListLoading,
+    run: getProductList,
+  } = useRequest(getProductCategoryDetailList, {
+    manual: true,
+  });
+
+  useEffect(() => {
+    getProductList(params.id);
+
+    return () => {};
+  }, [params.id]);
   const [icons, setIcons] = useState([
     {
       url: '',
@@ -32,17 +51,19 @@ const Product = () => {
       <div className="fl-product-content">
         <div className="fl-product-content-left">
           <div className="fl-product-content-left-title ">
-            <div className="gradient-text">工业自动化</div>
+            <div className="gradient-text">{data?.name}</div>
           </div>
-          <div className="fl-product-content-left-desc">
-            泛联工业自动化产品线为智能制造提供强大核心动力。HypStudio开放自动化平台,打破传统限制,实现系统无缝集成与高效协同。可编程控制器涵盖中大型与小型,适配复杂或紧凑工业场景,精准控制生产流程。FCS500与FCS300
-            I/O系统,稳定采集与传输信号,保障设备精准联动。从平台到控制器,再到1/0系统,泛联助力工业生产智能化升级,提升效率与可靠性,驱动工业未来。
-          </div>
+          <div
+            className="fl-product-content-left-desc"
+            dangerouslySetInnerHTML={{
+              __html: data?.description,
+            }}
+          ></div>
           <div className="fl-product-content-left-list">
-            {icons.map((item, index) => (
-              <div className="fl-product-content-left-list-item" key={index}>
+            {data?.detailList?.map((item, index) => (
+              <div className="fl-product-content-left-list-item" key={item.id}>
                 <div className="fl-product-content-left-list-item-icon">
-                  <img src={item.url} alt="" />
+                  <img src={item.image} alt="" />
                 </div>
                 <div className="fl-product-content-left-list-item-title">
                   {item.title}
@@ -52,15 +73,19 @@ const Product = () => {
           </div>
         </div>
         <div className="fl-product-content-right">
-          <img src="" alt="" />
+          <img src={data?.image} alt="" />
         </div>
       </div>
       <div className="fl-product-cards">
-        <Card />
-        <Card />
-        <Card />
-        {/* <Card />
-        <Card /> */}
+        {data?.productList?.map((item) => {
+          return (
+            <Card
+              key={item.id}
+              type={item.detailType === '0' ? 'download' : 'view'}
+              dataSource={item}
+            />
+          );
+        })}
       </div>
     </div>
   );

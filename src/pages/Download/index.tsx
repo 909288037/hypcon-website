@@ -19,7 +19,7 @@ import {
   EyeOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import { useRequest } from '@umijs/max';
+import { useRequest, useSearchParams } from '@umijs/max';
 import { useClickAway } from 'ahooks';
 import {
   Image,
@@ -35,6 +35,8 @@ import { useEffect, useRef, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import './index.less';
 const Download = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchValParams = searchParams.get('search');
   const [list, setList] = useState([]);
   // 选择类别
   const [selectType, setSelectType] = useState({
@@ -60,6 +62,12 @@ const Download = () => {
   const typeRef = useRef(null);
   const productRef = useRef(null);
   const isSearch = useRef(false);
+
+  useEffect(() => {
+    if (searchValParams) {
+      setSearchVal(searchValParams);
+    }
+  }, [searchValParams]);
 
   // 获取类别列表
   const { data: categoryList } = useRequest(() => {

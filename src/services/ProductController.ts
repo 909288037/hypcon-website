@@ -14,3 +14,11 @@ export async function getProductSpecification(id: any) {
     method: 'GET',
   });
 }
+
+
+// 获取产品列表数据
+export async function getProductCategoryDetailList(id: number) {
+  return request<any>(`/api/product/categoryDetail/${id}`, {
+    method: 'GET',
+  });
+}

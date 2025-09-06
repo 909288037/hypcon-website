@@ -14,13 +14,13 @@ export default [
       // 产品列表页 有分类图
       {
         name: '产品列表',
-        path: '/product',
+        path: '/product/:id',
         component: './Product',
       },
       // 产品列表页 无分类图
       {
         name: '产品列表',
-        path: '/product-list',
+        path: '/product-list/:id',
         component: './ProductList',
       },
       // 软件产品详情

@@ -5,6 +5,7 @@ import { FC, useMemo, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 
 import { getProductList, getSolutionList } from '@/services/HomeController';
+import { goPage } from '@/utils';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
@@ -132,43 +133,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
   const [cascaderData, setCascaderData] = useState([]);
   const [imagesSwiperArr, setImagesSwiperArr] = useState([]);
   console.log('🚀 ~ Header ~ imagesSwiperArr:', imagesSwiperArr);
-  // 跳转页面
-  const goPage = (item: any) => {
-    console.log('🚀 ~ goPage ~ item:', item);
-    // 跳转解决方案
-    if (item.isSolution) {
-      history.push(`/solution/${item.id}`);
-      return;
-    }
-    // 跳转产品列表
-    if (item.products?.length > 0) {
-      if (item.products.image) {
-        // 有分类图
-        history.push(`/product`);
-      } else {
-        // 无分类图
-        history.push(`/product-list`);
-      }
-      return;
-    }
-    // 本地导航跳转
-    if (item.url) {
-      history.push(item.url);
-      return;
-    }
-    // 外链
-    if (item.detailType === '2') {
-      window.open(item.link);
-      return;
-    }
-    // 跳转软件详情
-    if (item.type === '0') {
-      history.push(`/product/${item.type}/${item.id}`);
-    } else if (item.type === '1') {
-      // 跳转硬件详情
-      history.push(`/product-hardware/${item.type}/${item.id}`);
-    }
-  };
+
   return (
     <div
       className={classNames('fl-header', className, {
@@ -250,7 +215,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
                     <div className="fl-header-cascader-menus-menu-title">
                       {child.name || child.title}
                     </div>
-                    {child.children && (
+                    {child.children?.length > 0 && (
                       <div>
                         <RightOutlined />
                       </div>
@@ -274,7 +239,10 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
                         key={idx}
                         onMouseEnter={() => {
                           setImagesSwiperArr(child.images || []);
-                          if (child.children || child.products) {
+                          if (
+                            child.children?.length > 0 ||
+                            child.products?.length > 0
+                          ) {
                             cascaderData[index + 1] = {
                               key: index + 1 + '-' + idx,
                               data: [
@@ -289,12 +257,13 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
                         }}
                         onClick={() => {
                           goPage(child);
+                          setCurrentIndex(-1);
                         }}
                       >
                         <div className="fl-header-cascader-menus-menu-title">
                           {child.name || child.title}
                         </div>
-                        {child.children && (
+                        {child.children?.length > 0 && (
                           <div>
                             <RightOutlined />
                           </div>
