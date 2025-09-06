@@ -109,6 +109,20 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
       },
       {
         title: '关于我们',
+        children: [
+          {
+            title: '企业简介',
+            url: '/introduction',
+          },
+          {
+            title: '联系我们',
+            url: '/contact',
+          },
+          {
+            title: '加入我们',
+            url: '/join',
+          },
+        ],
       },
     ];
     return menu;

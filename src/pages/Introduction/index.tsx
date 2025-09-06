@@ -1,27 +1,45 @@
 import AdvantageBanner from '@/components/AdvantageBanner';
 import Header from '@/components/Header';
-import { useState } from 'react';
+import ImageCarousel from '@/components/ImageCarousel';
+import { getAbout } from '@/services/AboutNetwork';
+import { useRequest } from '@umijs/max';
+import classNames from 'classnames';
+import { useEffect, useState } from 'react';
 import bannerImg from './images/banner.png';
 import './index.less';
-import ImageCarousel from '@/components/ImageCarousel';
 const Introduction = () => {
-  const [zhiList, setZhiList] = useState([{}, {}, {}]);
+  const [hoverIndex, setHoverIndex] = useState(0);
+  // 获取企业简介数据
+  const {
+    data: aboutData,
+    error,
+    loading,
+  } = useRequest(() => {
+    return getAbout();
+  });
+
+  useEffect(() => {
+    return () => {};
+  }, [aboutData]);
+
   return (
     <div className="fl-introduction">
       <Header className="fl-introduction-header" />
       <div className="fl-introduction-banner">
         <img src={bannerImg} alt="" />
-        <div className="fl-introduction-banner-title">企业简介</div>
+        <div className="fl-introduction-banner-title">{aboutData?.title}</div>
       </div>
       <div className="fl-introduction-advantage">
-        <AdvantageBanner />
+        <AdvantageBanner dataSource={aboutData?.intro} />
       </div>
       {/* 智控基因 */}
       <div className="fl-introduction-zhi">
         <div className="fl-introduction-zhi-title">
-          <div className="fl-introduction-zhi-title-text">智控基因</div>
+          <div className="fl-introduction-zhi-title-text">
+            {aboutData?.gene?.title}
+          </div>
           <div className="fl-introduction-zhi-title-desc">
-            工业级自控技术基因，20+年智慧城市实战经验， 全场景泛在物联创新能力
+            {aboutData?.gene?.second}
           </div>
         </div>
         <div className="fl-introduction-zhi-card">
@@ -31,7 +49,7 @@ const Introduction = () => {
               opacity: 0,
             }}
           ></div>
-          {zhiList.map((item, index) => {
+          {aboutData?.gene?.details?.map((item, index) => {
             return (
               <div className="fl-introduction-zhi-card-item" key={index}>
                 <div className="fl-introduction-zhi-card-item-header">
@@ -41,9 +59,9 @@ const Introduction = () => {
                     </div>
                     <div className="fl-introduction-zhi-card-item-header-text-title">
                       <div className="gradient-text">
-                        {'起源中控集团'.split('')?.map((t, idx) => {
-                          if ('起源中控集团'.length < 8) {
-                            if (8 - '起源中控集团'.length === idx + 1) {
+                        {item.title.split('')?.map((t, idx) => {
+                          if (item.title.length < 8) {
+                            if (8 - item.title.length === idx + 1) {
                               return (
                                 <span key={idx}>
                                   {t}
@@ -58,16 +76,19 @@ const Introduction = () => {
                     </div>
                   </div>
                   <div className="fl-introduction-zhi-card-item-header-img">
-                    <img src={''} alt="" />
+                    <img src={item.image} alt="" />
                   </div>
                 </div>
                 <div className="fl-introduction-zhi-card-item-content">
                   <div className="fl-introduction-zhi-card-item-content-img">
-                    <img src={''} alt="" />
+                    <img src={item.imageMobile} alt="" />
                   </div>
-                  <div className="fl-introduction-zhi-card-item-content-text">
-                    以工业自动化控制技术为核心，奠定深厚技术根基
-                  </div>
+                  <div
+                    className="fl-introduction-zhi-card-item-content-text"
+                    dangerouslySetInnerHTML={{
+                      __html: item.intro,
+                    }}
+                  ></div>
                 </div>
               </div>
             );
@@ -75,77 +96,88 @@ const Introduction = () => {
         </div>
       </div>
       {/* 核心技术 */}
-      <div className='fl-introduction-coreTechnology'>
-        <div className='fl-introduction-coreTechnology-left'>
-            <div className='fl-introduction-coreTechnology-title'>
-                <div className='fl-introduction-coreTechnology-title-text'>核心技术</div>
-                <div className='fl-introduction-coreTechnology-title-desc'>真正的价值源于对核心技术的掌控与突破</div>
+      <div className="fl-introduction-coreTechnology">
+        <div className="fl-introduction-coreTechnology-left">
+          <div className="fl-introduction-coreTechnology-title">
+            <div className="fl-introduction-coreTechnology-title-text">
+              {aboutData?.technology?.title}
             </div>
-            <div className='fl-introduction-coreTechnology-list'>
-                <div className='fl-introduction-coreTechnology-list-item'>
-                    <div className='fl-introduction-coreTechnology-list-item-line'></div>
-                    <div className='fl-introduction-coreTechnology-list-item-title'>
-                        异构设备互通群控
-                    </div>
-                    <div className='fl-introduction-coreTechnology-list-item-desc'>
-                        基于物联网的强大异构整合能力，兼容100+协议;HypOS统一的数据平台;简洁的组态和配置，支撑快速部署。
-                    </div>
-                </div>
-                 <div className='fl-introduction-coreTechnology-list-item'>
-                    <div className='fl-introduction-coreTechnology-list-item-line'></div>
-                    <div className='fl-introduction-coreTechnology-list-item-title'>
-                        异构设备互通群控
-                    </div>
-                    <div className='fl-introduction-coreTechnology-list-item-desc'>
-                        基于物联网的强大异构整合能力，兼容100+协议;HypOS统一的数据平台;简洁的组态和配置，支撑快速部署。
-                    </div>
-                </div>
+            <div className="fl-introduction-coreTechnology-title-desc">
+              {aboutData?.technology?.second}
             </div>
+          </div>
+          <div className="fl-introduction-coreTechnology-list">
+            {aboutData?.technology?.details?.map((item, index) => (
+              <div
+                className={classNames(
+                  'fl-introduction-coreTechnology-list-item',
+                  {
+                    'fl-introduction-coreTechnology-list-item-active':
+                      index === hoverIndex,
+                  },
+                )}
+                key={index}
+                onMouseEnter={() => {
+                  setHoverIndex(index);
+                }}
+              >
+                <div className="fl-introduction-coreTechnology-list-item-line"></div>
+                <div className="fl-introduction-coreTechnology-list-item-title">
+                  {item.title}
+                </div>
+                <div className="fl-introduction-coreTechnology-list-item-desc">
+                  {item.intro}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className='fl-introduction-coreTechnology-right'>
-            <img src={""} alt="" />
+        <div className="fl-introduction-coreTechnology-right">
+          <img
+            src={aboutData?.technology?.details?.[hoverIndex]?.image}
+            alt=""
+          />
         </div>
       </div>
 
       {/* 价值赋能 */}
-      <div className='fl-introduction-value'> 
-        <div className='fl-introduction-value-title'>
-            <div className='fl-introduction-value-title-text'>价值赋能</div>
-            <div className='fl-introduction-value-title-desc'>
-                <div>累计服务 <span className='gradient-text'>1200+</span> 智慧空间</div>
-                <div>智能调控 <span className='gradient-text'>960000+</span> 设备精准运行</div>
+      <div className="fl-introduction-value">
+        <div className="fl-introduction-value-title">
+          <div className="fl-introduction-value-title-text">
+            {aboutData?.value?.title}
+          </div>
+          <div className="fl-introduction-value-title-desc">
+            <div>
+              累计服务{' '}
+              <span className="gradient-text">{aboutData?.value?.res1}+</span>{' '}
+              智慧空间
             </div>
+            <div>
+              智能调控{' '}
+              <span className="gradient-text">{aboutData?.value?.res2}+</span>{' '}
+              设备精准运行
+            </div>
+          </div>
         </div>
-        <ImageCarousel />
+        <ImageCarousel dataSource={aboutData?.value?.details} />
       </div>
 
       {/* 生态合作 */}
-      <div className='fl-introduction-ecology'> 
-        <div className='fl-introduction-ecology-title'>
-            <div className='fl-introduction-ecology-title-text'>生态合作</div>
-            <div className='fl-introduction-ecology-title-desc'>
-               信任之选，实力见证，携手同行，共创价值
-            </div>
+      <div className="fl-introduction-ecology">
+        <div className="fl-introduction-ecology-title">
+          <div className="fl-introduction-ecology-title-text">
+            {aboutData?.cooperation?.title}
+          </div>
+          <div className="fl-introduction-ecology-title-desc">
+            {aboutData?.cooperation?.second}
+          </div>
         </div>
-        <div className='fl-introduction-ecology-list'>
-            <div className='fl-introduction-ecology-list-item'>
-                <img src={""} alt="" />
+        <div className="fl-introduction-ecology-list">
+          {aboutData?.cooperation?.details?.map((item, index) => (
+            <div className="fl-introduction-ecology-list-item" key={index}>
+              <img src={item.image} alt="" />
             </div>
-            <div className='fl-introduction-ecology-list-item'>
-                <img src={""} alt="" />
-            </div>
-            <div className='fl-introduction-ecology-list-item'>
-                <img src={""} alt="" />
-            </div>
-            <div className='fl-introduction-ecology-list-item'>
-                <img src={""} alt="" />
-            </div>
-            <div className='fl-introduction-ecology-list-item'>
-                <img src={""} alt="" />
-            </div>
-            <div className='fl-introduction-ecology-list-item'>
-                <img src={""} alt="" />
-            </div>
+          ))}
         </div>
       </div>
     </div>

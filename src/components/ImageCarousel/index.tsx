@@ -1,47 +1,41 @@
-import { useEffect, useRef } from 'react';
+import classNames from 'classnames';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './index.less';
 
-// 轮播图数据
-const carouselItems = [
-  {
-    id: 1,
-    imageUrl: 'https://picsum.photos/id/10/800/1000',
-    title: '洛阳大运河博物馆一日游',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://picsum.photos/id/20/800/1000',
-    title: '方特元旦跨年一日游',
-  },
-  {
-    id: 3,
-    imageUrl: 'https://picsum.photos/id/30/800/1000',
-    title: '泰山攀登一日游',
-  },
-  {
-    id: 4,
-    imageUrl: 'https://picsum.photos/id/40/800/1000',
-    title: '元旦库年快乐就是一天',
-  },
-  {
-    id: 5,
-    imageUrl: 'https://picsum.photos/id/50/800/1000',
-    title: '美女美女美女美女',
-  },
-];
-
-const CircularCarousel = () => {
+const CircularCarousel = ({ dataSource }) => {
   const swiperRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [initialized, setInitialized] = useState(false);
+  console.log('🚀 ~ CircularCarousel ~ currentIndex:', currentIndex);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const paginationRef = useRef(null);
 
+  const list = useMemo(() => {
+    let data = [];
+    if (dataSource && dataSource?.length > 0) {
+      if (dataSource?.length < 3) {
+        // 重复添加数据以确保至少有3个slide
+        const repeatTimes = Math.ceil(3 / dataSource.length);
+        for (let i = 0; i < repeatTimes; i++) {
+          data = [...data, ...dataSource];
+        }
+      } else {
+        data = [...dataSource];
+      }
+    }
+    return data;
+  }, [dataSource]);
+
   useEffect(() => {
-    if (!swiperRef.current) return;
+    // 当数据加载完成后再初始化Swiper
+    if (!swiperRef.current || list.length === 0) return;
 
     const swiperInstance = swiperRef.current.swiper;
+    console.log('.swiperInstance.slides.length', swiperInstance.slides);
+
     // 使用Swiper容器的实际宽度来计算slideW
     let slideW = swiperInstance.width / 3; // 假设我们想显示3张图片，所以除以3
 
@@ -50,17 +44,22 @@ const CircularCarousel = () => {
       // 定义环绕角度，控制3D效果的强烈程度
       const ANGLE_PER_STEP = 45; // 可调整：30-60 之间效果较好
       // 计算环绕半径
-      const radius = slideW / (2 * Math.sin(ANGLE_PER_STEP * Math.PI / 180));
+      const radius = slideW / (2 * Math.sin((ANGLE_PER_STEP * Math.PI) / 180));
 
       for (let i = 0; i < swiperInstance.slides.length; i++) {
         const slide = swiperInstance.slides[i];
-        const slideProgress = slide.progress;
+        // 确保 slideProgress 是一个有效数字，如果不是则默认为0
+        const slideProgress =
+          typeof slide.progress === 'number' && !isNaN(slide.progress)
+            ? slide.progress
+            : 0;
 
         const rotateY = slideProgress * ANGLE_PER_STEP;
-        const rad = rotateY * Math.PI / 180;
+        const rad = (rotateY * Math.PI) / 180;
 
         const translateZ = radius * (1 - Math.cos(rad)) + 'px';
-        const translateX = (slideProgress * slideW * 0.5 - Math.sin(rad) * radius) + 'px';
+        const translateX =
+          slideProgress * slideW * 0.5 - Math.sin(rad) * radius + 'px';
 
         slide.style.transform = `translateX(${translateX}) translateZ(${translateZ}) rotateY(${rotateY}deg)`;
       }
@@ -74,15 +73,38 @@ const CircularCarousel = () => {
 
     swiperInstance.on('progress', handleProgress);
     swiperInstance.on('setTransition', handleSetTransition);
+    swiperInstance.on('slideChangeTransitionEnd', (swiper) => {
+      setCurrentIndex(swiper.realIndex || 0);
+      console.log('🚀 ~ swiper.realIndex:', swiper.realIndex);
+    });
 
     // 初始化
-    handleProgress();
+    setTimeout(() => {
+      handleProgress();
+      setInitialized(true);
+    }, 100);
 
     return () => {
       swiperInstance.off('progress', handleProgress);
       swiperInstance.off('setTransition', handleSetTransition);
     };
-  }, []);
+  }, [list]);
+
+  // 当list变化时，更新Swiper
+  useEffect(() => {
+    if (swiperRef.current && initialized && list.length > 0) {
+      const swiperInstance = swiperRef.current.swiper;
+      // 强制更新Swiper以适应新数据
+      setTimeout(() => {
+        swiperInstance.update();
+        swiperInstance.slideTo(0);
+      }, 0);
+    }
+  }, [list, initialized]);
+
+  if (!list || list.length === 0) {
+    return <div className="carousel-placeholder">加载中...</div>;
+  }
 
   return (
     <div id="carousel" className="relative w-full max-w-5xl mx-auto">
@@ -95,32 +117,41 @@ const CircularCarousel = () => {
         loop={true}
         grabCursor={true}
         modules={[Navigation, Pagination, Autoplay]}
-        navigation={{
-          nextEl: prevRef.current,
-          prevEl: nextRef.current,
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
         }}
-        pagination={{
-          el: paginationRef.current,
-          clickable: true,
-        }}
+        // navigation={{
+        //   nextEl: prevRef.current,
+        //   prevEl: nextRef.current,
+        // }}
+        // pagination={{
+        //   el: paginationRef.current,
+        //   clickable: true,
+        // }}
       >
-        {carouselItems.map((item) => (
-          <SwiperSlide 
-            key={item.id} 
-            className="swiper-slide" 
+        {list?.map((item, index) => (
+          <SwiperSlide
+            key={index}
+            className="swiper-slide"
             style={{ width: '33.33%' }} // 设置为百分比宽度
           >
             <img
-              src={item.imageUrl}
+              src={item.image}
               alt={item.title}
               className="w-full h-full object-cover"
             />
-            <p>{item.title}</p>
+            <div
+              className={classNames('swiper-slide-title')}
+              hidden={currentIndex !== index}
+            >
+              <div className="gradient-text">{item.title}</div>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      <div ref={paginationRef} className="swiper-pagination"></div>
+      {/* <div ref={paginationRef} className="swiper-pagination"></div> */}
     </div>
   );
 };

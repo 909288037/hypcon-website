@@ -26,6 +26,9 @@
         display: none;
       }
     }
+    .custom-primary-btn {
+      display: none;
+    }
   }
 
   &-zhi {
@@ -94,7 +97,6 @@
           &-img {
             width: 20px;
             height: 20px;
-            background-color: red;
             img {
               width: 100%;
               height: auto;
@@ -154,6 +156,7 @@
         width: 540px;
         padding-bottom: 30px;
         cursor: pointer;
+
         &-line {
           position: relative;
           height: 1px;
@@ -188,7 +191,8 @@
           box-sizing: border-box;
           opacity: 0;
         }
-        &:hover {
+        &:hover,
+        &.fl-introduction-coreTechnology-list-item-active {
           .fl-introduction-coreTechnology-list-item-line {
             &::before {
               width: 100%;
@@ -218,7 +222,6 @@
     }
   }
   &-value {
-    height: 1080px;
     background: url('./images/jzfn.png') no-repeat center;
     background-size: 100% 100%;
     display: flex;
@@ -226,6 +229,7 @@
     justify-content: start;
     flex-direction: column;
     padding: 140px 0 167px;
+    overflow: hidden;
     &-title {
       display: flex;
       align-items: center;
@@ -262,7 +266,7 @@
     height: 1080px;
     background: url('./images/ecology.png') no-repeat center;
     background-size: 100% 100%;
-      padding: 140px 120px;
+    padding: 140px 120px;
 
     &-title {
       &-text {
@@ -280,12 +284,13 @@
     }
 
     &-list {
-      background: rgba(255,255,255,0.4);
+      background: rgba(255, 255, 255, 0.4);
       border-radius: 20px 20px 20px 20px;
       padding: 40px 110px 0;
       margin-top: 80px;
       display: flex;
       flex-wrap: wrap;
+      min-height: 630px;
       &-item {
         flex-basis: 24%;
         margin-left: calc(4% / 3);
@@ -298,7 +303,7 @@
 
         img {
           width: 100%;
-          height: auto;
+          height: 100%;
           object-fit: contain;
         }
       }
