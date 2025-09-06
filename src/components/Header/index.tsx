@@ -1,5 +1,5 @@
 import { RightOutlined } from '@ant-design/icons';
-import { history, useRequest } from '@umijs/max';
+import { history, useModel, useRequest } from '@umijs/max';
 import classNames from 'classnames';
 import { FC, useMemo, useState } from 'react';
 import { ReactSVG } from 'react-svg';
@@ -27,6 +27,13 @@ interface BaseProps {
 }
 
 const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
+  const { setProductList, setSolutionList } = useModel(
+    'global',
+    ({ setProductList, setSolutionList }) => ({
+      setProductList,
+      setSolutionList,
+    }),
+  );
   const {
     data: productList,
     error: productListError,
@@ -45,6 +52,15 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
   });
 
   const menuArr = useMemo(() => {
+    const _solutionList = solutionList?.map((item) => {
+      return {
+        ...item,
+        isSolution: true,
+        name: item.title,
+      };
+    });
+    setProductList(productList);
+    setSolutionList(_solutionList);
     const menu = [
       {
         title: '产品中心',
@@ -52,13 +68,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
       },
       {
         title: '解决方案',
-        children: solutionList?.map((item) => {
-          return {
-            ...item,
-            isSolution: true,
-            name: item.title,
-          };
-        }),
+        children: _solutionList,
       },
       {
         title: '服务支持',

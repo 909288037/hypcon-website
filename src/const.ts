@@ -2,15 +2,15 @@
 export const productList = [
   {
     title: '楼宇自控',
-    link: '/zhcs',
+    url: '/zhcs',
   },
   {
     title: '工业自动化',
-    link: '/zhsq',
+    url: '/zhsq',
   },
   {
     title: '工业互联网',
-    link: '/zhjy',
+    url: '/zhjy',
   },
 ];
 
@@ -18,35 +18,35 @@ export const productList = [
 export const solutionList = [
   {
     title: '智慧枢纽',
-    link: '/zhyq',
+    url: '/zhyq',
   },
   {
     title: '轨道交通',
-    link: '/zhsw',
+    url: '/zhsw',
   },
   {
     title: '智慧水务',
-    link: '/zhgdjt',
+    url: '/zhgdjt',
   },
   {
     title: '政府公建',
-    link: '/zhsjzx',
+    url: '/zhsjzx',
   },
   {
     title: '智慧医院',
-    link: '/zhny',
+    url: '/zhny',
   },
   {
     title: '智慧园区',
-    link: '/zhlw',
+    url: '/zhlw',
   },
   {
     title: '智慧场馆',
-    link: '/zhsjzx',
+    url: '/zhsjzx',
   },
   {
     title: '电子厂房',
-    link: '/zhsh',
+    url: '/zhsh',
   },
 ];
 
@@ -54,11 +54,11 @@ export const solutionList = [
 export const supportList = [
   {
     title: '服务保障',
-    link: '/support',
+    url: '/service-network',
   },
   {
     title: '资料下载',
-    link: '/download',
+    url: '/download',
   },
  
 ];
@@ -67,7 +67,7 @@ export const supportList = [
 export const newsList = [
   {
     title: '新闻动态',
-    link: '/news',
+    url: '/news',
   },
 ]
 
@@ -75,14 +75,14 @@ export const newsList = [
 export const aboutList = [
   {
     title: '企业简介',
-    link: '/about',
+    url: '/introduction',
   },
   {
     title: '联系我们',
-    link: '/contact',
+    url: '/contact',
   },
   {
     title: '加入我们',
-    link: '/join',
+    url: '/join',
   },
 ]
