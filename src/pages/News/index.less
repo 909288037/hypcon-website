@@ -40,6 +40,7 @@
       &-list {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         margin-top: 50px;
         &-item {
           width: 513px;
@@ -48,7 +49,8 @@
           transition: all 0.3s;
           border-radius: 20px 20px 20px 20px;
           cursor: pointer;
-          margin-left: 71px;
+          margin-left: calc((100% - 513px * 3) / 2);
+          margin-bottom: 30px;
           &:nth-child(3n + 1) {
             margin-left: 0;
           }

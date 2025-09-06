@@ -1,18 +1,24 @@
+import arrowRight from '@/assets/images/right-arrow-primary.png';
 import rightArrowImg from '@/assets/images/right-arrow.png';
 import Header from '@/components/Header';
+import { getImportantList, getNewsList } from '@/services/NewsController';
 import { CaretDownOutlined, SearchOutlined } from '@ant-design/icons';
+import { history, useRequest } from '@umijs/max';
 import { Input, Pagination, PaginationProps, Select, Typography } from 'antd';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import './index.less';
-import arrowRight from '@/assets/images/right-arrow-primary.png';
 
 const { Paragraph } = Typography;
-const News = () => {
-  // 重点新闻
-  const [productList, setProductList] = useState([{}, {}, {}]);
 
-  // 新闻列表
-  const [solutionList, setSolutionList] = useState([{}, {}, {}]);
+const pageSize = 8;
+const News = () => {
+  const { data: importantList } = useRequest(() => {
+    return getImportantList();
+  });
+  // 获取新闻列表
+  const { data: solutionList, run } = useRequest(getNewsList);
+
   const [searchVal, setSearchVal] = useState('');
 
   // 生成近五年年份
@@ -32,8 +38,18 @@ const News = () => {
       label: (month < 10 ? '0' + month : month) + '月',
     };
   });
+  const [currentYear, seCurrentYear] = useState(yearList[0].value);
+  const [currentMonth, setCurrentMonth] = useState(monthList[0].value);
+
   const onSearch = () => {
     console.log('触发搜索');
+    run({
+      queryCreateDate:
+        currentYear +
+        '-' +
+        (currentMonth < 10 ? '0' + currentMonth : currentMonth),
+      noticeTitle: searchVal,
+    });
   };
 
   const itemRender: PaginationProps['itemRender'] = (
@@ -66,24 +82,33 @@ const News = () => {
             <div className="gradient-text">重点新闻</div>
           </div>
           <div className="fl-news-content-key-list">
-            {productList.map((item, index) => {
+            {importantList?.map((item, index) => {
               return (
-                <div className="fl-news-content-key-list-item" key={index}>
+                <div
+                  className="fl-news-content-key-list-item"
+                  key={index}
+                  onClick={() => {
+                    history.push(`/product-notice/${item.id}`);
+                  }}
+                >
                   <div className="fl-news-content-key-list-item-title">
-                    泛联智控HypStudio开放自动化平台引领工业编程新范式
+                    {item.noticeTitle}
                   </div>
                   <div className="fl-news-content-key-list-item-img">
-                    <img src={''} alt="" />
+                    <img src={item.image} alt="" />
                   </div>
                   <Paragraph ellipsis={{ rows: 2 }}>
-                    <div className="fl-news-content-key-list-item-text">
-                      工业软件是智能制造的核心支撑，其自主创新是我国制造业竞争力的关键与科技自立自强的战略支点。当前，我国工业控制领域面临传统编程效率低下、专业人才短缺、多系统协同困难等问题，制约着工业控制数字化转型的纵深推进。
-                    </div>
+                    <div
+                      className="fl-news-content-key-list-item-text"
+                      dangerouslySetInnerHTML={{
+                        __html: item.noticeContent,
+                      }}
+                    ></div>
                   </Paragraph>
 
                   <div className="fl-news-content-key-list-item-footer">
                     <div className="fl-news-content-key-list-item-footer-time">
-                      2025.07.31
+                      {dayjs(item.createTime).format('YYYY.MM.DD')}
                     </div>
                     <div className="fl-news-content-key-list-item-footer-btn">
                       查看详情
@@ -103,15 +128,41 @@ const News = () => {
                 <div className="solution-select-year">
                   <Select
                     options={yearList}
+                    defaultValue={yearList[0].label}
                     placeholder={yearList[0].label}
                     suffixIcon={<CaretDownOutlined />}
+                    onChange={(value) => {
+                      console.log('🚀 ~ value:', value);
+                      seCurrentYear(value);
+                      run({
+                        queryCreateDate:
+                          value +
+                          '-' +
+                          (currentMonth < 10
+                            ? '0' + currentMonth
+                            : currentMonth),
+                        noticeTitle: searchVal,
+                      });
+                    }}
                   />
                 </div>
                 <div className="solution-select-month">
                   <Select
+                    defaultValue={monthList[0].label}
                     options={monthList}
                     placeholder={new Date().getMonth() + 1 + '月'}
                     suffixIcon={<CaretDownOutlined />}
+                    onChange={(value) => {
+                      console.log('🚀 ~ value:', value);
+                      setCurrentMonth(value);
+                      run({
+                        queryCreateDate:
+                          currentYear +
+                          '-' +
+                          (value < 10 ? '0' + value : value),
+                        noticeTitle: searchVal,
+                      });
+                    }}
                   />
                 </div>
               </div>
@@ -143,28 +194,56 @@ const News = () => {
               </div>
             </div>
             <div className="solution-list">
-              {solutionList.map((item, index) => {
+              {solutionList?.rows?.map((item, index) => {
                 return (
-                  <div className="solution-list-item" key={index}>
-                    <div className="solution-list-item-img"></div>
+                  <div
+                    className="solution-list-item"
+                    key={index}
+                    onClick={() => {
+                      history.push(`/product-notice/${item.id}`);
+                    }}
+                  >
+                    <div className="solution-list-item-img">
+                      <img src={item.image} alt="" />
+                    </div>
                     <div className="solution-list-item-content">
                       <div className="solution-list-item-title">
-                        泛联智控HypView楼宇自动化监控软件：开启楼宇智慧运营新时代
+                        {item.noticeTitle}
                       </div>
-                      <div className="solution-list-item-text">
-                        在城市智能化进程加速与物联网技术迭代的双重浪潮下，楼宇已从单一的建筑空间进化为融合办公、生活、服务的复合型生态载体。
+                      <div
+                        className="solution-list-item-text"
+                        dangerouslySetInnerHTML={{
+                          __html: item.noticeContent,
+                        }}
+                      ></div>
+                      <div className="solution-list-item-date">
+                        {dayjs(item.createTime).format('YYYY.MM.DD')}
                       </div>
-                      <div className="solution-list-item-date">2025.05.21</div>
                     </div>
                   </div>
                 );
               })}
-
-             
             </div>
-             <div className="solution-pagination">
-                <Pagination total={50} itemRender={itemRender} align="center" />
-              </div>
+            <div className="solution-pagination">
+              <Pagination
+                total={solutionList?.total}
+                onChange={(page, pageSize) => {
+                  run({
+                    pageNum: page,
+                    pageSize,
+                    queryCreateDate:
+                      currentYear +
+                      '-' +
+                      (currentMonth < 10 ? '0' + currentMonth : currentMonth),
+                    noticeTitle: searchVal,
+                  });
+                }}
+                hideOnSinglePage
+                defaultPageSize={pageSize}
+                itemRender={itemRender}
+                align="center"
+              />
+            </div>
           </div>
         </div>
       </div>

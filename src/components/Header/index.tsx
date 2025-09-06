@@ -100,6 +100,12 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
       },
       {
         title: '新闻资讯',
+        children: [
+          {
+            title: '新闻动态',
+            url: '/news',
+          },
+        ],
       },
       {
         title: '关于我们',

@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import { getProductNoticeDetail } from '@/services/ServiceNetwork';
 import { history, useParams, useRequest } from '@umijs/max';
 import { Button } from 'antd';
+import { useEffect } from 'react';
 import './index.less';
 const ProductNoticeDetail = () => {
   const params = useParams();
@@ -10,6 +11,10 @@ const ProductNoticeDetail = () => {
   const { data: detail, run } = useRequest(() => {
     return getProductNoticeDetail(params.id);
   });
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="product-notice-detail">
       <Header theme="light" />
@@ -26,7 +31,8 @@ const ProductNoticeDetail = () => {
         <Button
           type="primary"
           onClick={() => {
-            history.push('/product-notice');
+            // history.push('/product-notice');
+            history.go(-1);
           }}
         >
           返回列表
