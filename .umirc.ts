@@ -24,11 +24,11 @@ export default defineConfig({
     }}
   ],
   proxy: {
-    '/proxy': {
+    '/api': {
       target: 'http://121.40.200.150:8089/prod',
       // target: 'http://192.168.150.71:8088',
       changeOrigin: true,
-      pathRewrite: { '^/proxy': '' },
+      // pathRewrite: { '^/proxy': '' },
     }, 
   },
   // hash: true,

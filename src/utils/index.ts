@@ -54,7 +54,7 @@ export async function downloadFile(imageUrl, filename = 'download.jpg') {
 export function isImage(url: string): boolean {
   const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg'];
   for (const ext of imageExtensions) {
-    if (url.endsWith(ext)) {
+    if (url?.endsWith(ext)) {
       return true;
     }
   }

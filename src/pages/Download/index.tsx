@@ -4,13 +4,22 @@ import arrowIcon from '@/assets/images/jiantou-right.png';
 import qrcodeIcon from '@/assets/images/qrcode.svg';
 import arrowRight from '@/assets/images/right-arrow-primary.png';
 import Header from '@/components/Header';
-import { downloadFile } from '@/utils';
+import {
+  getCategoryTreeList,
+  getKeywords,
+  getProductCategory,
+  getProductFileListByCategory,
+  getProductList,
+} from '@/services/DownloadController';
+import { getSearchList } from '@/services/HomeController';
+import { isImage } from '@/utils';
 import {
   CaretDownOutlined,
   DownloadOutlined,
   EyeOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
+import { useRequest } from '@umijs/max';
 import { useClickAway } from 'ahooks';
 import {
   Image,
@@ -21,15 +30,23 @@ import {
   QRCode,
 } from 'antd';
 import classNames from 'classnames';
-import { useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import { useEffect, useRef, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import './index.less';
 const Download = () => {
   // 选择类别
-  const [selectType, setSelectType] = useState('选择类别');
+  const [selectType, setSelectType] = useState({
+    name: '选择类别',
+    id: '',
+  });
+
   const [showType, setShowType] = useState(false);
   //   选择产品
-  const [selectProduct, setSelectProduct] = useState('选择产品');
+  const [selectProduct, setSelectProduct] = useState({
+    name: '选择产品',
+    id: '',
+  });
   //   显示产品选项
   const [showProduct, setShowProduct] = useState(false);
   const [subKeys, setSubKeys] = useState([]);
@@ -38,9 +55,61 @@ const Download = () => {
     visible: false,
     url: '',
   });
-  const [currentNavKey, setCurrentNavKey] = useState('1');
+  const [currentNavKey, setCurrentNavKey] = useState(null);
   const typeRef = useRef(null);
   const productRef = useRef(null);
+
+  // 获取类别列表
+  const { data: categoryList } = useRequest(() => {
+    return getCategoryTreeList();
+  });
+
+  // 获取产品列表
+  const { data: productList, run: _getProductList } = useRequest(
+    getProductList,
+    {
+      manual: true,
+    },
+  );
+
+  // 获取关键字列表
+  const { data: keywordList } = useRequest(() => {
+    return getKeywords();
+  });
+
+  // 获取产品文件列表
+  const { data: fileList, run: _getFileList } = useRequest(
+    getProductFileListByCategory,
+    {
+      manual: true,
+    },
+  );
+
+  // 获取产品类目列表
+  const { data: productFileList } = useRequest(() => {
+    return getProductCategory();
+  });
+
+  useEffect(() => {
+    setSelectProduct({ name: '选择产品', id: '' });
+    if (selectType.id) {
+      _getProductList(selectType?.id);
+    }
+  }, [selectType.id]);
+
+  useEffect(() => {
+    if (productFileList?.[0]) {
+      setCurrentNavKey(productFileList[0]);
+    }
+  }, [productFileList]);
+  useEffect(() => {
+    if (selectProduct.id) {
+      _getFileList(currentNavKey?.id, selectProduct.id);
+    }
+
+    return () => {};
+  }, [currentNavKey?.id, selectProduct.id]);
+
   useClickAway(() => {
     setShowType(false);
   }, typeRef);
@@ -48,8 +117,11 @@ const Download = () => {
     setShowProduct(false);
   }, productRef);
 
-  const onSearch = () => {
+  const onSearch = (val = searchVal) => {
     console.log('触发搜索');
+    getSearchList({
+      keyword: val,
+    });
   };
   const itemRender: PaginationProps['itemRender'] = (
     _,
@@ -91,7 +163,7 @@ const Download = () => {
               }}
             >
               <div className="fl-download-bg-search-btn-title">
-                <div className="gradient-text">{selectType}</div>
+                <div className="gradient-text">{selectType.name}</div>
                 <div className="fl-download-bg-search-btn-title-icon">
                   <img
                     src={showType ? caretUpOutlined : caretRightOutlined}
@@ -100,64 +172,34 @@ const Download = () => {
                 </div>
               </div>
               <div className="fl-download-bg-search-list">
-                {[
-                  {
-                    title: '边缘控制器',
-                  },
-                  {
-                    title: '可编程控制系统',
-                  },
-                  {
-                    title: '楼宇控制产品',
-                  },
-                  {
-                    title: '传感器',
-                    children: [
-                      {
-                        title: '室内传感器',
-                      },
-                      {
-                        title: '外置传感器',
-                      },
-                      {
-                        title: '风管传感器',
-                      },
-                      {
-                        title: '水传感器',
-                      },
-                    ],
-                  },
-                  {
-                    title: '软件产品',
-                  },
-                ].map((item) => {
+                {categoryList?.map((item) => {
                   return (
                     <div
                       className={classNames('fl-download-bg-search-list-item', {
-                        'sub-show': subKeys.includes(item.title),
+                        'sub-show': subKeys.includes(item.id),
                       })}
-                      key={item.title}
+                      key={item.id}
                       onClick={(e) => {
-                        if (item.children) {
+                        if (item.children.length > 0) {
                           e.stopPropagation();
                           let newSubKeys = [...subKeys];
-                          if (newSubKeys.includes(item.title)) {
+                          if (newSubKeys.includes(item.id)) {
                             newSubKeys = newSubKeys.filter(
-                              (key) => key !== item.title,
+                              (key) => key !== item.id,
                             );
                           } else {
-                            newSubKeys.push(item.title);
+                            newSubKeys.push(item.id);
                           }
                           setSubKeys(newSubKeys);
                           return;
                         }
-                        setSelectType(item.title);
+                        setSelectType(item);
                         setShowType(false);
                       }}
                     >
-                      {item.title}
+                      {item.name}
 
-                      {item.children && (
+                      {item.children?.length > 0 && (
                         <>
                           <span className="fl-download-bg-search-list-item-icon">
                             <CaretDownOutlined />
@@ -171,13 +213,13 @@ const Download = () => {
                               return (
                                 <div
                                   className="fl-download-bg-search-list-item-sub-item"
-                                  key={sub.title}
+                                  key={sub.id}
                                   onClick={() => {
-                                    setSelectType(sub.title);
+                                    setSelectType(sub);
                                     setShowType(false);
                                   }}
                                 >
-                                  {sub.title}
+                                  {sub.name}
                                 </div>
                               );
                             })}
@@ -196,14 +238,18 @@ const Download = () => {
                 'fl-download-bg-search-btn fl-download-product',
                 {
                   active: showProduct,
+                  disabled: !selectType.id,
                 },
               )}
               onClick={() => {
+                if (!selectType.id) {
+                  return;
+                }
                 setShowProduct(!showProduct);
               }}
             >
               <div className="fl-download-bg-search-btn-title">
-                <div className="gradient-text">{selectProduct}</div>
+                <div className="gradient-text">{selectProduct?.name}</div>
                 <div className="fl-download-bg-search-btn-title-icon">
                   <img
                     src={showProduct ? caretUpOutlined : caretRightOutlined}
@@ -212,36 +258,19 @@ const Download = () => {
                 </div>
               </div>
               <div className="fl-download-bg-search-list">
-                {[
-                  {
-                    title: 'FCS100控制系统',
-                  },
-                  {
-                    title: 'CP系列数据采集器',
-                  },
-                  {
-                    title: 'EMSBOX系列数据采集器',
-                  },
-
-                  {
-                    title: 'LFSD照明控制系统',
-                  },
-                  {
-                    title: 'LFSK照明控制系统',
-                  },
-                ].map((item) => {
+                {productList?.map((item) => {
                   return (
                     <div
                       className={classNames('fl-download-bg-search-list-item', {
-                        'sub-show': subKeys.includes(item.title),
+                        'sub-show': subKeys.includes(item.id),
                       })}
-                      key={item.title}
+                      key={item.id}
                       onClick={(e) => {
-                        setSelectProduct(item.title);
+                        setSelectProduct(item);
                         setShowProduct(false);
                       }}
                     >
-                      {item.title}
+                      {item.name}
                     </div>
                   );
                 })}
@@ -260,6 +289,8 @@ const Download = () => {
                   className=""
                   variant="borderless"
                   size="large"
+                  value={searchVal}
+                  allowClear
                   onChange={(e) => {
                     setSearchVal(e.target.value);
                   }}
@@ -282,91 +313,126 @@ const Download = () => {
           <div className="fl-download-bg-hot-search">
             <div className="fl-download-bg-hot-search-title">热门搜索</div>
             <div className="fl-download-bg-hot-search-list">
-              <div className="fl-download-bg-hot-search-list-item">FCS100</div>
+              {keywordList?.map((item) => {
+                return (
+                  <div
+                    className="fl-download-bg-hot-search-list-item"
+                    key={item.id}
+                    onClick={() => {
+                      onSearch(item.title);
+                    }}
+                  >
+                    {item.title}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
       </div>
       <div className="fl-download-content">
         <div className="fl-download-content-nav">
-          <div className="fl-download-content-nav-item" onClick={() => {}}>
-            <div
-              className={classNames('fl-download-content-nav-item-title', {
-                'gradient-text': currentNavKey === '1',
-              })}
-            >
-              产品手册
-            </div>
-            <div className="fl-download-content-nav-item-arrow">
-              <img src={arrowIcon} alt="" />
-            </div>
-          </div>
-          <div className="fl-download-content-nav-item">
-            <div className={classNames('fl-download-content-nav-item-title')}>
-              产品彩页
-            </div>
-          </div>
+          {productFileList?.map((item, index) => {
+            return (
+              <div
+                className="fl-download-content-nav-item"
+                key={item.id}
+                onClick={() => {
+                  setCurrentNavKey(item);
+                }}
+              >
+                <div
+                  className={classNames('fl-download-content-nav-item-title', {
+                    'gradient-text': currentNavKey?.id === item.id,
+                  })}
+                >
+                  {item.name}
+                </div>
+                {currentNavKey?.id === item.id && (
+                  <div className="fl-download-content-nav-item-arrow">
+                    <img src={arrowIcon} alt="" />
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
         <div className="fl-download-content-list">
-          <div className="fl-download-content-list-item">
-            <div className="fl-download-content-list-item-img" />
-            <div className="fl-download-content-list-item-text">
-              <div className="fl-download-content-list-item-text-title">
-                <span>FCS101 一体化控制器模块</span>
-              </div>
-              <div className="fl-download-content-list-item-text-footer">
-                <div className="fl-download-content-list-item-text-footer-left">
-                  <div>发现日期：</div>
-                  <div>版本号：</div>
-                  <div>资料编号：</div>
-                </div>
-                <div className="fl-download-content-list-item-text-footer-right">
-                  <div
-                    onClick={() => {
-                      // 如果是pdf直接打开
-                      // if (item.fileName.endsWith('.pdf')) {
-                      //   // window.open(item.fileUrl)
-                      // } else {
-                      setImgVisible({
-                        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200',
-                        visible: true,
-                      });
-                      // }
-                    }}
-                  >
-                    预览
-                    <EyeOutlined />
+          {fileList?.map((item, index) => {
+            return (
+              <div className="fl-download-content-list-item" key={item.id}>
+                <div className="fl-download-content-list-item-img" />
+                <div className="fl-download-content-list-item-text">
+                  <div className="fl-download-content-list-item-text-title">
+                    <span>{item.name}</span>
                   </div>
-                  <div
-                    onClick={() => {
-                      downloadFile(
-                        'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200',
-                        '下载.png',
-                      );
-                    }}
-                  >
-                    下载
-                    <DownloadOutlined />
-                  </div>
-                  <Popover
-                    content={
-                      <QRCode value="https://ant.design" bordered={false} />
-                    }
-                  >
-                    <div>
-                      二维码
-                      <span>
-                        <ReactSVG src={qrcodeIcon} />
-                      </span>
+                  <div className="fl-download-content-list-item-text-footer">
+                    <div className="fl-download-content-list-item-text-footer-left">
+                      <div>
+                        发行日期：{dayjs(item.createTime).format('YYYY.MM.DD')}
+                      </div>
+                      <div>版本号：{item.version}</div>
+                      <div>资料编号：{item.id}</div>
                     </div>
-                  </Popover>
+                    {item.url && (
+                      <div className="fl-download-content-list-item-text-footer-right">
+                        {(isImage(item.url) ||
+                          item.url?.endsWith?.('.pdf')) && (
+                          <div
+                            onClick={() => {
+                              // 如果是pdf直接打开
+                              if (item.url.endsWith('.pdf')) {
+                                window.open(item.url);
+                              } else {
+                                setImgVisible({
+                                  url: item.url,
+                                  visible: true,
+                                });
+                              }
+                            }}
+                          >
+                            预览
+                            <EyeOutlined />
+                          </div>
+                        )}
+                        <div
+                          onClick={() => {
+                            window.open(item.url);
+                            // downloadFile(
+                            //   item.url,
+                            //   `${item.name}.${item.url.split('.').pop()}`,
+                            // );
+                          }}
+                        >
+                          下载
+                          <DownloadOutlined />
+                        </div>
+                        <Popover
+                          content={<QRCode value={item.url} bordered={false} />}
+                        >
+                          <div>
+                            二维码
+                            <span>
+                              <ReactSVG src={qrcodeIcon} />
+                            </span>
+                          </div>
+                        </Popover>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            );
+          })}
+
           {/* 分页 */}
           <div className="fl-download-pagination">
-            <Pagination total={50} itemRender={itemRender} align='center'/>
+            <Pagination
+              hideOnSinglePage
+              total={fileList?.length}
+              itemRender={itemRender}
+              align="center"
+            />
           </div>
         </div>
 
