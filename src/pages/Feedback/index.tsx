@@ -1,13 +1,17 @@
 import rightArrowImg from '@/assets/images/right-arrow.png';
 import modalImg from '@/assets/images/success.png';
 import Header from '@/components/Header';
+import { submitFeedback } from '@/services/ServiceNetwork';
+import { useRequest } from '@umijs/max';
 import { Button, Col, Form, Input, Modal, Row } from 'antd';
 import { useState } from 'react';
 import './index.less';
 
 const Feedback = () => {
   const [form] = Form.useForm();
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  // 提交表单
+  const { run } = useRequest(submitFeedback, {});
   return (
     <div className="feedback">
       <Header theme="light" className="feedback-header" />
@@ -28,6 +32,12 @@ const Feedback = () => {
               focus: true,
             }}
             size="large"
+            onFinish={(values) => {
+              run(values).then(() => {
+                form.resetFields();
+                setModalVisible(true);
+              });
+            }}
           >
             <Row gutter={[80, 51]}>
               <Col span={12}>
@@ -37,7 +47,7 @@ const Feedback = () => {
                       您的姓名<span style={{ color: '#FF5858' }}>※</span>
                     </div>
                   }
-                  name={'您的姓名'}
+                  name={'title'}
                   rules={[{ required: true, message: '请输入您的姓名' }]}
                   layout="vertical"
                 >
@@ -51,7 +61,7 @@ const Feedback = () => {
                       联系电话<span style={{ color: '#FF5858' }}>※</span>
                     </div>
                   }
-                  name="联系电话"
+                  name="second"
                   rules={[
                     {
                       required: true,
@@ -81,7 +91,7 @@ const Feedback = () => {
             </Row>
             <Row gutter={[80, 51]}>
               <Col span={12}>
-                <Form.Item label={'邮箱地址'} layout="vertical">
+                <Form.Item label={'邮箱地址'} name="third" layout="vertical">
                   <Input placeholder="请输入邮箱地址" type="email" />
                 </Form.Item>
               </Col>
@@ -92,7 +102,7 @@ const Feedback = () => {
                       公司名称<span style={{ color: '#FF5858' }}>※</span>
                     </div>
                   }
-                  name="公司名称"
+                  name="fourth"
                   rules={[{ required: true, message: '请输入公司名称' }]}
                   layout="vertical"
                 >
@@ -110,7 +120,7 @@ const Feedback = () => {
                     </div>
                   }
                   rules={[{ required: true, message: '请输入详细描述' }]}
-                  name={'详细描述'}
+                  name={'fifth'}
                   layout="vertical"
                 >
                   <Input.TextArea
@@ -154,8 +164,11 @@ const Feedback = () => {
           问题，会通过您留的联系方式同步处理进展。
           感谢您的认真反馈，这是我们改进的重要动力！
         </div>
-        <div className='custom-modal_footer'>
-          <Button className='custom-modal-btn' onClick={() => setModalVisible(false)}>
+        <div className="custom-modal_footer">
+          <Button
+            className="custom-modal-btn"
+            onClick={() => setModalVisible(false)}
+          >
             已收到
           </Button>
         </div>

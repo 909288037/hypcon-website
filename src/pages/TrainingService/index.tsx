@@ -1,78 +1,103 @@
 import Header from '@/components/Header';
+import { getTrainingService } from '@/services/ServiceNetwork';
+import { useRequest } from '@umijs/max';
 import './index.less';
 const TrainingService = () => {
+  // 获取培训服务数据
+  const { data, error, loading } = useRequest(() => {
+    return getTrainingService();
+  });
+
   return (
     <div className="training-service">
       <Header className="training-service-header" />
-      <div className='training-service-bg'>
-        <div className='training-service-bg-img'>
-            <img src="" alt="" />
+      <div className="training-service-bg">
+        <div className="training-service-bg-img">
+          <img src={data?.image} alt="" />
         </div>
-        <div className='training-service-bg-title'>
-            <div>培训服务</div>
-            <div className='training-service-bg-title-desc'>基于用户业务场景与团队特性，提供线上与线下双模式培训，通过定制培训内容，双模式资源联动落地，深度解决业务痛点，助力用户团队能力与组织效能双向升级</div>
+        <div className="training-service-bg-title">
+          <div>{data?.title}</div>
+          <div
+            className="training-service-bg-title-desc"
+            dangerouslySetInnerHTML={{
+              __html: data?.detail,
+            }}
+          ></div>
         </div>
       </div>
-      <div className='training-service-content'>
-        <div className='training-service-content-item'>
-            <div className='training-service-content-item-title'>
-                <div className='gradient-text'>线上培训</div>
+      <div className="training-service-content">
+        <div className="training-service-content-item">
+          <div className="training-service-content-item-title">
+            <div className="gradient-text">线上培训</div>
+          </div>
+          <div className="training-service-content-item-content">
+            <div className="training-service-content-item-content-left">
+              {data?.on?.data?.map((item, index) => {
+                return (
+                  <div
+                    key={item.title}
+                    className="training-service-content-item-content-left-item"
+                  >
+                    <div className="title">{item.title}</div>
+                    <div className="desc">{item.second}</div>
+                    {item.sceneList && (
+                      <div className="tags">
+                        <div className="tag-title">适配场景</div>
+                        <div className="tag-content">
+                          {item.sceneList?.map((tag) => {
+                            return <div key={tag.title}>{tag.title}</div>;
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
-            <div className='training-service-content-item-content'>
-                <div className='training-service-content-item-content-left'>
-                    <div className='training-service-content-item-content-left-item'>
-                        <div className='title'>线上公开课​</div>
-                        <div className='desc'>​支持多终端学习，搭配专家直播答疑与交流</div>
-                        <div className='tags'>
-                            <div className='tag-title'>适配场景</div>
-                            <div className='tag-content'>
-                                <div>跨区域团队通识赋能</div>
-                                <div>新员工标准化入门</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='training-service-content-item-content-left-item'>
-                        <div className='title'>线上公开课​</div>
-                        <div className='desc'>​支持多终端学习，搭配专家直播答疑与交流</div>
-                        <div className='tags'>
-                            <div className='tag-title'>适配场景</div>
-                            <div className='tag-content'>
-                                <div>跨区域团队通识赋能</div>
-                                <div>新员工标准化入门</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div className='training-service-content-item-content-right'>
-                    <img src={""} alt="" />
-                </div>
+            <div className="training-service-content-item-content-right">
+              <img src={data?.on?.image} alt="" />
             </div>
+          </div>
         </div>
-         <div className='training-service-content-item'>
-            <div className='training-service-content-item-title'>
-                <div className='gradient-text'>线上培训</div>
+        {data?.off && (
+          <div className="training-service-content-item">
+            <div className="training-service-content-item-title">
+              <div className="gradient-text">线下培训</div>
             </div>
-            <div className='training-service-content-item-content'>
-                <div className='training-service-content-item-content-left'>
-                    <div className='training-service-content-item-content-left-item'>
-                        <div className='title'>线上公开课​</div>
-                        <div className='desc'>​支持多终端学习，搭配专家直播答疑与交流</div>
-                        <div className='tags'>
-                            <div className='tag-title'>适配场景</div>
-                            <div className='tag-content'>
-                                <div>跨区域团队通识赋能</div>
-                                <div>新员工标准化入门</div>
-                            </div>
+            <div className="training-service-content-item-content">
+              <div className="training-service-content-item-content-left">
+                {data?.off?.data?.map((item, index) => {
+                  return (
+                    <div
+                      key={item.title}
+                      className="training-service-content-item-content-left-item"
+                    >
+                      <div className="title">{item.title}</div>
+                      <div className="desc">{item.second}</div>
+                      {item.sceneList && (
+                        <div className="tags">
+                          <div className="tag-title">适配场景</div>
+                          <div className="tag-content">
+                            {item.sceneList?.map((tag) => {
+                              return <div key={tag.title}>{tag.title}</div>;
+                            })}
+                          </div>
                         </div>
+                      )}
                     </div>
-                </div>
+                  );
+                })}
+              </div>
 
-                <div className='training-service-content-item-content-right'>
-                    <img src={""} alt="" />
+              {data?.off?.image && (
+                <div className="training-service-content-item-content-right">
+                  <img src={data?.off?.image} alt="" />
                 </div>
+              )}
             </div>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

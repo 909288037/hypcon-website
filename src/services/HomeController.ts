@@ -50,8 +50,8 @@ export async function getNewsList() {
 }
 
 // 搜索接口
-export async function getSearchList(params: {keyword: string}) {
-  return request<any>(`/api/search/data`, {
+export async function getSearchList(params: any) {
+  return request<any>(`/api/search/pageProductFile`, {
     method: 'GET',
     params,
   });

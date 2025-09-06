@@ -1,18 +1,27 @@
+import arrowRight from '@/assets/images/right-arrow-primary.png';
 import Header from '@/components/Header';
+import { getQuestion } from '@/services/ServiceNetwork';
 import { MinusOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { useRequest } from '@umijs/max';
 import { Input, Pagination, PaginationProps } from 'antd';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './index.less';
-import arrowRight from '@/assets/images/right-arrow-primary.png';
 const FAQ = () => {
   const [searchVal, setSearchVal] = useState('');
   const [list, setList] = useState(['', '']);
   const [activeKey, setActiveKey] = useState([]);
+  // 获取常见问题数据
+  const { data, run } = useRequest(getQuestion);
+  const listRef = useRef(null);
+  // 搜索接口
   const onSearch = () => {
     console.log('触发搜索');
+    run({
+      noticeTitle: searchVal,
+    });
   };
-   const itemRender: PaginationProps['itemRender'] = (
+  const itemRender: PaginationProps['itemRender'] = (
     _,
     type,
     originalElement,
@@ -64,8 +73,8 @@ const FAQ = () => {
           </div>
         </div>
         {/* 问题列表 */}
-        <div className="fl-faq-content-list">
-          {list.map((item, index) => {
+        <div className="fl-faq-content-list" ref={listRef}>
+          {data?.rows?.map((item, index) => {
             const isShow = activeKey.includes(index);
             return (
               <div
@@ -75,16 +84,20 @@ const FAQ = () => {
                 })}
               >
                 <div className="fl-faq-content-list-item-title">
-                  <div className={
-                    classNames({
-                        "gradient-text": isShow
-                    })
-                  }>Q：FCS100系列楼宇控制系统的核心优势是？</div>
+                  <div
+                    className={classNames({
+                      'gradient-text': isShow,
+                    })}
+                  >
+                    Q：{item.noticeTitle}
+                  </div>
                 </div>
-                <div className=" fl-faq-content-list-item-content">
-                  A：FCS100系列楼宇控制系统是一款面向工业自动化及智能建筑领域开发的模块化DDC控制系统。本产品遵循"场景驱动设计、功能精准配置"开发逻辑，采用模块化架构设计，支持功能模块化组件自由配置，可实现行业定制化控制解决方案。在楼宇自控领域成熟应用多年，具备较高的市场美誉度与客户认可度。系统集成多模态I/O信号接口，兼容主流传感器及执行器设备，满足IEC
-                  61131工业控制标准。
-                </div>
+                <div
+                  className=" fl-faq-content-list-item-content"
+                  dangerouslySetInnerHTML={{
+                    __html: item.noticeContent,
+                  }}
+                ></div>
                 {/* 展开按钮 */}
                 <div
                   className={'fl-faq-content-list-item-btn'}
@@ -103,10 +116,23 @@ const FAQ = () => {
             );
           })}
         </div>
-          {/* 分页 */}
-          <div className="fl-faq-pagination">
-            <Pagination total={50} itemRender={itemRender} align='center'/>
-          </div>
+        {/* 分页 */}
+        <div className="fl-faq-pagination">
+          <Pagination
+            total={data?.total}
+            hideOnSinglePage
+            itemRender={itemRender}
+            align="center"
+            onChange={(page) => {
+              // 回到顶部
+              window.scrollTo(0, 0);
+              run({
+                noticeTitle: searchVal,
+                pageNum: page,
+              });
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import {
   getCategoryTreeList,
   getKeywords,
   getProductCategory,
-  getProductFileListByCategory,
+  getProductFileList,
   getProductList,
 } from '@/services/DownloadController';
 import { getSearchList } from '@/services/HomeController';
@@ -35,6 +35,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import './index.less';
 const Download = () => {
+  const [list, setList] = useState([]);
   // 选择类别
   const [selectType, setSelectType] = useState({
     name: '选择类别',
@@ -58,6 +59,7 @@ const Download = () => {
   const [currentNavKey, setCurrentNavKey] = useState(null);
   const typeRef = useRef(null);
   const productRef = useRef(null);
+  const isSearch = useRef(false);
 
   // 获取类别列表
   const { data: categoryList } = useRequest(() => {
@@ -78,17 +80,38 @@ const Download = () => {
   });
 
   // 获取产品文件列表
-  const { data: fileList, run: _getFileList } = useRequest(
-    getProductFileListByCategory,
-    {
-      manual: true,
-    },
-  );
+  const { data: fileList, run: _getFileList } = useRequest(getProductFileList, {
+    manual: true,
+  });
 
   // 获取产品类目列表
   const { data: productFileList } = useRequest(() => {
     return getProductCategory();
   });
+
+  // 搜索
+  const { run: searchRun } = useRequest(getSearchList, {
+    manual: true,
+  });
+
+  const onSearch = (val = searchVal) => {
+    console.log('触发搜索');
+    searchRun({
+      keyword: val,
+      pageNum: 1,
+      pageSize: 6,
+    }).then((res) => {
+      console.log('🚀 ~ onSearch ~ res:', res);
+      setList(res);
+      setCurrentNavKey({
+        id: res.rows?.[0]?.fileCategoryId,
+      });
+    });
+  };
+
+  useEffect(() => {
+    setList(fileList);
+  }, [fileList]);
 
   useEffect(() => {
     setSelectProduct({ name: '选择产品', id: '' });
@@ -104,7 +127,11 @@ const Download = () => {
   }, [productFileList]);
   useEffect(() => {
     if (selectProduct.id) {
-      _getFileList(currentNavKey?.id, selectProduct.id);
+      _getFileList({
+        fileCategoryId: currentNavKey?.id,
+        id: selectProduct.id,
+        pageSize: 6,
+      });
     }
 
     return () => {};
@@ -117,12 +144,6 @@ const Download = () => {
     setShowProduct(false);
   }, productRef);
 
-  const onSearch = (val = searchVal) => {
-    console.log('触发搜索');
-    getSearchList({
-      keyword: val,
-    });
-  };
   const itemRender: PaginationProps['itemRender'] = (
     _,
     type,
@@ -268,6 +289,7 @@ const Download = () => {
                       onClick={(e) => {
                         setSelectProduct(item);
                         setShowProduct(false);
+                        isSearch.current = false;
                       }}
                     >
                       {item.name}
@@ -296,12 +318,14 @@ const Download = () => {
                   }}
                   onPressEnter={() => {
                     onSearch();
+                    isSearch.current = true;
                   }}
                 ></Input>
               </div>
               <div
                 className="fl-download-search-button"
                 onClick={() => {
+                  isSearch.current = true;
                   onSearch();
                 }}
               >
@@ -358,80 +382,99 @@ const Download = () => {
           })}
         </div>
         <div className="fl-download-content-list">
-          {fileList?.map((item, index) => {
-            return (
-              <div className="fl-download-content-list-item" key={item.id}>
-                <div className="fl-download-content-list-item-img" />
-                <div className="fl-download-content-list-item-text">
-                  <div className="fl-download-content-list-item-text-title">
-                    <span>{item.name}</span>
-                  </div>
-                  <div className="fl-download-content-list-item-text-footer">
-                    <div className="fl-download-content-list-item-text-footer-left">
-                      <div>
-                        发行日期：{dayjs(item.createTime).format('YYYY.MM.DD')}
-                      </div>
-                      <div>版本号：{item.version}</div>
-                      <div>资料编号：{item.id}</div>
+          {list?.rows
+            ?.filter((item) => {
+              if (isSearch.current) {
+                return item.fileCategoryId === currentNavKey?.id;
+              }
+              return item;
+            })
+            ?.map((item, index) => {
+              return (
+                <div className="fl-download-content-list-item" key={item.id}>
+                  <div className="fl-download-content-list-item-img" />
+                  <div className="fl-download-content-list-item-text">
+                    <div className="fl-download-content-list-item-text-title">
+                      <span>{item.name}</span>
                     </div>
-                    {item.url && (
-                      <div className="fl-download-content-list-item-text-footer-right">
-                        {(isImage(item.url) ||
-                          item.url?.endsWith?.('.pdf')) && (
+                    <div className="fl-download-content-list-item-text-footer">
+                      <div className="fl-download-content-list-item-text-footer-left">
+                        <div>
+                          发行日期：
+                          {dayjs(item.createTime).format('YYYY.MM.DD')}
+                        </div>
+                        <div>版本号：{item.version}</div>
+                        <div>资料编号：{item.id}</div>
+                      </div>
+                      {item.url && (
+                        <div className="fl-download-content-list-item-text-footer-right">
+                          {(isImage(item.url) ||
+                            item.url?.endsWith?.('.pdf')) && (
+                            <div
+                              onClick={() => {
+                                // 如果是pdf直接打开
+                                if (item.url.endsWith('.pdf')) {
+                                  window.open(item.url);
+                                } else {
+                                  setImgVisible({
+                                    url: item.url,
+                                    visible: true,
+                                  });
+                                }
+                              }}
+                            >
+                              预览
+                              <EyeOutlined />
+                            </div>
+                          )}
                           <div
                             onClick={() => {
-                              // 如果是pdf直接打开
-                              if (item.url.endsWith('.pdf')) {
-                                window.open(item.url);
-                              } else {
-                                setImgVisible({
-                                  url: item.url,
-                                  visible: true,
-                                });
-                              }
+                              window.open(item.url);
+                              // downloadFile(
+                              //   item.url,
+                              //   `${item.name}.${item.url.split('.').pop()}`,
+                              // );
                             }}
                           >
-                            预览
-                            <EyeOutlined />
+                            下载
+                            <DownloadOutlined />
                           </div>
-                        )}
-                        <div
-                          onClick={() => {
-                            window.open(item.url);
-                            // downloadFile(
-                            //   item.url,
-                            //   `${item.name}.${item.url.split('.').pop()}`,
-                            // );
-                          }}
-                        >
-                          下载
-                          <DownloadOutlined />
+                          <Popover
+                            content={
+                              <QRCode value={item.url} bordered={false} />
+                            }
+                          >
+                            <div>
+                              二维码
+                              <span>
+                                <ReactSVG src={qrcodeIcon} />
+                              </span>
+                            </div>
+                          </Popover>
                         </div>
-                        <Popover
-                          content={<QRCode value={item.url} bordered={false} />}
-                        >
-                          <div>
-                            二维码
-                            <span>
-                              <ReactSVG src={qrcodeIcon} />
-                            </span>
-                          </div>
-                        </Popover>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
 
           {/* 分页 */}
           <div className="fl-download-pagination">
             <Pagination
               hideOnSinglePage
-              total={fileList?.length}
+              defaultPageSize={6}
+              total={fileList?.total}
               itemRender={itemRender}
               align="center"
+              onChange={(page, pageSize) => {
+                _getFileList({
+                  fileCategoryId: currentNavKey?.id,
+                  id: selectProduct.id,
+                  pageNum: page,
+                  pageSize,
+                });
+              }}
             />
           </div>
         </div>
@@ -441,7 +484,7 @@ const Download = () => {
           src={imgVisible?.url}
           preview={{
             visible: imgVisible.visible,
-            src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            src: imgVisible.url,
             onVisibleChange: (value) => {
               setImgVisible({
                 ...imgVisible,

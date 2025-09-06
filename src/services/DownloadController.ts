@@ -24,9 +24,10 @@ export async function getKeywords() {
 }
 
 // 获取产品文件列表
-export async function getProductFileList() {
+export async function getProductFileList(params) {
   return request<any>(`/api/support/fileList`, {
     method: 'GET',
+    params: params,
   });
 }
 

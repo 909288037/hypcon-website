@@ -1,31 +1,46 @@
-import Header from "@/components/Header";
+import Header from '@/components/Header';
 
-import bgImg from './images/bg.png'
+import bgImg from './images/bg.png';
 
-import "./index.less";
-import ChinaMapChart from "@/components/Map";
+import ChinaMapChart from '@/components/Map';
+import { getServiceNetwork } from '@/services/ServiceNetwork';
+import { useRequest } from '@umijs/max';
+import './index.less';
 
 const ServiceNetwork = () => {
-    return (
-        <div className="fl-service-network">
-            <Header className="fl-service-network-header" />
-            <div className="fl-service-network-bg">
-                <div className="fl-service-network-bg-img">
-                    <img src="" alt="" />
-                </div>
-                <div className="fl-service-network-bg-title">
-                    服务网络
-                </div>
-            </div>
-            <div className="fl-service-network-map">
-                <img src={bgImg} alt="" />
-                <div className="fl-service-network-map-content">
-                    <ChinaMapChart />
-                </div>
-            </div>
-            
+  // 获取服务网络数据
+  const {
+    data: serviceNetworkData,
+    error: serviceNetworkError,
+    loading: serviceNetworkLoading,
+  } = useRequest(() => {
+    return getServiceNetwork();
+  });
+  return (
+    <div className="fl-service-network">
+      <Header className="fl-service-network-header" />
+      <div className="fl-service-network-bg">
+        <div className="fl-service-network-bg-img">
+          <img src={serviceNetworkData?.image} alt="" />
         </div>
-    )
-}
+        <div className="fl-service-network-bg-title">
+          {serviceNetworkData?.title}
+        </div>
+      </div>
+      <div className="fl-service-network-map">
+        <div
+          className="fl-service-network-map-desc"
+          dangerouslySetInnerHTML={{
+            __html: serviceNetworkData?.detail,
+          }}
+        ></div>
+        <img src={bgImg} alt="" />
+        <div className="fl-service-network-map-content">
+          <ChinaMapChart />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default ServiceNetwork;

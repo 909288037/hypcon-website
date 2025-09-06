@@ -1,9 +1,11 @@
-import Header from '@/components/Header';
-import { Button, Col, Form, Input, Modal, Row, Select } from 'antd';
-import './index.less';
 import rightArrowImg from '@/assets/images/right-arrow.png';
-import { useState } from 'react';
 import modalImg from '@/assets/images/success.png';
+import Header from '@/components/Header';
+import { submitProductConsult } from '@/services/ServiceNetwork';
+import { useRequest } from '@umijs/max';
+import { Button, Col, Form, Input, Modal, Row, Select } from 'antd';
+import { useState } from 'react';
+import './index.less';
 
 // 省份options
 const provinceOptions = [
@@ -23,10 +25,10 @@ const provinceOptions = [
     label: '安徽省',
     value: '安徽省',
   },
- 
-]
+];
 const ProductConsult = () => {
-    const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const { run } = useRequest(submitProductConsult, {});
   const [form] = Form.useForm();
   return (
     <div className="product-consult">
@@ -50,6 +52,12 @@ const ProductConsult = () => {
               focus: true,
             }}
             size="large"
+            onFinish={(values) => {
+              run(values).then(() => {
+                form.resetFields();
+                setModalVisible(true);
+              });
+            }}
           >
             <Row gutter={[80, 51]}>
               <Col span={12}>
@@ -59,7 +67,7 @@ const ProductConsult = () => {
                       公司名称<span style={{ color: '#FF5858' }}>※</span>
                     </div>
                   }
-                  name="公司名称"
+                  name="title"
                   rules={[{ required: true, message: '请输入公司名称' }]}
                   layout="vertical"
                 >
@@ -73,11 +81,14 @@ const ProductConsult = () => {
                       所在地区<span style={{ color: '#FF5858' }}>※</span>
                     </div>
                   }
-                  name="所在地区"
+                  name="second"
                   rules={[{ required: true, message: '请选择所在地区' }]}
                   layout="vertical"
                 >
-                  <Select placeholder="请选择您的所在地" options={provinceOptions}/>
+                  <Select
+                    placeholder="请选择您的所在地"
+                    options={provinceOptions}
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -89,21 +100,21 @@ const ProductConsult = () => {
                       您的姓名<span style={{ color: '#FF5858' }}>※</span>
                     </div>
                   }
-                  name={'您的姓名'}
+                  name={'third'}
                   rules={[{ required: true, message: '请输入您的姓名' }]}
                   layout="vertical"
                 >
                   <Input placeholder="请输入您的姓名" />
                 </Form.Item>
               </Col>
-               <Col span={12}>
+              <Col span={12}>
                 <Form.Item
                   label={
                     <div>
                       联系电话<span style={{ color: '#FF5858' }}>※</span>
                     </div>
                   }
-                  name="联系电话"
+                  name="fourth"
                   rules={[
                     {
                       required: true,
@@ -134,7 +145,7 @@ const ProductConsult = () => {
             {/* 邮箱地址 */}
             <Row gutter={[80, 51]}>
               <Col span={12}>
-                <Form.Item label={'邮箱地址'} layout="vertical">
+                <Form.Item label={'邮箱地址'} name="fifth" layout="vertical">
                   <Input placeholder="请输入邮箱地址" type="email" />
                 </Form.Item>
               </Col>
@@ -149,7 +160,7 @@ const ProductConsult = () => {
                     </div>
                   }
                   rules={[{ required: true, message: '请输入咨询内容' }]}
-                  name={'咨询内容'}
+                  name={'sixth'}
                   layout="vertical"
                 >
                   <Input.TextArea
@@ -164,7 +175,11 @@ const ProductConsult = () => {
             {/* 应用场景 */}
             <Row gutter={[80, 51]}>
               <Col span={24}>
-                <Form.Item label={<div>应用场景</div>} layout="vertical">
+                <Form.Item
+                  label={<div>应用场景</div>}
+                  name={'res1'}
+                  layout="vertical"
+                >
                   <Input.TextArea
                     placeholder="您的需求应用在什么场景/行业？了解场景后，我们会匹配对应行业经验的顾问为您解答"
                     autoSize={{
@@ -205,8 +220,11 @@ const ProductConsult = () => {
           问题，会通过您留的联系方式同步处理进展。
           感谢您的信任，我们会尽快为您解答～
         </div>
-        <div className='custom-modal_footer'>
-          <Button className='custom-modal-btn' onClick={() => setModalVisible(false)}>
+        <div className="custom-modal_footer">
+          <Button
+            className="custom-modal-btn"
+            onClick={() => setModalVisible(false)}
+          >
             已收到
           </Button>
         </div>
