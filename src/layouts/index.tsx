@@ -16,10 +16,19 @@ import './index.less';
 
 const baseSize = 192; //设计稿宽度%10 比如 1920
 function scrollToTop() {
-  const c = document.documentElement.scrollTop || document.body.scrollTop;
-  if (c > 0) {
-    window.requestAnimationFrame(scrollToTop);
-    window.scrollTo(0, c - c / 8);
+  // 使用现代浏览器的平滑滚动API
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  } else {
+    // 兼容旧浏览器的实现
+    const c = document.documentElement.scrollTop || document.body.scrollTop;
+    if (c > 0) {
+      window.requestAnimationFrame(scrollToTop);
+      window.scrollTo(0, c - c / 8);
+    }
   }
 }
 
