@@ -113,6 +113,12 @@ export default [
         path: '/join',
         component: './Join',
       },
+      // 搜索页面
+      {
+        name: '搜索页面',
+        path: '/search',
+        component: './Search',
+      },
     ],
   },
 ];

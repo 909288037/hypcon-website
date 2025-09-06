@@ -56,3 +56,35 @@ export async function getSearchList(params: any) {
     params,
   });
 }
+
+// 首页搜索
+export async function getSearchListByKeyword(params: any) {
+  return request<any>(`/api/search/data`, {
+    method: 'GET',
+    params,
+  });
+}
+
+// 产品分页接口
+export async function getSearchProductList(params: any) {
+  return request<any>(`/api/search/pageProduct`, {
+    method: 'GET',
+    params,
+  }); 
+}
+
+// 解决方案分页
+export async function getSearchSolutionList(params: any) {
+  return request<any>(`/api/search/pageSolution`, {
+    method: 'GET',
+    params,
+  }); 
+}
+
+// 新闻分页接口
+export async function getSearchNewsList(params: any) {
+  return request<any>(`/api/search/pageNotice`, {
+    method: 'GET',
+    params,
+  }); 
+}

@@ -1,3 +1,5 @@
+import phoneImg from '@/assets/images/phone.png';
+import topImg from '@/assets/images/top.png';
 import { Helmet, Outlet } from '@umijs/max';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
@@ -7,10 +9,18 @@ import {
   legacyLogicalPropertiesTransformer,
   StyleProvider,
 } from '@ant-design/cssinjs';
+import 'normalize.css/normalize.css';
 import './index.less';
 
 const baseSize = 192; //设计稿宽度%10 比如 1920
-import 'normalize.css/normalize.css'
+function scrollToTop() {
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    window.scrollTo(0, c - c / 8);
+  }
+}
+
 export default function Layout() {
   return (
     <StyleProvider
@@ -31,6 +41,21 @@ export default function Layout() {
         <Helmet></Helmet>
         {/* <AppStore /> */}
         <Outlet />
+        {/* 悬浮按钮 */}
+        <div className="fl-float-btn">
+          <div className="fl-float-btn-phone">
+            <img src={phoneImg} alt="" />
+          </div>
+          <div
+            className="fl-float-btn-top"
+            onClick={() => {
+              // 回到顶部
+              scrollToTop();
+            }}
+          >
+            <img src={topImg} alt="" />
+          </div>
+        </div>
         {/* 底部 */}
         <Footer />
       </ConfigProvider>

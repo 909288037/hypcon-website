@@ -115,11 +115,11 @@ const Footer = () => {
             <div>{data?.title}</div>
             <div>电话: {data?.res2}</div>
             <div>
-              邮箱: <a href={`mailto:${data?.res3}`}>{data?.res3}</a>
+              邮箱: <a href={`mailto:${data?.fourth}`}>{data?.fourth}</a>
             </div>
           </div>
           {/* 地址 */}
-          <div className="fl-footer-address">地址：{data?.res1}</div>
+          <div className="fl-footer-address">地址：{data?.second}</div>
         </div>
         {/* 外链 */}
         <div className="fl-footer-exlink">
