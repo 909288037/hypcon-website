@@ -11,6 +11,7 @@
     }
     &-img {
       width: 100%;
+      margin-top: 30px;
 
       img {
         width: 100%;
@@ -19,7 +20,7 @@
     }
     &-text {
       width: 946px;
-      margin: 0 auto;
+      margin: 30px auto 0;
       text-align: center;
       font-size: 14px;
       color: #000000;
@@ -364,9 +365,9 @@
                 margin-left: 26px;
                 line-height: 16px;
                 span {
-                    width: 18px;
-                    height: 18px;
-                    margin-left: 7px;
+                  width: 18px;
+                  height: 18px;
+                  margin-left: 7px;
                   div {
                     height: 100%;
                   }
@@ -388,25 +389,66 @@
           transform: translate(0, -5px);
           box-shadow: 0px 6px 20px 4px rgba(0, 126, 202, 0.1);
           .hardware-product-download-list-item-img {
-              background: url('~@/assets/images/pdf-hover.png') no-repeat center;
-               background-size: 100% 100%;
+            background: url('~@/assets/images/pdf-hover.png') no-repeat center;
+            background-size: 100% 100%;
           }
           .hardware-product-download-list-item-text-title {
             span {
-               color: transparent;
-                background-image: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+              color: transparent;
+              background-image: linear-gradient(
+                90deg,
+                #007eca 0%,
+                #22c55e 100%
+              );
 
-                -webkit-background-clip: text;
-                background-clip: text;
+              -webkit-background-clip: text;
+              background-clip: text;
             }
           }
           .hardware-product-download-list-item-text-footer {
-            color: #007ECA;
+            color: #007eca;
             path {
-              fill: #007ECA;
+              fill: #007eca;
             }
           }
         }
+      }
+    }
+
+    &-pagination {
+      margin-top: 140px;
+      .ant-pagination-item {
+        background-color: transparent !important;
+        a {
+          color: transparent !important;
+          /* 设置线性渐变，从红色渐变到蓝色 */
+          background-image: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+
+          /* 使用 -webkit-background-clip 属性将背景剪裁至文本形状 */
+          -webkit-background-clip: text;
+          /* 非Webkit内核浏览器需要使用标准前缀 */
+          background-clip: text;
+          height: 100%;
+        }
+      }
+      .ant-pagination-item-active {
+        border: none !important;
+        border-radius: 50% !important;
+        background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+        a {
+          color: #fff !important;
+        }
+      }
+      .ant-pagination-prev,
+      .ant-pagination-next {
+        img {
+          width: 100%;
+          height: 100%;
+          vertical-align: top;
+        }
+      }
+      .ant-pagination-disabled {
+        opacity: 0.5 !important;
       }
     }
   }

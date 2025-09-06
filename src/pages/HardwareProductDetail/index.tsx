@@ -1,14 +1,68 @@
 import arrowIcon from '@/assets/images/jiantou-right.png';
-import Header from '@/components/Header';
-import { downloadFile } from '@/utils';
-import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
-import { Image, Popover, QRCode, Tabs } from 'antd';
-import classNames from 'classnames';
-import { useMemo, useState } from 'react';
-import { ReactSVG } from 'react-svg';
 import qrcodeIcon from '@/assets/images/qrcode.svg';
+import arrowRight from '@/assets/images/right-arrow-primary.png';
+import Header from '@/components/Header';
+import {
+  getProductCategory,
+  getProductFileList,
+} from '@/services/DownloadController';
+import {
+  getProductDetail,
+  getProductSpecification,
+} from '@/services/ProductController';
+import { isImage } from '@/utils';
+import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
+import { useParams, useRequest } from '@umijs/max';
+import {
+  Image,
+  Pagination,
+  PaginationProps,
+  Popover,
+  QRCode,
+  Tabs,
+} from 'antd';
+import classNames from 'classnames';
+import dayjs from 'dayjs';
+import { useEffect, useMemo, useState } from 'react';
+import { ReactSVG } from 'react-svg';
 import './index.less';
+
+const pageSize = 6;
 const HardwareProductDetail = () => {
+  const params = useParams();
+  console.log('🚀 ~ ProductDetail ~ params:', params);
+  // 获取产品详情
+  const { data } = useRequest(() => {
+    return getProductDetail(params.type, params.id);
+  });
+  // 获取规格参数数据
+  const { data: specData } = useRequest(() => {
+    return getProductSpecification(params.id);
+  });
+
+  // 获取产品类目列表
+  const { data: productFileList } = useRequest(() => {
+    return getProductCategory();
+  });
+
+  const { data: fileList, run: _getFileList } = useRequest(getProductFileList, {
+    manual: true,
+  });
+  const itemRender: PaginationProps['itemRender'] = (
+    _,
+    type,
+    originalElement,
+  ) => {
+    if (type === 'prev') {
+      return (
+        <img src={arrowRight} alt="" style={{ transform: 'rotate(180deg)' }} />
+      );
+    }
+    if (type === 'next') {
+      return <img src={arrowRight} alt="" />;
+    }
+    return originalElement;
+  };
   const tabItems = useMemo(() => {
     return [
       {
@@ -30,12 +84,22 @@ const HardwareProductDetail = () => {
   }, []);
   const [currentKey, setCurrentKey] = useState(tabItems[0].key);
   //   相关产品列表
-  const [relatedList, setRelatedList] = useState([{}, {}, {}, {}, {}]);
   const [currentNavKey, setCurrentNavKey] = useState('1');
   const [imgVisible, setImgVisible] = useState({
     visible: false,
     url: '',
   });
+
+  useEffect(() => {
+    if (productFileList?.[0]) {
+      _getFileList({
+        fileCategoryId: productFileList[0].id,
+        id: params.id,
+        pageSize,
+      });
+      setCurrentNavKey(productFileList[0]);
+    }
+  }, [productFileList]);
   const onTabChange = (key: string) => {
     console.log(key);
     setCurrentKey(key);
@@ -45,55 +109,33 @@ const HardwareProductDetail = () => {
       <Header className="hardware-product-header" theme="light" />
       <div className="hardware-product-detail">
         <div className="hardware-product-detail-title">
-          <div className="gradient-text">FCS100控制系统</div>
+          <div className="gradient-text">{data?.name}</div>
         </div>
-        <div className="hardware-product-detail-img">
-          <img src={''} alt="" />
-        </div>
-        <div className="hardware-product-detail-text">
-          FCS100楼宇控制系统是一款面向工业自动化及智能建筑领域开发的模块化DDC控制系统。
-          本产品遵循"场景驱动设计、功能精准配置"开发逻辑，采用模块化架构设计，支持功能模块化组件自由配置，可实现行业定制化控制解决方案。
-          在楼宇自控领域成熟应用多年，具备较高的市场美誉度与客户认可度。
-          系统集成多模态I/O信号接口，兼容主流传感器及执行器设备，满足IEC
-          61131工业控制标准。
-        </div>
+        {data?.image && (
+          <div className="hardware-product-detail-img">
+            <img src={data?.image} alt="" />
+          </div>
+        )}
+        <div
+          className="hardware-product-detail-text"
+          dangerouslySetInnerHTML={{
+            __html: data?.description,
+          }}
+        ></div>
         <div className="hardware-product-detail-tags">
-          <div className="hardware-product-detail-tag">
-            <div className="hardware-product-detail-tag-icon">
-              <img src="" alt="" />
+          {data?.traitList?.map((item: any, index: number) => (
+            <div className="hardware-product-detail-tag" key={index}>
+              <div className="hardware-product-detail-tag-icon">
+                <img src={item.image} alt="" />
+              </div>
+              <div className="hardware-product-detail-tag-title">
+                {item.title}
+              </div>
+              <div className="hardware-product-detail-tag-text">
+                {item.second}
+              </div>
             </div>
-            <div className="hardware-product-detail-tag-title">模块化设计</div>
-            <div className="hardware-product-detail-tag-text">
-              整合统一 提升效率
-            </div>
-          </div>
-          <div className="hardware-product-detail-tag">
-            <div className="hardware-product-detail-tag-icon">
-              <img src="" alt="" />
-            </div>
-            <div className="hardware-product-detail-tag-title">模块化设计</div>
-            <div className="hardware-product-detail-tag-text">
-              整合统一 提升效率
-            </div>
-          </div>
-          <div className="hardware-product-detail-tag">
-            <div className="hardware-product-detail-tag-icon">
-              <img src="" alt="" />
-            </div>
-            <div className="hardware-product-detail-tag-title">模块化设计</div>
-            <div className="hardware-product-detail-tag-text">
-              整合统一 提升效率
-            </div>
-          </div>
-          <div className="hardware-product-detail-tag">
-            <div className="hardware-product-detail-tag-icon">
-              <img src="" alt="" />
-            </div>
-            <div className="hardware-product-detail-tag-title">模块化设计</div>
-            <div className="hardware-product-detail-tag-text">
-              整合统一 提升效率
-            </div>
-          </div>
+          ))}
         </div>
         <div className="hardware-product-detail-tabs">
           <Tabs defaultActiveKey="1" items={tabItems} onChange={onTabChange} />
@@ -102,51 +144,53 @@ const HardwareProductDetail = () => {
       {/* 产品概述 */}
       {currentKey === '1' && (
         <div className="hardware-product-overview">
-          <div className="hardware-product-item">
-            <div className="hardware-product-item-title">
-              <div className="gradient-text">七大核心优势</div>
-            </div>
-            {/* 图片 */}
-            <div className="hardware-product-detail-img">
-              <img src={''} alt="" />
-            </div>
-          </div>
-          <div className="hardware-product-item hardware-product-service">
+          {data?.overview?.map((item) => {
+            return (
+              <div className="hardware-product-item" key={item.title}>
+                <div className="hardware-product-item-title">
+                  <div className="gradient-text">{item.title}</div>
+                </div>
+                <div className="hardware-product-detail-img">
+                  <img src={item.image} alt="" />
+                </div>
+              </div>
+            );
+          })}
+
+          {/* <div className="hardware-product-item hardware-product-service">
             <div className="hardware-product-item-title">
               <div className="gradient-text">系统架构</div>
             </div>
-            {/* 图片 */}
             <div className="hardware-product-detail-img">
               <img src={''} alt="" />
             </div>
-          </div>
+          </div> */}
           {/* 相关推荐 */}
           <div className="hardware-product-item hardware-product-recommend">
             <div className="hardware-product-item-title">
               <div className="gradient-text">相关产品</div>
             </div>
             <div className="hardware-product-recommend-list">
-              {relatedList.map((item, index) => {
+              {data?.relation?.map((item, index) => {
                 return (
                   <div className="hardware-product-recommend-item" key={index}>
                     <div className="hardware-product-recommend-item-img">
-                      <img src="" alt="" />
+                      <img src={item.image} alt="" />
                     </div>
                     <div className="hardware-product-recommend-item-title">
-                      <div className="gradient-text">
-                        FCS101一体化控制器模块
-                      </div>
+                      <div className="gradient-text">{item.title}</div>
                     </div>
                     {/* 参数 */}
-                    <div className="hardware-product-recommend-item-params">
+                    {/* <div className="hardware-product-recommend-item-params">
                       <div>4G全网通</div>
                       <div>8*UI</div>
-                    </div>
-                    <div className="hardware-product-recommend-item-text">
-                      支持通过CANopen总线协议拓展IO模块。
-                      支持灵活配置温度、压力等模拟量采集及控制。
-                      适合混合信号控制场景（如恒压供水、环境监测）。
-                    </div>
+                    </div> */}
+                    <div
+                      className="hardware-product-recommend-item-text"
+                      dangerouslySetInnerHTML={{
+                        __html: item.detail,
+                      }}
+                    ></div>
                   </div>
                 );
               })}
@@ -158,14 +202,16 @@ const HardwareProductDetail = () => {
       {/* 规格参数 */}
       {currentKey === '2' && (
         <div className="hardware-product-specs">
-          <div className="hardware-product-specs-item">
-            <div className="hardware-product-specs-item-title">
-              <div className="gradient-text">FCS100控制系统CPU模块</div>
+          {specData?.map((item, index) => (
+            <div className="hardware-product-specs-item" key={index}>
+              <div className="hardware-product-specs-item-title">
+                <div className="gradient-text">{item?.title}</div>
+              </div>
+              <div className="hardware-product-specs-item-content">
+                <img src={item?.image} alt="" />
+              </div>
             </div>
-            <div className="hardware-product-specs-item-content">
-              <img src="" alt="" />
-            </div>
-          </div>
+          ))}
         </div>
       )}
 
@@ -173,98 +219,134 @@ const HardwareProductDetail = () => {
       {currentKey === '3' && (
         <div className="hardware-product-download">
           <div className="hardware-product-download-nav">
-            <div
-              className="hardware-product-download-nav-item"
-              onClick={() => {}}
-            >
-              <div
-                className={classNames(
-                  'hardware-product-download-nav-item-title',
-                  {
-                    'gradient-text': currentNavKey === '1',
-                  },
-                )}
-              >
-                产品手册
-              </div>
-              <div className="hardware-product-download-nav-item-arrow">
-                <img src={arrowIcon} alt="" />
-              </div>
-            </div>
-            <div className="hardware-product-download-nav-item">
-              <div
-                className={classNames(
-                  'hardware-product-download-nav-item-title',
-                )}
-              >
-                产品彩页
-              </div>
-            </div>
+            {productFileList?.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="hardware-product-download-nav-item"
+                  onClick={() => {
+                    setCurrentNavKey(item);
+                    _getFileList({
+                      fileCategoryId: item.id,
+                      id: params.id,
+                      pageNum: 1,
+                      pageSize,
+                    });
+                  }}
+                >
+                  <div
+                    className={classNames(
+                      'hardware-product-download-nav-item-title',
+                      {
+                        'gradient-text': currentNavKey?.id === item.id,
+                      },
+                    )}
+                  >
+                    {item.name}
+                  </div>
+                  {currentNavKey?.id === item.id && (
+                    <div className="hardware-product-download-nav-item-arrow">
+                      <img src={arrowIcon} alt="" />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
           <div className="hardware-product-download-list">
-            <div className="hardware-product-download-list-item">
-              <div className="hardware-product-download-list-item-img" />
-              <div className="hardware-product-download-list-item-text">
-                <div className="hardware-product-download-list-item-text-title">
-                  <span>FCS101 一体化控制器模块</span>
-                </div>
-                <div className="hardware-product-download-list-item-text-footer">
-                  <div className="hardware-product-download-list-item-text-footer-left">
-                    <div>发现日期：</div>
-                    <div>版本号：</div>
-                    <div>资料编号：</div>
-                  </div>
-                  <div className="hardware-product-download-list-item-text-footer-right">
-                    <div
-                      onClick={() => {
-                        // 如果是pdf直接打开
-                        // if (item.fileName.endsWith('.pdf')) {
-                        //   // window.open(item.fileUrl)
-                        // } else {
-                        setImgVisible({
-                          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200',
-                          visible: true,
-                        });
-                        // }
-                      }}
-                    >
-                      预览
-                      <EyeOutlined />
+            {fileList?.rows?.map((item) => {
+              return (
+                <div
+                  className="hardware-product-download-list-item"
+                  key={item.id}
+                >
+                  <div className="hardware-product-download-list-item-img" />
+                  <div className="hardware-product-download-list-item-text">
+                    <div className="hardware-product-download-list-item-text-title">
+                      <span>{item.name}</span>
                     </div>
-                    <div
-                      onClick={() => {
-                        downloadFile(
-                          'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200',
-                          '下载.png',
-                        );
-                      }}
-                    >
-                      下载
-                      <DownloadOutlined />
-                    </div>
-                    <Popover
-                      content={
-                        <QRCode value="https://ant.design" bordered={false} />
-                      }
-                    >
-                      <div>
-                        二维码
-                        <span>
-                          <ReactSVG src={qrcodeIcon} />
-                        </span>
+                    <div className="hardware-product-download-list-item-text-footer">
+                      <div className="hardware-product-download-list-item-text-footer-left">
+                        <div>
+                          发行日期：
+                          {dayjs(item.createTime).format('YYYY.MM.DD')}
+                        </div>
+                        <div>版本号：{item.version}</div>
+                        <div>资料编号：{item.id}</div>
                       </div>
-                    </Popover>
+                      {item.url && (
+                        <div className="hardware-product-download-list-item-text-footer-right">
+                          {(isImage(item.url) ||
+                            item.url?.endsWith?.('.pdf')) && (
+                            <div
+                              onClick={() => {
+                                // 如果是pdf直接打开
+                                if (item.url.endsWith('.pdf')) {
+                                  window.open(item.url);
+                                } else {
+                                  setImgVisible({
+                                    url: item.url,
+                                    visible: true,
+                                  });
+                                }
+                              }}
+                            >
+                              预览
+                              <EyeOutlined />
+                            </div>
+                          )}
+                          <div
+                            onClick={() => {
+                              window.open(item.url);
+                            }}
+                          >
+                            下载
+                            <DownloadOutlined />
+                          </div>
+                          <Popover
+                            content={
+                              <QRCode value={item.url} bordered={false} />
+                            }
+                          >
+                            <div>
+                              二维码
+                              <span>
+                                <ReactSVG src={qrcodeIcon} />
+                              </span>
+                            </div>
+                          </Popover>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              );
+            })}
+            <div className="hardware-product-download-pagination">
+              <Pagination
+                hideOnSinglePage
+                defaultPageSize={6}
+                total={fileList?.total}
+                itemRender={itemRender}
+                align="center"
+                onChange={(page, pageSize) => {
+                  _getFileList({
+                    fileCategoryId: currentNavKey?.id,
+                    id: params.id,
+                    pageNum: page,
+                    pageSize,
+                  });
+                }}
+              />
             </div>
           </div>
+
           <Image
             style={{ display: 'none' }}
             src={imgVisible?.url}
             preview={{
               visible: imgVisible.visible,
-              src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+              src: imgVisible.url,
               onVisibleChange: (value) => {
                 setImgVisible({
                   ...imgVisible,

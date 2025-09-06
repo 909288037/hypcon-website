@@ -7,3 +7,10 @@ export async function getProductDetail(type: any, id: any) {
     method: 'GET',
   });
 }
+
+// 获取产品规格参数
+export async function getProductSpecification(id: any) {
+  return request<any>(`/api/product/specifications/${id}`, {
+    method: 'GET',
+  });
+}
