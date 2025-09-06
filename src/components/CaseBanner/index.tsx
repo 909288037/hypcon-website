@@ -46,7 +46,7 @@ const ImageSlider = ({ dataSource }) => {
         container.removeEventListener('wheel', handleWheelScroll);
       };
     }
-  }, []);
+  }, [dataSource]);
 
   useEffect(() => {
     if (dataSource?.length > 0) {

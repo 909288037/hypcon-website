@@ -97,59 +97,49 @@ const ProductDetail: React.FC = () => {
             {productDetail?.name}
           </div>
           <div className="fl-product-detail-banner-text-desc">
-            <div className="fl-product-detail-banner-text-desc-item">
-              数据采集
-            </div>
-            <div className="fl-product-detail-banner-text-desc-item">
+            <div
+              className="fl-product-detail-banner-text-desc-item"
+              dangerouslySetInnerHTML={{
+                __html: productDetail?.description,
+              }}
+            ></div>
+            {/* <div className="fl-product-detail-banner-text-desc-item">
               数据可视化
             </div>
             <div className="fl-product-detail-banner-text-desc-item">
               数据处理
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
       {/* 简介 */}
       <div className="fl-product-detail-introduction">
         <div className="fl-product-detail-introduction-title">
-          <div className="gradient-text">综合楼宇管理平台</div>
+          <div className="gradient-text">{productDetail?.intro?.title}</div>
         </div>
-        <div className="fl-product-detail-introduction-text"></div>
+        <div
+          className="fl-product-detail-introduction-text"
+          dangerouslySetInnerHTML={{
+            __html: productDetail?.intro?.detail,
+          }}
+        ></div>
         {/* 功能 */}
         <div className="fl-product-detail-function">
-          <div className="fl-product-detail-function-item">
-            <div className="fl-product-detail-function-item-icon">
-              <img src="" alt="" />
-            </div>
-            <div className="fl-product-detail-function-item-title">
-              智能研判
-            </div>
-            <div className="fl-product-detail-function-item-desc">
-              AI算法 精准决策
-            </div>
-          </div>
-          <div className="fl-product-detail-function-item">
-            <div className="fl-product-detail-function-item-icon">
-              <img src="" alt="" />
-            </div>
-            <div className="fl-product-detail-function-item-title">
-              智能研判
-            </div>
-            <div className="fl-product-detail-function-item-desc">
-              AI算法 精准决策
-            </div>
-          </div>
-          <div className="fl-product-detail-function-item">
-            <div className="fl-product-detail-function-item-icon">
-              <img src="" alt="" />
-            </div>
-            <div className="fl-product-detail-function-item-title">
-              智能研判
-            </div>
-            <div className="fl-product-detail-function-item-desc">
-              AI算法 精准决策
-            </div>
-          </div>
+          {productDetail?.traitList?.map((item, index) => {
+            return (
+              <div className="fl-product-detail-function-item" key={index}>
+                <div className="fl-product-detail-function-item-icon">
+                  <img src={item.image} alt="" />
+                </div>
+                <div className="fl-product-detail-function-item-title">
+                  {item.title}
+                </div>
+                <div className="fl-product-detail-function-item-desc">
+                  {item.second}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
       {/* 产品特色 */}
@@ -157,69 +147,25 @@ const ProductDetail: React.FC = () => {
         <div className="fl-product-detail-feature-title">产品特色</div>
         {/* 标题 */}
         <div className="fl-product-detail-feature-list-title ">
-          <div className="gradient-text">四大亮点引领行业创新</div>
+          <div className="gradient-text">{productDetail?.feature?.title}</div>
         </div>
         <div className="fl-product-detail-feature-list">
-          <div className="fl-product-detail-feature-item">
-            <div className="fl-product-detail-feature-item-img">
-              <img src="" alt="" />
-              <div className="fl-product-detail-feature-item-title">
-                全场景兼容，打破设备壁垒
+          {productDetail?.feature?.detail?.map((item, index) => (
+            <div className="fl-product-detail-feature-item" key={index}>
+              <div className="fl-product-detail-feature-item-img">
+                <img src={item.image} alt="" />
+                <div className="fl-product-detail-feature-item-title">
+                  {item.title}
+                </div>
               </div>
+              <div
+                className="fl-product-detail-feature-item-desc"
+                dangerouslySetInnerHTML={{
+                  __html: item.intro,
+                }}
+              ></div>
             </div>
-            <div className="fl-product-detail-feature-item-desc">
-              HypView
-              楼宇自动化监控软件采用协议转换技术和开放API设计，实现多协议支持，支持SECP、
-              BACnet、Modbus、KNX、MQTT、OPC UA、Web API
-              等主流工业与楼宇协议，能够将不同厂商、不同类型的设备整合在统一平台，消除“数据孤岛”。
-              通过构建统一的设备中台，管理者能够在单一界面实现对所有设备的统一监控和管理，大幅提升管理效率。
-            </div>
-          </div>
-          <div className="fl-product-detail-feature-item">
-            <div className="fl-product-detail-feature-item-img">
-              <img src="" alt="" />
-              <div className="fl-product-detail-feature-item-title">
-                内置AI算法，实现精准决策
-              </div>
-            </div>
-            <div className="fl-product-detail-feature-item-desc">
-              HypView
-              楼宇自动化监控软件采用协议转换技术和开放API设计，实现多协议支持，支持SECP、
-              BACnet、Modbus、KNX、MQTT、OPC UA、Web API
-              等主流工业与楼宇协议，能够将不同厂商、不同类型的设备整合在统一平台，消除“数据孤岛”。
-              通过构建统一的设备中台，管理者能够在单一界面实现对所有设备的统一监控和管理，大幅提升管理效率。
-            </div>
-          </div>
-          <div className="fl-product-detail-feature-item">
-            <div className="fl-product-detail-feature-item-img">
-              <img src="" alt="" />
-              <div className="fl-product-detail-feature-item-title">
-                内置AI算法，实现精准决策
-              </div>
-            </div>
-            <div className="fl-product-detail-feature-item-desc">
-              HypView
-              楼宇自动化监控软件采用协议转换技术和开放API设计，实现多协议支持，支持SECP、
-              BACnet、Modbus、KNX、MQTT、OPC UA、Web API
-              等主流工业与楼宇协议，能够将不同厂商、不同类型的设备整合在统一平台，消除“数据孤岛”。
-              通过构建统一的设备中台，管理者能够在单一界面实现对所有设备的统一监控和管理，大幅提升管理效率。
-            </div>
-          </div>
-          <div className="fl-product-detail-feature-item">
-            <div className="fl-product-detail-feature-item-img">
-              <img src="" alt="" />
-              <div className="fl-product-detail-feature-item-title">
-                内置AI算法，实现精准决策
-              </div>
-            </div>
-            <div className="fl-product-detail-feature-item-desc">
-              HypView
-              楼宇自动化监控软件采用协议转换技术和开放API设计，实现多协议支持，支持SECP、
-              BACnet、Modbus、KNX、MQTT、OPC UA、Web API
-              等主流工业与楼宇协议，能够将不同厂商、不同类型的设备整合在统一平台，消除“数据孤岛”。
-              通过构建统一的设备中台，管理者能够在单一界面实现对所有设备的统一监控和管理，大幅提升管理效率。
-            </div>
-          </div>
+          ))}
         </div>
       </div>
       {/* 核心功能 */}
@@ -227,7 +173,7 @@ const ProductDetail: React.FC = () => {
         <div className="fl-product-detail-core-title">核心功能</div>
         {/* 标题 */}
         <div className="fl-product-detail-core-title2">
-          <div className="gradient-text">全方位覆盖楼宇管理需求</div>
+          <div className="gradient-text">{productDetail?.function?.title}</div>
         </div>
         {/* 轮播图 */}
         <div className="fl-product-detail-core-banner" ref={bannerRef}>
@@ -264,7 +210,7 @@ const ProductDetail: React.FC = () => {
               );
             }}
           >
-            {list.map((item, index) => (
+            {productDetail?.function?.detail?.map((item, index) => (
               <SwiperSlide key={index}>
                 <div className="fl-product-detail-banner-box">
                   <div className="fl-product-detail-banner-left">
@@ -273,11 +219,11 @@ const ProductDetail: React.FC = () => {
                     </div>
                     <div
                       className="fl-product-detail-banner-desc"
-                      dangerouslySetInnerHTML={{ __html: item.desc }}
+                      dangerouslySetInnerHTML={{ __html: item.intro }}
                     ></div>
                   </div>
                   <div className="fl-product-detail-banner-right">
-                    <img src={item.url} alt="" />
+                    <img src={item.image} alt="" />
                   </div>
                 </div>
               </SwiperSlide>
@@ -297,7 +243,7 @@ const ProductDetail: React.FC = () => {
           <div className="fl-product-detail-advantage-title">应用价值</div>
           {/* 标题 */}
           <div className="fl-product-detail-advantage-title2">
-            <div className="gradient-text">为楼宇管理创造多重效益</div>
+            <div className="gradient-text">{productDetail?.value?.title}</div>
           </div>
           <div className="fl-product-detail-advantage-banner">
             <Swiper
@@ -312,25 +258,25 @@ const ProductDetail: React.FC = () => {
               spaceBetween={150}
               slidesPerView={3}
             >
-              {advantageList.map((item, index) => {
+              {productDetail?.value?.detail.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
                     <div className="fl-product-detail-advantage-banner-item">
                       {/* 图标 */}
                       <div className="fl-product-detail-advantage-banner-item-icon">
-                        <img src={''} alt="" />
+                        <img src={item.image} alt="" />
                       </div>
                       <div className="fl-product-detail-advantage-banner-item-title">
-                        降低运营成本​
+                        {item.item}
                       </div>
                       <div className="fl-product-detail-advantage-banner-item-desc">
                         ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
-                        <div className="fl-product-detail-advantage-banner-item-desc-item">
-                          在部署方面，HypView采用B/S架构并取得了信创适配认证，支持多类型终端部署，可以节省软件部署和维护费。
-                        </div>
-                        <div className="fl-product-detail-advantage-banner-item-desc-item">
-                          在管理方面，采用设备原型化管理的方式，能够减少人工配置时间，降低管理成本。
-                        </div>
+                        <div
+                          className="fl-product-detail-advantage-banner-item-desc-item"
+                          dangerouslySetInnerHTML={{
+                            __html: item.intro,
+                          }}
+                        ></div>
                       </div>
                     </div>
                   </SwiperSlide>
