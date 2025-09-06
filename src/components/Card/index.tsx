@@ -162,7 +162,9 @@ const Card: React.FC<CardProps> = ({
         className="card-download"
         onClick={() => {
           if (dataSource.detailType === '0') {
-            history.push(`/download/?search=${dataSource.name}`);
+            history.push(
+              `/download/?search=${dataSource.name}&fileCategoryId=${dataSource.categoryId}&id=${dataSource.id}`,
+            );
             return;
           }
           // 跳转软件详情

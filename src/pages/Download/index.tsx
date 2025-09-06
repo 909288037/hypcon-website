@@ -37,6 +37,9 @@ import './index.less';
 const Download = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchValParams = searchParams.get('search');
+  const fileCategoryIdParams = searchParams.get('fileCategoryId');
+  const idParams = searchParams.get('id');
+
   const [list, setList] = useState([]);
   // 选择类别
   const [selectType, setSelectType] = useState({
@@ -62,12 +65,6 @@ const Download = () => {
   const typeRef = useRef(null);
   const productRef = useRef(null);
   const isSearch = useRef(false);
-
-  useEffect(() => {
-    if (searchValParams) {
-      setSearchVal(searchValParams);
-    }
-  }, [searchValParams]);
 
   // 获取类别列表
   const { data: categoryList } = useRequest(() => {
@@ -134,6 +131,7 @@ const Download = () => {
     }
   }, [productFileList]);
   useEffect(() => {
+    if (!selectType.id) return;
     if (selectProduct.id) {
       _getFileList({
         fileCategoryId: currentNavKey?.id,
@@ -144,7 +142,19 @@ const Download = () => {
 
     return () => {};
   }, [currentNavKey?.id, selectProduct.id]);
-
+  useEffect(() => {
+    if (idParams) {
+      setSelectProduct({
+        id: idParams,
+        name: searchValParams,
+      });
+      _getFileList({
+        fileCategoryId: fileCategoryIdParams,
+        id: idParams,
+        pageSize: 6,
+      });
+    }
+  }, [idParams]);
   useClickAway(() => {
     setShowType(false);
   }, typeRef);

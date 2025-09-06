@@ -395,7 +395,12 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
             alt=""
           />
         </div>
-        <div className="fl-header-right-search">
+        <div
+          className="fl-header-right-search"
+          onClick={() => {
+            history.push('/search');
+          }}
+        >
           <ReactSVG className="search-icon" src={searchIcon}></ReactSVG>
         </div>
         <div className="fl-header-right-locale">

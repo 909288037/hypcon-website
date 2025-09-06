@@ -9,7 +9,9 @@ import {
   legacyLogicalPropertiesTransformer,
   StyleProvider,
 } from '@ant-design/cssinjs';
+import { useScroll } from 'ahooks';
 import 'normalize.css/normalize.css';
+import { useEffect, useState } from 'react';
 import './index.less';
 
 const baseSize = 192; //设计稿宽度%10 比如 1920
@@ -22,6 +24,16 @@ function scrollToTop() {
 }
 
 export default function Layout() {
+  const scroll = useScroll(document);
+  const [showTop, setShowTop] = useState(false);
+  useEffect(() => {
+    if (scroll?.top >= 200) {
+      setShowTop(true);
+    } else {
+      setShowTop(false);
+    }
+  }, [scroll]);
+
   return (
     <StyleProvider
       hashPriority="high"
@@ -42,7 +54,7 @@ export default function Layout() {
         {/* <AppStore /> */}
         <Outlet />
         {/* 悬浮按钮 */}
-        <div className="fl-float-btn">
+        <div className="fl-float-btn" hidden={!showTop}>
           <div className="fl-float-btn-phone">
             <img src={phoneImg} alt="" />
           </div>
