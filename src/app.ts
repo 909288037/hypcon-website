@@ -52,3 +52,15 @@ export function render(oldRender: any) {
 //     },
 //   };
 // };
+
+export function onRouteChange({
+  location,
+  clientRoutes,
+  routes,
+  action,
+  basename,
+  isFirst,
+}) {
+  // 页面回到顶部
+  window.scrollTo(0, 0);
+}

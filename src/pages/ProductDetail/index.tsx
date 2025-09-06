@@ -21,7 +21,9 @@ const ProductDetail: React.FC = () => {
   const params = useParams();
   console.log('🚀 ~ ProductDetail ~ params:', params);
   // 获取产品详情
-  const { data: productDetail, run } = useRequest(getProductDetail);
+  const { data: productDetail, run } = useRequest(getProductDetail, {
+    manual: true,
+  });
   useEffect(() => {
     run(params.type, params.id);
   }, [params.id]);

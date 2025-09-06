@@ -180,6 +180,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
               onMouseOver={() => {
                 if (currentIndex !== index) {
                   setCascaderData([]);
+                  setImagesSwiperArr([]);
                 }
                 setCurrentIndex(index);
               }}

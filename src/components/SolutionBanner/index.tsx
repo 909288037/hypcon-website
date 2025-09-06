@@ -1,5 +1,4 @@
 import { useImageTransition } from '@/hooks/useImageTransition';
-import { history } from '@umijs/max';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import bgImg from './images/background.png';
@@ -11,8 +10,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 
-import { preloadImage } from '@/utils';
+import { goPage, preloadImage } from '@/utils';
 import { CaretRightOutlined, PauseOutlined } from '@ant-design/icons';
+import { history } from '@umijs/max';
 import { Progress } from 'antd';
 import classNames from 'classnames';
 import {
@@ -90,32 +90,32 @@ const SolutionBanner = ({ dataSource }) => {
     duration: 500, // 动画时长
     switchThreshold: 0.9, // 距离时切换图片
   });
-  const goPage = (item: any) => {
-    // 跳转产品列表
-    if (item.products?.length > 0) {
-      if (item.products.image) {
-        // 有分类图
-        history.push(`/product`);
-      } else {
-        // 无分类图
-        history.push(`/product-list`);
-      }
-      return;
-    }
+  // const goPage = (item: any) => {
+  //   // 跳转产品列表
+  //   if (item.products?.length > 0) {
+  //     if (item.products.image) {
+  //       // 有分类图
+  //       history.push(`/product`);
+  //     } else {
+  //       // 无分类图
+  //       history.push(`/product-list`);
+  //     }
+  //     return;
+  //   }
 
-    // 外链
-    if (item.detailType === '2') {
-      window.open(item.link);
-      return;
-    }
-    // 跳转软件详情
-    if (item.type === '0') {
-      history.push(`/product/${item.id}`);
-    } else if (item.type === '1') {
-      // 跳转硬件详情
-      history.push(`/product-hardware/${item.id}`);
-    }
-  };
+  //   // 外链
+  //   if (item.detailType === '2') {
+  //     window.open(item.link);
+  //     return;
+  //   }
+  //   // 跳转软件详情
+  //   if (item.type === '0') {
+  //     history.push(`/product/${item.id}`);
+  //   } else if (item.type === '1') {
+  //     // 跳转硬件详情
+  //     history.push(`/product-hardware/${item.id}`);
+  //   }
+  // };
   const getImageDimensions = (
     url: string,
   ): Promise<{ width: number; height: number }> => {
@@ -297,7 +297,12 @@ const SolutionBanner = ({ dataSource }) => {
                   </div>
                 )}
 
-                <div className="custom-primary-btn" onClick={() => {}}>
+                <div
+                  className="custom-primary-btn"
+                  onClick={() => {
+                    history.push(`/solution/${item.id}`);
+                  }}
+                >
                   <div className="custom-btn-text">了解更多</div>
                   <div className="custom-btn-arrow"></div>
                 </div>

@@ -8,6 +8,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 
+import { goPage } from '@/utils';
 import {
   Autoplay,
   EffectFade,
@@ -18,29 +19,28 @@ import {
   Thumbs,
 } from 'swiper/modules';
 import './index.less';
-import { history } from '@umijs/max';
 
-const ProductBanner = ({dataSource}) => {
-  console.log("🚀 ~ ProductBanner ~ dataSource:", dataSource)
+const ProductBanner = ({ dataSource }) => {
+  console.log('🚀 ~ ProductBanner ~ dataSource:', dataSource);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const productBannerRef = useRef(null);
-// 跳转页面
-  const goPage = (item: any) => {
-    console.log('🚀 ~ goPage ~ item:', item);
-    // 外链
-    if (item.detailType === '2') {
-      window.open(item.link);
-      return;
-    }
-    // 跳转软件详情
-    if (item.type === '0') {
-      history.push(`/product/${item.id}`);
-    } else if (item.type === '1') {
-      // 跳转硬件详情
-      history.push(`/product-hardware/${item.id}`);
-    }
-  };
+  // 跳转页面
+  // const goPage = (item: any) => {
+  //   console.log('🚀 ~ goPage ~ item:', item);
+  //   // 外链
+  //   if (item.detailType === '2') {
+  //     window.open(item.link);
+  //     return;
+  //   }
+  //   // 跳转软件详情
+  //   if (item.type === '0') {
+  //     history.push(`/product/${item.id}`);
+  //   } else if (item.type === '1') {
+  //     // 跳转硬件详情
+  //     history.push(`/product-hardware/${item.id}`);
+  //   }
+  // };
   return (
     <div ref={productBannerRef} className="fl-product-banner">
       <Swiper
@@ -87,7 +87,7 @@ const ProductBanner = ({dataSource}) => {
                 <div
                   className="fl-product-banner-link"
                   onClick={() => {
-                   goPage(item)
+                    goPage(item);
                   }}
                 >
                   <div className="fl-product-banner-link-text">了解更多</div>

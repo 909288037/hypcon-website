@@ -88,10 +88,10 @@ export const goPage = (item: any) => {
     // 跳转软件详情
     if (item.type === '0') {
       
-      history.push(`/product/${item.type}/${item.id}`);
+      history.push(`/product/${item.type}/${item.relationId || item.id}`);
     } else if (item.type === '1') {
       // 跳转硬件详情
-      history.push(`/product-hardware/${item.type}/${item.id}`);
+      history.push(`/product-hardware/${item.type}/${item.relationId || item.id}`);
     }
 
     // 跳转产品列表
