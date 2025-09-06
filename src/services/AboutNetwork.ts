@@ -7,3 +7,17 @@ export async function getAbout() {
     method: 'GET',
   });
 }
+
+// 联系我们
+export async function getContact() {
+  return request('/api/about/concat', {
+    method: 'GET',
+  });
+}
+
+// 加入我们
+export async function getJoinUs() {
+  return request('/api/about/join', {
+    method: 'GET',
+  });
+}

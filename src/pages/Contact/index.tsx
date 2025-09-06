@@ -1,17 +1,21 @@
 import Header from '@/components/Header';
-import addressImg from './images/address-img.png';
 import address from './images/address.png';
-import bannerImg from './images/banner.png';
 
+import { getContact } from '@/services/AboutNetwork';
 import { QrcodeOutlined } from '@ant-design/icons';
+import { useRequest } from '@umijs/max';
 import './index.less';
 const Contact = () => {
+  // 获取联系我们接口
+  const { data, error, loading } = useRequest(() => {
+    return getContact();
+  });
   return (
     <div className="fl-contact">
       <Header className="fl-contact-header" />
       <div className="fl-contact-banner">
-        <img src={bannerImg} alt="" />
-        <div className="fl-contact-banner-title">联系我们</div>
+        <img src={data?.image} alt="" />
+        <div className="fl-contact-banner-title">{data?.title}</div>
       </div>
       <div className="fl-contact-content">
         <div className="fl-contact-content-left">
@@ -27,7 +31,7 @@ const Contact = () => {
                 公司地址
               </div>
               <div className="fl-contact-content-left-item-text-content">
-                杭州市滨江区长河街道滨康路352号 中控信息大厦A幢(310052)
+                {data?.second}
               </div>
             </div>
           </div>
@@ -40,7 +44,7 @@ const Contact = () => {
                 联系电话
               </div>
               <div className="fl-contact-content-left-item-text-content">
-                0571-86667828
+                {data?.third}
               </div>
             </div>
           </div>
@@ -53,58 +57,37 @@ const Contact = () => {
                 电子邮箱
               </div>
               <div className="fl-contact-content-left-item-text-content">
-                hypcon@supconit.com
+                {data?.fourth}
               </div>
             </div>
           </div>
           {/* 联系方式 */}
           <div className="fl-contact-content-left-contact">
-            <div className="fl-contact-content-left-contact-item">
-              <div className="fl-contact-content-left-contact-item-title">
-                <span className="title">华动区域</span>{' '}
-                <span className="subTitle">销售二维码</span>
-              </div>
-              <div className="fl-contact-content-left-contact-item-icon">
-                <div className="qrcode-icon">
-                  <QrcodeOutlined />
+            {data?.detail?.map((item, index) => {
+              return (
+                <div
+                  className="fl-contact-content-left-contact-item"
+                  key={index}
+                >
+                  <div className="fl-contact-content-left-contact-item-title">
+                    <span className="title">{item.title}</span>{' '}
+                    <span className="subTitle">销售二维码</span>
+                  </div>
+                  <div className="fl-contact-content-left-contact-item-icon">
+                    <div className="qrcode-icon">
+                      <QrcodeOutlined />
+                    </div>
+                    <div className="qrcode-img">
+                      <img src={item.image} />
+                    </div>
+                  </div>
                 </div>
-                <div className="qrcode-img">
-                  <img src={''} />
-                </div>
-              </div>
-            </div>
-            <div className="fl-contact-content-left-contact-item">
-              <div className="fl-contact-content-left-contact-item-title">
-                <span className="title">华动区域</span>{' '}
-                <span className="subTitle">销售二维码</span>
-              </div>
-              <div className="fl-contact-content-left-contact-item-icon">
-                <div className="qrcode-icon">
-                  <QrcodeOutlined />
-                </div>
-                <div className="qrcode-img">
-                  <img src={''} />
-                </div>
-              </div>
-            </div>
-            <div className="fl-contact-content-left-contact-item">
-              <div className="fl-contact-content-left-contact-item-title">
-                <span className="title">华动区域</span>{' '}
-                <span className="subTitle">销售二维码</span>
-              </div>
-              <div className="fl-contact-content-left-contact-item-icon">
-                <div className="qrcode-img">
-                  <img src={''} />
-                </div>
-                <div className="qrcode-icon">
-                  <QrcodeOutlined />
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
         <div className="fl-contact-content-right">
-          <img src={addressImg} alt="" />
+          <img src={data?.fifth} alt="" />
         </div>
       </div>
     </div>
