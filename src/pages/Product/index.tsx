@@ -54,7 +54,7 @@ const Product = () => {
             <div className="gradient-text">{data?.name}</div>
           </div>
           <div
-            className="fl-product-content-left-desc"
+            className="fl-product-content-left-desc ql-editor"
             dangerouslySetInnerHTML={{
               __html: data?.description,
             }}

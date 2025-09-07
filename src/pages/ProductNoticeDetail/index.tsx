@@ -22,7 +22,7 @@ const ProductNoticeDetail = () => {
         <div className="gradient-text">{detail?.noticeTitle}</div>
       </div>
       <div
-        className="product-notice-detail-content"
+        className="product-notice-detail-content ql-editor"
         dangerouslySetInnerHTML={{
           __html: detail?.noticeContent,
         }}

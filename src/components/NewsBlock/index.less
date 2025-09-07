@@ -43,6 +43,7 @@
       img {
         width: 100%;
         height: 100%;
+        transition: all 0.3s;
       }
       &-title {
         position: absolute;
@@ -58,6 +59,13 @@
         color: #ffffff;
         line-height: 25px;
         margin-top: 20px;
+      }
+
+      &:hover {
+        cursor: pointer;
+        img {
+          transform: scale(1.1);
+        }
       }
     }
     .news-block-list {

@@ -36,7 +36,7 @@ function setRem() {
   if(window.devicePixelRatio !== 1) {
     const c = document.querySelector('body')
     // c.style.zoom = 1 / window.devicePixelRatio
-    document.documentElement.style.fontSize = 192 * Math.min(scale, 2) * window.devicePixelRatio + 'px'
+    // document.documentElement.style.fontSize = 192 * Math.min(scale, 2) * window.devicePixelRatio + 'px'
   }
 }
 

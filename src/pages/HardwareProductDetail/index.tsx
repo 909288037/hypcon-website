@@ -10,7 +10,7 @@ import {
   getProductDetail,
   getProductSpecification,
 } from '@/services/ProductController';
-import { isImage } from '@/utils';
+import { downloadFile, isImage } from '@/utils';
 import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { useParams, useRequest, useSearchParams } from '@umijs/max';
 import {
@@ -126,7 +126,7 @@ const HardwareProductDetail = () => {
           </div>
         )}
         <div
-          className="hardware-product-detail-text"
+          className="hardware-product-detail-text ql-editor"
           dangerouslySetInnerHTML={{
             __html: data?.description,
           }}
@@ -200,7 +200,7 @@ const HardwareProductDetail = () => {
                       <div>8*UI</div>
                     </div> */}
                     <div
-                      className="hardware-product-recommend-item-text"
+                      className="hardware-product-recommend-item-text ql-editor"
                       dangerouslySetInnerHTML={{
                         __html: item.detail,
                       }}
@@ -311,7 +311,10 @@ const HardwareProductDetail = () => {
                           )}
                           <div
                             onClick={() => {
-                              window.open(item.url);
+                              downloadFile(
+                                item.url,
+                                `${item.name}.${item.url.split('.').pop()}`,
+                              );
                             }}
                           >
                             下载

@@ -82,6 +82,11 @@ const FAQ = () => {
                 className={classNames('fl-faq-content-list-item', {
                   'show-content': activeKey.includes(index),
                 })}
+                onClick={() => {
+                  activeKey.includes(index)
+                    ? setActiveKey(activeKey.filter((key) => key !== index))
+                    : setActiveKey([...activeKey, index]);
+                }}
               >
                 <div className="fl-faq-content-list-item-title">
                   <div
@@ -93,20 +98,13 @@ const FAQ = () => {
                   </div>
                 </div>
                 <div
-                  className=" fl-faq-content-list-item-content"
+                  className=" fl-faq-content-list-item-content ql-editor"
                   dangerouslySetInnerHTML={{
                     __html: item.noticeContent,
                   }}
                 ></div>
                 {/* 展开按钮 */}
-                <div
-                  className={'fl-faq-content-list-item-btn'}
-                  onClick={() => {
-                    activeKey.includes(index)
-                      ? setActiveKey(activeKey.filter((key) => key !== index))
-                      : setActiveKey([...activeKey, index]);
-                  }}
-                >
+                <div className={'fl-faq-content-list-item-btn'}>
                   {isShow ? '收起查看' : '展开查看'}
                   <div className={'fl-faq-btn-icon'}>
                     {isShow ? <MinusOutlined /> : <PlusOutlined />}

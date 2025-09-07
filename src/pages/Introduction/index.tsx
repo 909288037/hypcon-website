@@ -84,7 +84,7 @@ const Introduction = () => {
                     <img src={item.imageMobile} alt="" />
                   </div>
                   <div
-                    className="fl-introduction-zhi-card-item-content-text"
+                    className="fl-introduction-zhi-card-item-content-text ql-editor"
                     dangerouslySetInnerHTML={{
                       __html: item.intro,
                     }}

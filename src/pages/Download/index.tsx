@@ -12,7 +12,7 @@ import {
   getProductList,
 } from '@/services/DownloadController';
 import { getSearchList } from '@/services/HomeController';
-import { isImage } from '@/utils';
+import { downloadFile, isImage } from '@/utils';
 import {
   CaretDownOutlined,
   DownloadOutlined,
@@ -447,11 +447,11 @@ const Download = () => {
                           )}
                           <div
                             onClick={() => {
-                              window.open(item.url);
-                              // downloadFile(
-                              //   item.url,
-                              //   `${item.name}.${item.url.split('.').pop()}`,
-                              // );
+                              // window.open(item.url);
+                              downloadFile(
+                                item.url,
+                                `${item.name}.${item.url.split('.').pop()}`,
+                              );
                             }}
                           >
                             下载

@@ -2,6 +2,7 @@ import arrowRight from '@/assets/images/right-arrow-primary.png';
 import rightArrowImg from '@/assets/images/right-arrow.png';
 import Header from '@/components/Header';
 import { getImportantList, getNewsList } from '@/services/NewsController';
+import { extractPlainTextFromHTML } from '@/utils';
 import { CaretDownOutlined, SearchOutlined } from '@ant-design/icons';
 import { history, useRequest } from '@umijs/max';
 import { Input, Pagination, PaginationProps, Select, Typography } from 'antd';
@@ -88,6 +89,10 @@ const News = () => {
                   className="fl-news-content-key-list-item"
                   key={index}
                   onClick={() => {
+                    if (item.link) {
+                      window.open(item.link);
+                      return;
+                    }
                     history.push(`/product-notice/${item.id}`);
                   }}
                 >
@@ -98,12 +103,9 @@ const News = () => {
                     <img src={item.image} alt="" />
                   </div>
                   <Paragraph ellipsis={{ rows: 2 }}>
-                    <div
-                      className="fl-news-content-key-list-item-text"
-                      dangerouslySetInnerHTML={{
-                        __html: item.noticeContent,
-                      }}
-                    ></div>
+                    <div className="fl-news-content-key-list-item-text ">
+                      {extractPlainTextFromHTML(item.noticeContent)}
+                    </div>
                   </Paragraph>
 
                   <div className="fl-news-content-key-list-item-footer">
@@ -210,12 +212,12 @@ const News = () => {
                       <div className="solution-list-item-title">
                         {item.noticeTitle}
                       </div>
-                      <div
-                        className="solution-list-item-text"
-                        dangerouslySetInnerHTML={{
-                          __html: item.noticeContent,
-                        }}
-                      ></div>
+                      <Paragraph ellipsis={{ rows: 2 }}>
+                        <div className="solution-list-item-text">
+                          {extractPlainTextFromHTML(item.noticeContent)}
+                        </div>
+                      </Paragraph>
+
                       <div className="solution-list-item-date">
                         {dayjs(item.createTime).format('YYYY.MM.DD')}
                       </div>

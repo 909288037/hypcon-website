@@ -39,6 +39,25 @@ const datakey = {
 };
 
 const SolutionBanner = ({ dataSource }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [slideSwiper, setSlideSwiper] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [isStop, setIsStop] = useState(false);
+  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+  const [endPos, setEndPos] = useState({ x: 0, y: 0 });
+  const [startImageUrl, setStartImageUrl] = useState('');
+  const [endImageUrl, setEndImageUrl] = useState('');
+  const [curImg, setCurImg] = useState('');
+  const [endImgInfo, setEndImgInfo] = useState('');
+  const productBannerRef = useRef(null);
+  const containerRef = useRef(null);
+  const imgInfo = useRef({
+    w: 0,
+    h: 0,
+  });
+  const curImgInfo = imgConfig[curImg];
+
   const listMemo = useMemo(() => {
     let data = [];
     dataSource?.forEach((item) => {
@@ -47,6 +66,9 @@ const SolutionBanner = ({ dataSource }) => {
         ...item,
       });
     });
+
+    setCurImg(data?.[0]?._key);
+
     return data;
   }, [dataSource]);
 
@@ -57,25 +79,6 @@ const SolutionBanner = ({ dataSource }) => {
     });
     return data;
   }, [listMemo]);
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [slideSwiper, setSlideSwiper] = useState(null);
-  const [progress, setProgress] = useState(0);
-  const [isStop, setIsStop] = useState(false);
-  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-  const [endPos, setEndPos] = useState({ x: 0, y: 0 });
-  const [startImageUrl, setStartImageUrl] = useState('');
-  const [endImageUrl, setEndImageUrl] = useState('');
-  const [curImg, setCurImg] = useState('zhsn');
-  const [endImgInfo, setEndImgInfo] = useState('');
-  const productBannerRef = useRef(null);
-  const containerRef = useRef(null);
-  const imgInfo = useRef({
-    w: 0,
-    h: 0,
-  });
-  const curImgInfo = imgConfig[curImg];
 
   // 存储连接线坐标
   const [connectorPoints, setConnectorPoints] = useState({
@@ -99,24 +102,6 @@ const SolutionBanner = ({ dataSource }) => {
     duration: 500,
     switchThreshold: 0.9,
   });
-
-  const getImageDimensions = (
-    url: string,
-  ): Promise<{ width: number; height: number }> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => {
-        resolve({
-          width: img.naturalWidth,
-          height: img.naturalHeight,
-        });
-      };
-      img.onerror = () => {
-        reject(new Error(`Failed to load image: ${url}`));
-      };
-      img.src = url;
-    });
-  };
 
   // 计算连接线坐标
   const calculateConnectorPoints = (index) => {
@@ -186,29 +171,49 @@ const SolutionBanner = ({ dataSource }) => {
       );
     });
 
-    getImageDimensions(bgImg).then(({ width, height }) => {
-      const clientWidth = document.body.clientWidth;
-      let scale = clientWidth / width;
-      imgInfo.current = { w: clientWidth, h: scale * height };
-
-      const initialImgKey = Object.keys(imgConfig)[0];
-      const initialImgInfo = imgConfig[initialImgKey];
-
-      setStartPos({
-        x: imgInfo.current.w * (initialImgInfo.imgPosition.x / 100),
-        y: imgInfo.current.h * (initialImgInfo.imgPosition.y / 100),
-      });
-
-      setStartImageUrl(initialImgInfo.url);
-      setEndImageUrl(initialImgInfo.url);
-      setEndPos({
-        x: imgInfo.current.w * (initialImgInfo.imgPosition.x / 100),
-        y: imgInfo.current.h * (initialImgInfo.imgPosition.y / 100),
-      });
-    });
-
     return () => {};
   }, []);
+  const getImageDimensions = (
+    url: string,
+  ): Promise<{ width: number; height: number }> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve({
+          width: img.naturalWidth,
+          height: img.naturalHeight,
+        });
+      };
+      img.onerror = () => {
+        reject(new Error(`Failed to load image: ${url}`));
+      };
+      img.src = url;
+    });
+  };
+  useEffect(() => {
+    if (curImg) {
+      getImageDimensions(bgImg).then(({ width, height }) => {
+        const clientWidth = document.body.clientWidth;
+        let scale = clientWidth / width;
+        imgInfo.current = { w: clientWidth, h: scale * height };
+
+        const initialImgKey = curImg;
+        const initialImgInfo = imgConfig[initialImgKey];
+
+        setStartPos({
+          x: imgInfo.current.w * (initialImgInfo.imgPosition.x / 100),
+          y: imgInfo.current.h * (initialImgInfo.imgPosition.y / 100),
+        });
+
+        setStartImageUrl(initialImgInfo.url);
+        setEndImageUrl(initialImgInfo.url);
+        setEndPos({
+          x: imgInfo.current.w * (initialImgInfo.imgPosition.x / 100),
+          y: imgInfo.current.h * (initialImgInfo.imgPosition.y / 100),
+        });
+      });
+    }
+  }, [curImg]);
 
   useEffect(() => {
     if (endImgInfo) {
@@ -221,13 +226,13 @@ const SolutionBanner = ({ dataSource }) => {
     if (!isAnimating && endPos.x !== 0 && endPos.y !== 0) {
       setStartPos(endPos);
       setStartImageUrl(endImageUrl);
-      setCurImg(Object.keys(imgConfig)[currentIndex]);
+      setCurImg(listMemo?.[currentIndex]?._key);
     }
     return () => {};
   }, [isAnimating, endPos, endImageUrl]);
 
   useEffect(() => {
-    const key = Object.keys(imgConfig)[currentIndex];
+    const key = listMemo?.[currentIndex]?._key;
     handleContainerClick(key);
     return () => {};
   }, [currentIndex]);
@@ -268,7 +273,7 @@ const SolutionBanner = ({ dataSource }) => {
     if (title.x === 0 && title.y === 0) return '';
 
     // 计算水平线段的终点（从标题向右延伸100px）
-    const horizontalEndX = title.x + 100;
+    const horizontalEndX = title.x + 200;
     const horizontalEndY = title.y;
 
     // 生成路径：标题 -> 水平100px -> 热点圆点
@@ -339,6 +344,9 @@ const SolutionBanner = ({ dataSource }) => {
                   data-index={index}
                 >
                   {item.secondTitle}
+                  <div className="fl-solution-banner-title-icon">
+                    <img src={item.icon} alt="" />
+                  </div>
                 </div>
                 <div className="fl-solution-banner-desc">{item.intro}</div>
                 {item?.productList && (

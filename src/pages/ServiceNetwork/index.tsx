@@ -29,7 +29,7 @@ const ServiceNetwork = () => {
       </div>
       <div className="fl-service-network-map">
         <div
-          className="fl-service-network-map-desc"
+          className="fl-service-network-map-desc ql-editor"
           dangerouslySetInnerHTML={{
             __html: serviceNetworkData?.detail,
           }}

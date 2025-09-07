@@ -184,7 +184,7 @@ const Card: React.FC<CardProps> = ({
         <div className="card-download-body">
           <div className="card-download-body-title">{dataSource?.name}</div>
           <div
-            className="card-download-body-desc"
+            className="card-download-body-desc ql-editor"
             dangerouslySetInnerHTML={{
               __html: dataSource?.description,
             }}
@@ -217,7 +217,7 @@ const Card: React.FC<CardProps> = ({
             : dataSource?.name}
         </div>
         <div
-          className="card-body-desc"
+          className="card-body-desc ql-editor"
           dangerouslySetInnerHTML={{
             __html: matchOption
               ? highlightKeywords(dataSource?.description, matchOption?.keyword)

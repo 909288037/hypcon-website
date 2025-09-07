@@ -11,9 +11,9 @@ import {
 } from '@ant-design/cssinjs';
 import { useScroll } from 'ahooks';
 import 'normalize.css/normalize.css';
+import 'quill/dist/quill.core.css';
 import { useEffect, useState } from 'react';
 import './index.less';
-
 const baseSize = 192; //设计稿宽度%10 比如 1920
 function scrollToTop() {
   // 使用现代浏览器的平滑滚动API

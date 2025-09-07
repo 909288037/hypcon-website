@@ -14,7 +14,7 @@ import {
   getSearchProductList,
   getSearchSolutionList,
 } from '@/services/HomeController';
-import { isImage } from '@/utils';
+import { downloadFile, isImage } from '@/utils';
 import {
   DownloadOutlined,
   EyeOutlined,
@@ -357,7 +357,7 @@ const Search = () => {
                         {highlightKeywords(item.noticeTitle, searchVal)}
                       </div>
                       <div
-                        className="fl-search-news-list-item-text"
+                        className="fl-search-news-list-item-text ql-editor"
                         dangerouslySetInnerHTML={{
                           __html: highlightKeywords(
                             item.noticeContent,
@@ -478,11 +478,11 @@ const Search = () => {
                               )}
                               <div
                                 onClick={() => {
-                                  window.open(item.url);
-                                  // downloadFile(
-                                  //   item.url,
-                                  //   `${item.name}.${item.url.split('.').pop()}`,
-                                  // );
+                                  // window.open(item.url);
+                                  downloadFile(
+                                    item.url,
+                                    `${item.name}.${item.url.split('.').pop()}`,
+                                  );
                                 }}
                               >
                                 下载

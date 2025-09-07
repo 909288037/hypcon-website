@@ -112,3 +112,18 @@ export const goPage = (item: any) => {
 
 
   
+/**
+ * 从 HTML 字符串中提取纯文本
+ * @param html - HTML 字符串
+ * @returns 纯文本
+ */
+export function extractPlainTextFromHTML(html: string): string {
+  if (!html || typeof html !== 'string') return '';
+
+  // 创建 DOMParser 实例
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  // 提取 body 的文本内容（自动去除标签）
+  return doc.body.textContent || doc.body.innerText || '';
+}

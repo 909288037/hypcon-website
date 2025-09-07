@@ -44,7 +44,7 @@ const ProductDetail: React.FC = () => {
           </div>
           <div className="fl-product-detail-banner-text-desc">
             <div
-              className="fl-product-detail-banner-text-desc-item"
+              className="fl-product-detail-banner-text-desc-item ql-editor"
               dangerouslySetInnerHTML={{
                 __html: productDetail?.description,
               }}
@@ -64,7 +64,7 @@ const ProductDetail: React.FC = () => {
           <div className="gradient-text">{productDetail?.intro?.title}</div>
         </div>
         <div
-          className="fl-product-detail-introduction-text"
+          className="fl-product-detail-introduction-text ql-editor"
           dangerouslySetInnerHTML={{
             __html: productDetail?.intro?.detail,
           }}
@@ -105,7 +105,7 @@ const ProductDetail: React.FC = () => {
                 </div>
               </div>
               <div
-                className="fl-product-detail-feature-item-desc"
+                className="fl-product-detail-feature-item-desc ql-editor"
                 dangerouslySetInnerHTML={{
                   __html: item.intro,
                 }}
@@ -164,7 +164,7 @@ const ProductDetail: React.FC = () => {
                       {item.title}
                     </div>
                     <div
-                      className="fl-product-detail-banner-desc"
+                      className="fl-product-detail-banner-desc ql-editor"
                       dangerouslySetInnerHTML={{ __html: item.intro }}
                     ></div>
                   </div>
@@ -222,7 +222,7 @@ const ProductDetail: React.FC = () => {
                       <div className="fl-product-detail-advantage-banner-item-desc">
                         ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
                         <div
-                          className="fl-product-detail-advantage-banner-item-desc-item"
+                          className="fl-product-detail-advantage-banner-item-desc-item ql-editor"
                           dangerouslySetInnerHTML={{
                             __html: item.intro,
                           }}
