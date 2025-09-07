@@ -31,9 +31,9 @@ export default defineConfig({
       // pathRewrite: { '^/proxy': '' },
     }, 
   },
-  // hash: true,
-  //  history: {
-  //   type: 'hash'
-  // },
+  hash: true,
+   history: {
+    type: 'hash'
+  },
 });
 

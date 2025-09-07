@@ -32,6 +32,12 @@ function setRem() {
   const scale = document.body.clientWidth / 1920
   // 给根元素设置font-size
   document.documentElement.style.fontSize = 192 * Math.min(scale, 2) + 'px'
+
+  if(window.devicePixelRatio !== 1) {
+    const c = document.querySelector('body')
+    // c.style.zoom = 1 / window.devicePixelRatio
+    document.documentElement.style.fontSize = 192 * Math.min(scale, 2) * window.devicePixelRatio + 'px'
+  }
 }
 
 export function render(oldRender: any) {
