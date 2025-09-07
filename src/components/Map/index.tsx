@@ -2,6 +2,8 @@ import chinaGeoJson from '@/assets/map/geoGpsMap.json';
 import * as echarts from 'echarts';
 import { useEffect, useRef } from 'react';
 import './index.less';
+// 导入自定义图标
+import hangzhouIcon from './map-marker-radius.png';
 
 // 地理坐标映射
 const geoCoordMap = {
@@ -71,9 +73,13 @@ const ChinaMapChart = () => {
   const regionLabelSeriesId = useRef(
     'region-label-series-' + Math.random().toString(36).slice(2, 9),
   );
-  // 新增：省份标签系列ID
+  // 省份标签系列ID
   const provinceLabelSeriesId = useRef(
     'province-label-series-' + Math.random().toString(36).slice(2, 9),
+  );
+  // 杭州图标系列ID - 新增
+  const hangzhouIconSeriesId = useRef(
+    'hangzhou-icon-series-' + Math.random().toString(36).slice(2, 9),
   );
   const highlightedProvinces = useRef<string[]>([]);
   // 存储省份的原始颜色，用于恢复
@@ -153,6 +159,10 @@ const ChinaMapChart = () => {
         sumY += coord[1];
         count++;
       }
+      // 浙江大区往下偏移一点
+      if (province === '浙江') {
+        sumY -= 1;
+      }
     });
 
     return count > 0 ? [sumX / count, sumY / count] : [0, 0];
@@ -166,7 +176,7 @@ const ChinaMapChart = () => {
 
   const geoGpsMap = [120.15507, 30.274084];
   const colors = '#1D94C9';
-  // 高亮颜色配置 - 使用更明显的颜色
+  // 高亮颜色配置
   const highlightColor = '#40C4FF';
   const normalColor = {
     type: 'linear',
@@ -246,19 +256,15 @@ const ChinaMapChart = () => {
     return mapData;
   };
 
-  // 高亮省份的方法 - 直接操作geo的区域颜色
+  // 高亮省份的方法
   const highlightProvinces = (provinces: string[]) => {
     if (!myChart.current || !provinces.length) return;
 
-    // 记录当前高亮的省份
     highlightedProvinces.current = provinces;
-
-    // 存储原始颜色并设置高亮颜色
     const option = myChart.current.getOption();
     const newGeo = JSON.parse(JSON.stringify(option.geo[0]));
 
     provinces.forEach((province) => {
-      // 存储原始颜色（如果尚未存储）
       if (!provinceOriginalColors.current[province]) {
         provinceOriginalColors.current[province] = {
           areaColor: normalColor,
@@ -266,7 +272,6 @@ const ChinaMapChart = () => {
         };
       }
 
-      // 设置高亮样式
       newGeo.regions = newGeo.regions || [];
       newGeo.regions.push({
         name: province,
@@ -280,7 +285,6 @@ const ChinaMapChart = () => {
       });
     });
 
-    // 应用更改
     myChart.current.setOption({ geo: [newGeo] });
   };
 
@@ -290,18 +294,16 @@ const ChinaMapChart = () => {
 
     const option = myChart.current.getOption();
     const newGeo = JSON.parse(JSON.stringify(option.geo[0]));
-    newGeo.regions = []; // 清除除所有区域样式设置，恢复默认
+    newGeo.regions = [];
 
-    // 应用更改
     myChart.current.setOption({ geo: [newGeo] });
     highlightedProvinces.current = [];
   };
 
-  // 新增：显示省份名称标签
+  // 显示省份名称标签
   const showProvinceLabels = (provinces: string[]) => {
     if (!myChart.current || !provinces.length) return;
 
-    // 准备省份标签数据
     const provinceLabelData = provinces.map((province) => {
       const coord = provinceCenterMap[province];
       return {
@@ -310,7 +312,6 @@ const ChinaMapChart = () => {
       };
     });
 
-    // 显示省份名称
     myChart.current.setOption({
       series: [
         {
@@ -333,7 +334,7 @@ const ChinaMapChart = () => {
     });
   };
 
-  // 新增：隐藏省份名称标签
+  // 隐藏省份名称标签
   const hideProvinceLabels = () => {
     if (!myChart.current) return;
 
@@ -393,7 +394,6 @@ const ChinaMapChart = () => {
               shadowBlur: 5,
             },
             emphasis: {
-              // 基础高亮样式
               areaColor: highlightColor,
               borderColor: '#007ECA',
               borderWidth: 2,
@@ -463,7 +463,7 @@ const ChinaMapChart = () => {
             },
             zlevel: 1,
           },
-          // 杭州的散点动画层
+          // 杭州的散点动画层（保留原有的涟漪效果）
           {
             type: 'effectScatter',
             id: 'hangzhou',
@@ -473,7 +473,7 @@ const ChinaMapChart = () => {
               return val[2] / 10;
             },
             showEffectOn: 'render',
-            rippleEffect: hangzhouRipple,
+            rippleEffect: hangzhouRipple, // 保留原有的涟漪效果
             hoverAnimation: true,
             label: {
               normal: {
@@ -498,7 +498,23 @@ const ChinaMapChart = () => {
                 shadowColor: colors,
               },
             },
-            zlevel: 1,
+            zlevel: 1, // 低于图标层，确保涟漪在图标下方
+          },
+          // 杭州的自定义图标层（新增，无涟漪效果）
+          {
+            type: 'scatter', // 使用普通散点图而非动态散点图
+            id: hangzhouIconSeriesId.current,
+            coordinateSystem: 'geo',
+            data: convertData(hangzhouData), // 使用相同的杭州数据
+            symbol: `image://${hangzhouIcon}`, // 自定义图标
+            symbolSize: 48, // 图标大小
+            symbolOffset: [0, -20], // 图标偏移调整
+            label: {
+              normal: {
+                show: false, // 不显示额外标签，避免重复
+              },
+            },
+            zlevel: 5, // 高于涟漪层，确保图标在涟漪上方显示
           },
           // 连线动画层
           {
@@ -542,7 +558,7 @@ const ChinaMapChart = () => {
             },
             zlevel: 3,
           },
-          // 新增：省份名称标签层
+          // 省份名称标签层
           {
             id: provinceLabelSeriesId.current,
             type: 'scatter',
@@ -608,18 +624,12 @@ const ChinaMapChart = () => {
           const cityName = params.name;
           const provincesToHighlight = cityToProvinceMap[cityName];
           if (provincesToHighlight) {
-            // 高亮省份（直接操作geo）
             highlightProvinces(provincesToHighlight);
-
-            // 新增：显示省份名称
             showProvinceLabels(provincesToHighlight);
 
-            // 计算大区中心坐标
             const centerCoord = calculateCenterCoord(provincesToHighlight);
-            // 获取大区名称
             const regionName = getRegionName(provincesToHighlight);
 
-            // 显示大区名称
             myChart.current.setOption({
               series: [
                 {
@@ -686,13 +696,9 @@ const ChinaMapChart = () => {
             }),
           });
 
-          // 清除省份高亮
           clearProvinceHighlight();
-
-          // 新增：隐藏省份名称
           hideProvinceLabels();
 
-          // 隐藏大区名称
           myChart.current.setOption({
             series: [
               {
