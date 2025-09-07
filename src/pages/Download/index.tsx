@@ -135,7 +135,7 @@ const Download = () => {
     if (selectProduct.id) {
       _getFileList({
         fileCategoryId: currentNavKey?.id,
-        id: selectProduct.id,
+        productId: selectProduct.id,
         pageSize: 6,
       });
     }
@@ -150,7 +150,7 @@ const Download = () => {
       });
       _getFileList({
         fileCategoryId: fileCategoryIdParams,
-        id: idParams,
+        productId: idParams,
         pageSize: 6,
       });
     }
@@ -488,7 +488,7 @@ const Download = () => {
               onChange={(page, pageSize) => {
                 _getFileList({
                   fileCategoryId: currentNavKey?.id,
-                  id: selectProduct.id,
+                  productId: selectProduct.id,
                   pageNum: page,
                   pageSize,
                 });

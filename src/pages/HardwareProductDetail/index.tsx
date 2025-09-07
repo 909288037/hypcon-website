@@ -96,7 +96,7 @@ const HardwareProductDetail = () => {
     if (productFileList?.[0]) {
       _getFileList({
         fileCategoryId: productFileList[0].id,
-        id: params.id,
+        productId: params.id,
         pageSize,
       });
       setCurrentNavKey(productFileList[0]);
@@ -242,7 +242,7 @@ const HardwareProductDetail = () => {
                     setCurrentNavKey(item);
                     _getFileList({
                       fileCategoryId: item.id,
-                      id: params.id,
+                      productId: params.id,
                       pageNum: 1,
                       pageSize,
                     });
@@ -349,7 +349,7 @@ const HardwareProductDetail = () => {
                 onChange={(page, pageSize) => {
                   _getFileList({
                     fileCategoryId: currentNavKey?.id,
-                    id: params.id,
+                    productId: params.id,
                     pageNum: page,
                     pageSize,
                   });

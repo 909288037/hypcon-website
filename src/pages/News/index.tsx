@@ -1,7 +1,11 @@
 import arrowRight from '@/assets/images/right-arrow-primary.png';
 import rightArrowImg from '@/assets/images/right-arrow.png';
 import Header from '@/components/Header';
-import { getImportantList, getNewsList } from '@/services/NewsController';
+import {
+  getBgImg,
+  getImportantList,
+  getNewsList,
+} from '@/services/NewsController';
 import { extractPlainTextFromHTML } from '@/utils';
 import { CaretDownOutlined, SearchOutlined } from '@ant-design/icons';
 import { history, useRequest } from '@umijs/max';
@@ -19,6 +23,11 @@ const News = () => {
   });
   // 获取新闻列表
   const { data: solutionList, run } = useRequest(getNewsList);
+
+  // 获取背景图
+  const { data: backgroundImg } = useRequest(() => {
+    return getBgImg();
+  });
 
   const [searchVal, setSearchVal] = useState('');
 
@@ -74,7 +83,7 @@ const News = () => {
       <Header className="fl-news-header" />
       <div className="fl-news-banner">
         <div className="fl-news-banner-title">新闻资讯</div>
-        <img src={''} alt="" />
+        <img src={backgroundImg} alt="" />
       </div>
       <div className="fl-news-content">
         {/* 重点新闻 */}
@@ -150,7 +159,7 @@ const News = () => {
                 </div>
                 <div className="solution-select-month">
                   <Select
-                    defaultValue={monthList[0].label}
+                    defaultValue={new Date().getMonth() + 1}
                     options={monthList}
                     placeholder={new Date().getMonth() + 1 + '月'}
                     suffixIcon={<CaretDownOutlined />}

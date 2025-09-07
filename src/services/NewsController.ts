@@ -16,3 +16,10 @@ export async function getNewsList(params) {
     params
   });
 }
+
+// 获取背景图
+export async function getBgImg() {
+  return request<any>(`/prod/api/notice/bgImage`, {
+    method: 'GET',
+  });
+}
