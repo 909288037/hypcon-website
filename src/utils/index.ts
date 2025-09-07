@@ -82,7 +82,7 @@ export const goPage = (item: any) => {
     }
     // 无详情
     if(item.detailType === '0') {
-        history.push(`/download/?search=${item.name}`);
+        history.push(`/download/?search=${item.name}&fileCategoryId=${item.categoryId}&id=${item.id}`);
         return
       }
     // 跳转软件详情

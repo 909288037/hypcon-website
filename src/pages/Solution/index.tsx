@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import { getSolutionDetail } from '@/services/SolutionController';
 import { goPage } from '@/utils';
 import { useParams, useRequest } from '@umijs/max';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Autoplay, Mousewheel } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import downImg from './images/down.png';
@@ -17,9 +17,16 @@ const Solution = () => {
     data: solutionDetail,
     error: solutionDetailError,
     loading: solutionDetailLoading,
-  } = useRequest(() => {
-    return getSolutionDetail(params.id);
+    run: _getSolutionDetail,
+  } = useRequest(getSolutionDetail, {
+    manual: true,
   });
+
+  useEffect(() => {
+    _getSolutionDetail(params.id);
+
+    return () => {};
+  }, [params.id]);
 
   console.log('🚀 ~ Solution ~ solutionDetail:', solutionDetail);
 
@@ -45,7 +52,6 @@ const Solution = () => {
       title: '稳定可靠',
     },
   ]);
-  const [advantageList, setAdvantageList] = useState(['', '', '', '']);
   return (
     <div className="fl-solution">
       <Header className="fl-solution-header" />
@@ -59,9 +65,12 @@ const Solution = () => {
           <div className="fl-solution-content-left-title ">
             <div>{solutionDetail?.introVo?.title}</div>
           </div>
-          <div className="fl-solution-content-left-desc">
-            {solutionDetail?.introVo?.detail}
-          </div>
+          <div
+            className="fl-solution-content-left-desc ql-editor"
+            dangerouslySetInnerHTML={{
+              __html: solutionDetail?.introVo?.detail,
+            }}
+          ></div>
           <div className="fl-solution-content-left-list">
             {solutionDetail?.feature?.map((item, index) => (
               <div className="fl-solution-content-left-list-item" key={index}>

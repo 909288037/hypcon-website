@@ -203,8 +203,6 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
                     })}
                     key={index}
                     onMouseEnter={() => {
-                      console.log('child', child);
-
                       if (child.children) {
                         setCascaderData([
                           {
@@ -220,6 +218,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
                       }
                     }}
                     onClick={() => {
+                      setCurrentIndex(-1);
                       goPage(child);
                     }}
                   >
@@ -265,6 +264,9 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
                           } else {
                             setCascaderData(cascaderData.slice(0, index + 1));
                           }
+                        }}
+                        onMouseLeave={() => {
+                          setImagesSwiperArr([]);
                         }}
                         onClick={() => {
                           goPage(child);
@@ -353,7 +355,6 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
           {imagesSwiperArr.length > 0 && (
             <div className="fl-header-cascader-swiper">
               <Swiper
-                className="fl-header-cascader-swiper"
                 modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={0}
                 slidesPerView={1}
@@ -372,15 +373,7 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
                 {imagesSwiperArr?.map((item) => {
                   return (
                     <SwiperSlide key={item}>
-                      <img
-                        src={item}
-                        alt=""
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'contain',
-                        }}
-                      />
+                      <img className="" src={item} alt="" />
                     </SwiperSlide>
                   );
                 })}
