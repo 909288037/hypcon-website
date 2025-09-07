@@ -3,13 +3,13 @@ import { request } from "@umijs/max";
 
 // 获取服务网络数据
 export async function getServiceNetwork() {
-  return request('/api/support/net');
+  return request('/prod/api/support/net');
 }
 
 // 提交产品咨询
 
 export async function submitProductConsult(params: any) {
-  return request('/api/support/submitConsult', {
+  return request('/prod/api/support/submitConsult', {
     method: 'POST',
     data: params,
   });
@@ -17,12 +17,12 @@ export async function submitProductConsult(params: any) {
 
 // 培训服务
 export async function getTrainingService() {
-  return request('/api/support/train');
+  return request('/prod/api/support/train');
 }
 
 // 常见问题
 export async function getQuestion(params) {
-  return request('/api/support/question', {
+  return request('/prod/api/support/question', {
     method: 'GET',
     params: params,
 
@@ -31,7 +31,7 @@ export async function getQuestion(params) {
 
 // 产品公告
 export async function getProductNotice(params) {
-  return request('/api/support/productAnnouncement', {
+  return request('/prod/api/support/productAnnouncement', {
     method: 'GET',
     params: params,
 
@@ -40,7 +40,7 @@ export async function getProductNotice(params) {
 
 // 产品公告详情
 export async function getProductNoticeDetail(id) {
-  return request(`/api/notice/detail/${id}`, {
+  return request(`/prod/api/notice/detail/${id}`, {
     method: 'GET',
 
   });
@@ -48,7 +48,7 @@ export async function getProductNoticeDetail(id) {
 
 //提交意见反馈
 export async function submitFeedback(params) {
-  return request('/api/support/submitFeedBack', {
+  return request('/prod/api/support/submitFeedBack', {
     method: 'POST',
     data: params,
 

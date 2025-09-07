@@ -26,6 +26,7 @@ import {
 } from 'swiper/modules';
 import { imgConfig } from './const';
 import './index.less';
+
 const datakey = {
   key1: 'zhsn',
   key2: 'gdjt',
@@ -36,6 +37,7 @@ const datakey = {
   key7: 'zhcg',
   key8: 'dzcf',
 };
+
 const SolutionBanner = ({ dataSource }) => {
   const listMemo = useMemo(() => {
     let data = [];
@@ -74,6 +76,13 @@ const SolutionBanner = ({ dataSource }) => {
     h: 0,
   });
   const curImgInfo = imgConfig[curImg];
+
+  // 存储连接线坐标
+  const [connectorPoints, setConnectorPoints] = useState({
+    title: { x: 0, y: 0 },
+    dot: { x: 0, y: 0 },
+  });
+
   const {
     position,
     currentImage,
@@ -87,57 +96,90 @@ const SolutionBanner = ({ dataSource }) => {
     end: endPos,
     startImage: startImageUrl,
     endImage: endImageUrl,
-    duration: 500, // 动画时长
-    switchThreshold: 0.9, // 距离时切换图片
+    duration: 500,
+    switchThreshold: 0.9,
   });
-  // const goPage = (item: any) => {
-  //   // 跳转产品列表
-  //   if (item.products?.length > 0) {
-  //     if (item.products.image) {
-  //       // 有分类图
-  //       history.push(`/product`);
-  //     } else {
-  //       // 无分类图
-  //       history.push(`/product-list`);
-  //     }
-  //     return;
-  //   }
 
-  //   // 外链
-  //   if (item.detailType === '2') {
-  //     window.open(item.link);
-  //     return;
-  //   }
-  //   // 跳转软件详情
-  //   if (item.type === '0') {
-  //     history.push(`/product/${item.id}`);
-  //   } else if (item.type === '1') {
-  //     // 跳转硬件详情
-  //     history.push(`/product-hardware/${item.id}`);
-  //   }
-  // };
   const getImageDimensions = (
     url: string,
   ): Promise<{ width: number; height: number }> => {
     return new Promise((resolve, reject) => {
       const img = new Image();
-
       img.onload = () => {
         resolve({
           width: img.naturalWidth,
           height: img.naturalHeight,
         });
       };
-
       img.onerror = () => {
         reject(new Error(`Failed to load image: ${url}`));
       };
-
       img.src = url;
     });
   };
+
+  // 计算连接线坐标
+  const calculateConnectorPoints = (index) => {
+    if (!productBannerRef.current) return;
+
+    // 获取标题元素和热点元素
+    const titleEl = document.querySelector(
+      `.fl-solution-banner-title-text[data-index="${index}"]`,
+    );
+    const dotEl = document.querySelector(
+      `.fl-solution-banner-hotspot-dot[data-index="${index}"]`,
+    );
+
+    if (!titleEl || !dotEl) return;
+
+    // 获取元素在容器中的位置
+    const bannerRect = productBannerRef.current.getBoundingClientRect();
+    const titleRect = titleEl.getBoundingClientRect();
+    const dotRect = dotEl.getBoundingClientRect();
+
+    // 计算相对坐标（相对于容器）
+    const titleX = titleRect.left - bannerRect.left + titleRect.width + 100;
+    const titleY = titleRect.top - bannerRect.top + titleRect.height / 2;
+    const dotX = dotRect.left - bannerRect.left + dotRect.width / 2;
+    const dotY = dotRect.top - bannerRect.top + dotRect.height / 2;
+
+    setConnectorPoints({
+      title: { x: titleX, y: titleY },
+      dot: { x: dotX, y: dotY },
+    });
+  };
+
+  // 监听元素位置变化，重新计算连接线
   useEffect(() => {
-    // 预加载起始图片
+    // 初始计算
+    calculateConnectorPoints(currentIndex);
+
+    // 监听窗口大小变化，重新计算
+    const handleResize = () => {
+      calculateConnectorPoints(currentIndex);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // 监听轮播变化，重新计算
+    const observer = new MutationObserver(() => {
+      calculateConnectorPoints(currentIndex);
+    });
+
+    if (productBannerRef.current) {
+      observer.observe(productBannerRef.current, {
+        childList: true,
+        subtree: true,
+      });
+    }
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      observer.disconnect();
+    };
+  }, [currentIndex, listMemo]);
+
+  useEffect(() => {
     Object.values(imgConfig).forEach((config) => {
       preloadImage(config.url).catch((err) =>
         console.warn('Failed to preload image:', err),
@@ -147,15 +189,11 @@ const SolutionBanner = ({ dataSource }) => {
     getImageDimensions(bgImg).then(({ width, height }) => {
       const clientWidth = document.body.clientWidth;
       let scale = clientWidth / width;
-      // 修改这里：使用实际显示宽度而不是原始宽度
       imgInfo.current = { w: clientWidth, h: scale * height };
-      console.log('🚀 ~ SolutionBanner ~ imgInfo.current:', imgInfo.current);
 
-      // 获取初始图片信息
       const initialImgKey = Object.keys(imgConfig)[0];
       const initialImgInfo = imgConfig[initialImgKey];
 
-      // 设置初始位置和图片
       setStartPos({
         x: imgInfo.current.w * (initialImgInfo.imgPosition.x / 100),
         y: imgInfo.current.h * (initialImgInfo.imgPosition.y / 100),
@@ -176,18 +214,15 @@ const SolutionBanner = ({ dataSource }) => {
     if (endImgInfo) {
       startTransition();
     }
-
     return () => {};
   }, [endImgInfo]);
 
   useEffect(() => {
     if (!isAnimating && endPos.x !== 0 && endPos.y !== 0) {
-      // 动画结束后更新起始位置和图片
       setStartPos(endPos);
       setStartImageUrl(endImageUrl);
       setCurImg(Object.keys(imgConfig)[currentIndex]);
     }
-
     return () => {};
   }, [isAnimating, endPos, endImageUrl]);
 
@@ -197,7 +232,6 @@ const SolutionBanner = ({ dataSource }) => {
     return () => {};
   }, [currentIndex]);
 
-  // 根据当前图片确定宽度
   const getCurrentWidth = () => {
     if (currentImage === endImageUrl) {
       return endImgInfo?.imgPosition?.width || 0;
@@ -205,36 +239,70 @@ const SolutionBanner = ({ dataSource }) => {
       return curImgInfo?.imgPosition?.width || 0;
     }
   };
-  // 处理容器点击，更新起点和终点 (可选，用于演示)
+
   const handleContainerClick = (endInfo) => {
     if (!endInfo) return;
     const data = imgConfig[endInfo];
-    console.log('🚀 ~ handleContainerClick ~ endInfo:', data);
 
     const {
       imgPosition: { x, y },
     } = data;
     const { w, h } = imgInfo.current;
 
-    // 设置终点信息
     setEndImageUrl(data.url);
     setEndPos({
       x: w * (x / 100),
       y: h * (y / 100),
     });
 
-    // 触发动画
     setEndImgInfo(data);
   };
+
   if (listMemo.length === 0) return null;
+
+  // 生成连接线路径
+  const getConnectorPath = () => {
+    const { title, dot } = connectorPoints;
+
+    // 如果坐标未初始化，不绘制
+    if (title.x === 0 && title.y === 0) return '';
+
+    // 计算水平线段的终点（从标题向右延伸100px）
+    const horizontalEndX = title.x + 100;
+    const horizontalEndY = title.y;
+
+    // 生成路径：标题 -> 水平100px -> 热点圆点
+    return `M ${title.x} ${title.y} L ${horizontalEndX} ${horizontalEndY} L ${dot.x} ${dot.y}`;
+  };
+
   return (
     <div
       ref={productBannerRef}
       className="fl-solution-banner"
-      // onClick={() => {
-      //   handleContainerClick('gdjt');
-      // }}
+      style={{ position: 'relative' }}
     >
+      {/* 连接线SVG */}
+      <svg
+        className="fl-connector-svg"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 5000,
+        }}
+      >
+        <path
+          d={getConnectorPath()}
+          stroke="rgba(0, 126, 202, 0.25)"
+          strokeWidth="2"
+          fill="none"
+          // strokeDasharray={isAnimating ? '5,5' : 'none'}
+        />
+      </svg>
+
       <Swiper
         modules={[Navigation, Pagination, Autoplay, Thumbs, EffectFade]}
         spaceBetween={0}
@@ -251,12 +319,6 @@ const SolutionBanner = ({ dataSource }) => {
         thumbs={{
           swiper: thumbsSwiper,
         }}
-        // pagination={{
-        //   clickable: true,
-        //   renderBullet: function (index, className) {
-        //     return `<span class=${className}></span>`;
-        //   },
-        // }}
         onSwiper={setSlideSwiper}
         onSlideChangeTransitionEnd={(swiper) => {
           setIsStop(false);
@@ -269,23 +331,26 @@ const SolutionBanner = ({ dataSource }) => {
         {listMemo.map((item, index) => (
           <SwiperSlide key={index}>
             <div className="fl-solution-banner-img">
-              <img src={bgImg} alt="" />
-              {/* 标题 */}
+              <img src={bgImg} alt="背景图" />
+              {/* 标题 - 添加data-index用于定位 */}
               <div className="fl-solution-banner-title">
-                {item.secondTitle}
-                {/* 简介 */}
+                <div
+                  className="fl-solution-banner-title-text"
+                  data-index={index}
+                >
+                  {item.secondTitle}
+                </div>
                 <div className="fl-solution-banner-desc">{item.intro}</div>
-                {/* 推荐产品标签 */}
                 {item?.productList && (
                   <div className="fl-solution-banner-tag">
                     <div className="fl-solution-banner-tag-text">
                       推荐产品：
                     </div>
                     <div className="fl-solution-banner-tag-list">
-                      {item?.productList?.map((tag, index) => (
+                      {item?.productList?.map((tag, tagIndex) => (
                         <span
                           className="fl-solution-banner-tag-item"
-                          key={index}
+                          key={tagIndex}
                           onClick={() => {
                             goPage(tag);
                           }}
@@ -311,15 +376,14 @@ const SolutionBanner = ({ dataSource }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+
       <div className="fl-solution-banner-pagination-box">
         <div
           className="fl-solution-banner-pagination-btn"
           onClick={() => {
-            // 暂停自动播放
             if (!isStop) {
               slideSwiper?.autoplay.pause();
             } else {
-              // 继续自动播放
               slideSwiper?.autoplay.resume();
             }
             setIsStop(!isStop);
@@ -348,8 +412,6 @@ const SolutionBanner = ({ dataSource }) => {
           ]}
           spaceBetween={43}
           slidesPerView={listMemo?.length || 0}
-          // mousewheel
-          // freeMode
           watchSlidesProgress
           loop
           onSwiper={setThumbsSwiper}
@@ -366,12 +428,13 @@ const SolutionBanner = ({ dataSource }) => {
           </div>
         </Swiper>
       </div>
-      {/* 起点图片 (固定位置) */}
+
+      {/* 起点图片 */}
       {startImageUrl && !isAnimating && (
         <img
           className="fl-solution-banner-start-image"
           src={startImageUrl}
-          alt="Start"
+          alt="起始图片"
           style={{
             position: 'absolute',
             left: `${startPos.x}px`,
@@ -404,43 +467,39 @@ const SolutionBanner = ({ dataSource }) => {
         />
       )}
 
-      {/* 热区图层 */}
+      {/* 热区图层 - 为圆点添加data-index用于定位 */}
       <div className="fl-solution-banner-hotspot">
-        {hotspotMemo.map((item, index) => {
-          return (
-            <div
-              key={item.title}
-              className={classNames(
-                'fl-solution-banner-hotspot-item',
-                item.dotDirection,
-                {
-                  active: index === currentIndex,
-                },
-              )}
-              style={{
-                left: `${item.x}%`,
-                top: `${item.y}%`,
-              }}
-              onMouseEnter={() => {
-                // 轮播图滚动到指定下标
-                console.log('🚀 ~ index:', index);
-                slideSwiper?.autoplay.stop();
-
-                slideSwiper?.slideToLoop(index);
-                slideSwiper?.autoplay.start();
-              }}
-            >
-              <div className="fl-solution-banner-hotspot-item-title">
-                {item.title}
-              </div>
-              {/* 圆点 */}
-              <div className={classNames('fl-solution-banner-hotspot-dot')}>
-                <div className="fl-solution-banner-hotspot-dot-item"></div>
-                <div className="fl-solution-banner-hotspot-dot-item"></div>
-              </div>
+        {hotspotMemo.map((item, index) => (
+          <div
+            key={item.title}
+            className={classNames(
+              'fl-solution-banner-hotspot-item',
+              item.dotDirection,
+              { active: index === currentIndex },
+            )}
+            style={{
+              left: `${item.x}%`,
+              top: `${item.y}%`,
+            }}
+            onMouseEnter={() => {
+              slideSwiper?.autoplay.stop();
+              slideSwiper?.slideToLoop(index);
+              slideSwiper?.autoplay.start();
+            }}
+          >
+            <div className="fl-solution-banner-hotspot-item-title">
+              {item.title}
             </div>
-          );
-        })}
+            {/* 圆点 - 添加data-index用于定位 */}
+            <div
+              className={classNames('fl-solution-banner-hotspot-dot')}
+              data-index={index}
+            >
+              <div className="fl-solution-banner-hotspot-dot-item"></div>
+              <div className="fl-solution-banner-hotspot-dot-item"></div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -3,14 +3,14 @@ import { request } from "@umijs/max";
 
 // 获取产品详情
 export async function getProductDetail(type: any, id: any) {
-  return request<any>(`/api/product/detail/${type}/${id}`, {
+  return request<any>(`/prod/api/product/detail/${type}/${id}`, {
     method: 'GET',
   });
 }
 
 // 获取产品规格参数
 export async function getProductSpecification(id: any) {
-  return request<any>(`/api/product/specifications/${id}`, {
+  return request<any>(`/prod/api/product/specifications/${id}`, {
     method: 'GET',
   });
 }
@@ -18,7 +18,7 @@ export async function getProductSpecification(id: any) {
 
 // 获取产品列表数据
 export async function getProductCategoryDetailList(id: number) {
-  return request<any>(`/api/product/categoryDetail/${id}`, {
+  return request<any>(`/prod/api/product/categoryDetail/${id}`, {
     method: 'GET',
   });
 }

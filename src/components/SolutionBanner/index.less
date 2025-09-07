@@ -350,4 +350,27 @@
       }
     }
   }
+  &-title-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    pointer-events: none;
+  }
+  .fl-solution-banner-title-text {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 500px;
+    .fl-solution-banner-title-line {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 1px;
+      left: 100%;
+      margin-left: 80px;
+      background-color: #bee0ea;
+    }
+  }
 }
