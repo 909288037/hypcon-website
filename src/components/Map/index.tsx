@@ -416,41 +416,105 @@ const ChinaMapChart = () => {
 
       const option: echarts.EChartsOption = {
         backgroundColor: 'transparent',
-        geo: {
-          show: true,
-          map: 'china',
-          roam: false,
-          zoom: 1,
-          layoutCenter: ['51%', '43%'], //地图位置
-          layoutSize: '70%',
-          // 使用初始regions配置
-          regions: [...initialRegions.current],
-          label: {
-            emphasis: {
-              show: true, // 悬停时显示省份标签
-              fontSize: 14,
-              color: '#007ECA',
-              fontWeight: 'bold',
-              lineHeight: 20,
+        geo: [
+          {
+            show: true,
+            map: 'china',
+            roam: false,
+            zoom: 1,
+            layoutCenter: ['51%', '43%'], //地图位置
+            layoutSize: '70%',
+            // 使用初始regions配置
+            regions: [...initialRegions.current],
+            label: {
+              emphasis: {
+                show: true, // 悬停时显示省份标签
+                fontSize: 14,
+                color: '#007ECA',
+                fontWeight: 'bold',
+                lineHeight: 20,
+              },
             },
+            itemStyle: {
+              normal: {
+                borderColor: 'transparent',
+                borderWidth: 1,
+                areaColor: normalColor,
+                shadowColor: '#96BBDA',
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                shadowBlur: 0,
+              },
+              emphasis: {
+                areaColor: highlightColor,
+                borderColor: '#007ECA',
+                borderWidth: 0,
+              },
+            },
+            z: 5,
           },
-          itemStyle: {
-            normal: {
-              borderColor: 'transparent',
-              borderWidth: 1,
-              areaColor: normalColor,
-              shadowColor: '#96BBDA',
-              shadowOffsetX: 0,
-              shadowOffsetY: 0,
-              shadowBlur: 0,
-            },
-            emphasis: {
-              areaColor: highlightColor,
-              borderColor: '#007ECA',
-              borderWidth: 0,
-            },
-          },
-        },
+          // {
+          //   show: true,
+          //   map: 'china',
+          //   roam: false,
+          //   zoom: 1,
+          //   layoutCenter: ['51%', '43.5%'], //地图位置
+          //   layoutSize: '70%',
+          //   // 使用初始regions配置
+          //   regions: [...initialRegions.current],
+
+          //   itemStyle: {
+          //     areaColor: '#CAE3FA',
+          //     borderColor: 'transparent',
+          //     shadowColor: '#96BBDA',
+          //     shadowOffsetX: 0,
+          //     shadowOffsetY: 0,
+          //     shadowBlur: 10,
+          //   },
+          //   z: 4,
+          // },
+          // {
+          //   show: true,
+          //   map: 'china',
+          //   roam: false,
+          //   zoom: 1,
+          //   layoutCenter: ['51%', '44%'], //地图位置
+          //   layoutSize: '70%',
+          //   // 使用初始regions配置
+          //   regions: [...initialRegions.current],
+
+          //   itemStyle: {
+          //     areaColor: '#B6D3ED',
+          //     borderColor: 'transparent',
+          //     shadowColor: '#96BBDA',
+          //     shadowOffsetX: 0,
+          //     shadowOffsetY: 0,
+          //     shadowBlur: 10,
+          //   },
+          //   z: 3,
+          // },
+          // {
+          //   show: true,
+          //   map: 'china',
+          //   roam: false,
+          //   zoom: 1,
+          //   layoutCenter: ['51%', '44.5%'], //地图位置
+          //   layoutSize: '70%',
+          //   // 使用初始regions配置
+          //   regions: [...initialRegions.current],
+
+          //   itemStyle: {
+          //     areaColor: '#9BBFDD',
+          //     borderColor: 'transparent',
+          //     shadowColor: '#96BBDA',
+          //     shadowOffsetX: 0,
+          //     shadowOffsetY: 0,
+          //     shadowBlur: 10,
+          //   },
+          //   z: 2,
+          // },
+        ],
+
         series: [
           // 基础地图层
           {
