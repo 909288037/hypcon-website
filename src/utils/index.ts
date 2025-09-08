@@ -1,3 +1,4 @@
+import { downloadFileStarem } from '@/services/DownloadController';
 import { history } from '@umijs/max';
 // 预加载图片的工具函数
 export const preloadImage = (url: string): Promise<HTMLImageElement> => {
@@ -18,15 +19,12 @@ export const preloadImage = (url: string): Promise<HTMLImageElement> => {
 export async function downloadFile(imageUrl, filename = 'download.jpg') {
     try {
         // 1. 使用 fetch 获取图片数据
-        const response = await fetch(imageUrl);
+        const blob = await downloadFileStarem({
+            path: imageUrl,
+            name: filename
+        });
         
-        // 检查响应是否成功
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        // 2. 将响应转换为 Blob 对象
-        const blob = await response.blob();
+       
         
         // 3. 创建一个指向 Blob 的临时 URL
         const blobUrl = URL.createObjectURL(blob);

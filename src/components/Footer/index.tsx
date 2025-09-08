@@ -2,13 +2,15 @@ import { aboutList, newsList, supportList } from '@/const';
 import { getContact } from '@/services/AboutNetwork';
 import { goPage } from '@/utils';
 import { useModel, useRequest } from '@umijs/max';
+import { useEffect } from 'react';
 import './index.less';
 const Footer = () => {
-  const { productList, solutionList } = useModel(
+  const { productList, solutionList, setContact } = useModel(
     'global',
-    ({ productList, solutionList }) => ({
+    ({ productList, solutionList, setContact }) => ({
       productList,
       solutionList,
+      setContact,
     }),
   );
 
@@ -16,6 +18,11 @@ const Footer = () => {
   const { data } = useRequest(() => {
     return getContact();
   });
+
+  useEffect(() => {
+    setContact(data);
+  }, [data]);
+
   return (
     <div className="fl-footer">
       <div className="fl-footer-content">

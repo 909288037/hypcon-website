@@ -1,7 +1,7 @@
 import phoneImg from '@/assets/images/phone.png';
 import topImg from '@/assets/images/top.png';
-import { Helmet, Outlet } from '@umijs/max';
-import { ConfigProvider } from 'antd';
+import { Helmet, Outlet, useModel } from '@umijs/max';
+import { ConfigProvider, Popover } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 
 import Footer from '@/components/Footer';
@@ -35,6 +35,9 @@ function scrollToTop() {
 export default function Layout() {
   const scroll = useScroll(document);
   const [showTop, setShowTop] = useState(false);
+  const { contact } = useModel('global', ({ contact }) => ({
+    contact,
+  }));
   useEffect(() => {
     if (scroll?.top >= 200) {
       setShowTop(true);
@@ -64,9 +67,18 @@ export default function Layout() {
         <Outlet />
         {/* 悬浮按钮 */}
         <div className="fl-float-btn" hidden={!showTop}>
-          <div className="fl-float-btn-phone">
-            <img src={phoneImg} alt="" />
-          </div>
+          <Popover
+            title={null}
+            placement={'left'}
+            content={
+              <div className="gradient-text phone">{contact?.third}</div>
+            }
+          >
+            <div className="fl-float-btn-phone">
+              <img src={phoneImg} alt="" />
+            </div>
+          </Popover>
+
           <div
             className="fl-float-btn-top"
             onClick={() => {

@@ -45,3 +45,12 @@ export async function getProductFileListByCategory(fileCategoryId: number, id: n
     method: 'GET',
   });
 }
+
+// 下载接口
+export async function downloadFileStarem(params:any) {
+  return request<any>(`/prod/api/download/download`, {
+    method: 'GET',
+    params,
+    responseType: 'blob',
+  });
+}
