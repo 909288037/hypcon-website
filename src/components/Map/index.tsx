@@ -85,6 +85,30 @@ const ChinaMapChart = () => {
   // 存储省份的原始颜色，用于恢复
   const provinceOriginalColors = useRef<Record<string, any>>({});
 
+  // 存储初始 regions 配置（台湾/南海诸岛等隐藏规则）
+  const initialRegions = useRef([
+    {
+      name: '台湾',
+      itemStyle: { opacity: 0, borderWidth: 0 },
+      label: { show: false, emphasis: { show: false } },
+    },
+    {
+      name: '南海诸岛',
+      itemStyle: { opacity: 0, borderWidth: 0 },
+      label: { show: false, emphasis: { show: false } },
+    },
+    {
+      name: '香港',
+      itemStyle: { opacity: 0, borderWidth: 0 },
+      label: { show: false, emphasis: { show: false } },
+    },
+    {
+      name: '澳门',
+      itemStyle: { opacity: 0, borderWidth: 0 },
+      label: { show: false, emphasis: { show: false } },
+    },
+  ]);
+
   const cityToProvinceMap: any = {
     武汉: ['河南', '湖北', '湖南', '安徽'],
     成都: ['四川', '贵州', '广西', '云南', '西藏', '重庆'],
@@ -256,13 +280,16 @@ const ChinaMapChart = () => {
     return mapData;
   };
 
-  // 高亮省份的方法
+  // 修复后的高亮省份方法：保留初始regions配置
   const highlightProvinces = (provinces: string[]) => {
     if (!myChart.current || !provinces.length) return;
 
     highlightedProvinces.current = provinces;
     const option = myChart.current.getOption();
     const newGeo = JSON.parse(JSON.stringify(option.geo[0]));
+
+    // 保留初始regions配置（台湾/南海诸岛等隐藏规则）
+    newGeo.regions = [...initialRegions.current];
 
     provinces.forEach((province) => {
       if (!provinceOriginalColors.current[province]) {
@@ -272,7 +299,7 @@ const ChinaMapChart = () => {
         };
       }
 
-      newGeo.regions = newGeo.regions || [];
+      // 追加高亮省份配置
       newGeo.regions.push({
         name: province,
         itemStyle: {
@@ -288,13 +315,15 @@ const ChinaMapChart = () => {
     myChart.current.setOption({ geo: [newGeo] });
   };
 
-  // 清除省份高亮
+  // 修复后的清除高亮方法：恢复初始regions配置
   const clearProvinceHighlight = () => {
     if (!myChart.current || highlightedProvinces.current.length === 0) return;
 
     const option = myChart.current.getOption();
     const newGeo = JSON.parse(JSON.stringify(option.geo[0]));
-    newGeo.regions = [];
+
+    // 恢复为初始regions配置
+    newGeo.regions = [...initialRegions.current];
 
     myChart.current.setOption({ geo: [newGeo] });
     highlightedProvinces.current = [];
@@ -376,48 +405,8 @@ const ChinaMapChart = () => {
           zoom: 1,
           layoutCenter: ['51%', '43%'], //地图位置
           layoutSize: '70%',
-          regions: [
-            {
-              name: '台湾',
-              itemStyle: {
-                opacity: 0, // 设置透明度为0，完全隐藏
-                borderWidth: 0, // 隐藏边框
-              },
-              label: {
-                show: false, // 隐藏标签
-              },
-            },
-             {
-              name: '南海诸岛',
-              itemStyle: {
-                opacity: 0, // 设置透明度为0，完全隐藏
-                borderWidth: 0, // 隐藏边框
-              },
-              label: {
-                show: false, // 隐藏标签
-              },
-            },
-             {
-              name: '香港',
-              itemStyle: {
-                opacity: 0, // 设置透明度为0，完全隐藏
-                borderWidth: 0, // 隐藏边框
-              },
-              label: {
-                show: false, // 隐藏标签
-              },
-            },
-             {
-              name: '澳门',
-              itemStyle: {
-                opacity: 0, // 设置透明度为0，完全隐藏
-                borderWidth: 0, // 隐藏边框
-              },
-              label: {
-                show: false, // 隐藏标签
-              },
-            },
-          ],
+          // 使用初始regions配置
+          regions: [...initialRegions.current],
           label: {
             emphasis: {
               show: true,
