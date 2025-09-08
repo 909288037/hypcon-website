@@ -441,9 +441,6 @@ const ChinaMapChart = () => {
                 borderWidth: 1,
                 areaColor: normalColor,
                 shadowColor: '#96BBDA',
-                shadowOffsetX: 0,
-                shadowOffsetY: 0,
-                shadowBlur: 0,
               },
               emphasis: {
                 areaColor: highlightColor,
@@ -453,26 +450,26 @@ const ChinaMapChart = () => {
             },
             z: 5,
           },
-          // {
-          //   show: true,
-          //   map: 'china',
-          //   roam: false,
-          //   zoom: 1,
-          //   layoutCenter: ['51%', '43.5%'], //地图位置
-          //   layoutSize: '70%',
-          //   // 使用初始regions配置
-          //   regions: [...initialRegions.current],
-
-          //   itemStyle: {
-          //     areaColor: '#CAE3FA',
-          //     borderColor: 'transparent',
-          //     shadowColor: '#96BBDA',
-          //     shadowOffsetX: 0,
-          //     shadowOffsetY: 0,
-          //     shadowBlur: 10,
-          //   },
-          //   z: 4,
-          // },
+          {
+            show: true,
+            map: 'china',
+            roam: false,
+            zoom: 1,
+            layoutCenter: ['51%', '43.5%'], //地图位置
+            layoutSize: '70%',
+            // 使用初始regions配置
+            regions: [...initialRegions.current],
+            silent: true,
+            itemStyle: {
+              areaColor: '#CAE3FA',
+              borderColor: 'transparent',
+              shadowColor: '#96BBDA',
+              shadowOffsetX: 0,
+              shadowOffsetY: 0,
+              shadowBlur: 20,
+            },
+            z: 4,
+          },
           // {
           //   show: true,
           //   map: 'china',
@@ -482,37 +479,37 @@ const ChinaMapChart = () => {
           //   layoutSize: '70%',
           //   // 使用初始regions配置
           //   regions: [...initialRegions.current],
-
+          //   silent: true,
           //   itemStyle: {
           //     areaColor: '#B6D3ED',
           //     borderColor: 'transparent',
           //     shadowColor: '#96BBDA',
           //     shadowOffsetX: 0,
           //     shadowOffsetY: 0,
-          //     shadowBlur: 10,
+          //     shadowBlur: 20,
           //   },
           //   z: 3,
           // },
-          // {
-          //   show: true,
-          //   map: 'china',
-          //   roam: false,
-          //   zoom: 1,
-          //   layoutCenter: ['51%', '44.5%'], //地图位置
-          //   layoutSize: '70%',
-          //   // 使用初始regions配置
-          //   regions: [...initialRegions.current],
-
-          //   itemStyle: {
-          //     areaColor: '#9BBFDD',
-          //     borderColor: 'transparent',
-          //     shadowColor: '#96BBDA',
-          //     shadowOffsetX: 0,
-          //     shadowOffsetY: 0,
-          //     shadowBlur: 10,
-          //   },
-          //   z: 2,
-          // },
+          {
+            show: true,
+            map: 'china',
+            roam: false,
+            zoom: 1,
+            layoutCenter: ['51%', '44%'], //地图位置
+            layoutSize: '70%',
+            // 使用初始regions配置
+            regions: [...initialRegions.current],
+            silent: true,
+            itemStyle: {
+              areaColor: '#9BBFDD',
+              borderColor: 'transparent',
+              shadowColor: '#96BBDA',
+              shadowOffsetX: 0,
+              shadowOffsetY: 0,
+              shadowBlur: 20,
+            },
+            z: 2,
+          },
         ],
 
         series: [
@@ -520,6 +517,7 @@ const ChinaMapChart = () => {
           {
             type: 'map',
             map: 'china',
+            selectedMode: false,
             geoIndex: 0,
             aspectScale: 0.75,
             showLegendSymbol: false,
