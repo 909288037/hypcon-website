@@ -56,6 +56,80 @@ const provinceCenterMap = {
   浙江: [120.15507, 30.274084],
 };
 
+// 大区映射
+const provinceToRegionMap = {
+  四川: '西南大区',
+  贵州: '西南大区',
+  广西: '西南大区',
+  云南: '西南大区',
+  西藏: '西南大区',
+  重庆: '西南大区',
+  河南: '华中大区',
+  湖北: '华中大区',
+  湖南: '华中大区',
+  安徽: '华中大区',
+  陕西: '西北大区',
+  甘肃: '西北大区',
+  宁夏: '西北大区',
+  青海: '西北大区',
+  新疆: '西北大区',
+  北京: '华北大区',
+  天津: '华北大区',
+  河北: '华北大区',
+  山西: '华北大区',
+  内蒙古: '华北大区',
+  辽宁: '华北大区',
+  吉林: '华北大区',
+  黑龙江: '华北大区',
+  广东: '华南大区',
+  福建: '华南大区',
+  江西: '华南大区',
+  海南: '华南大区',
+  江苏: '华东大区',
+  山东: '华东大区',
+  上海: '华东大区',
+  浙江: '浙江大区',
+};
+
+// 大区省份列表映射
+const regionToProvincesMap: Record<string, string[]> = {
+  西南大区: ['四川', '贵州', '广西', '云南', '西藏', '重庆'],
+  华中大区: ['河南', '湖北', '湖南', '安徽'],
+  西北大区: ['陕西', '甘肃', '宁夏', '青海', '新疆'],
+  华北大区: [
+    '北京',
+    '天津',
+    '河北',
+    '山西',
+    '内蒙古',
+    '辽宁',
+    '吉林',
+    '黑龙江',
+  ],
+  华南大区: ['广东', '福建', '江西', '海南'],
+  华东大区: ['江苏', '山东', '上海'],
+  浙江大区: ['浙江'],
+};
+
+// === 修改：定义一个蓝色调色板，用于区分大区内省份 ===
+const blueShades = [
+  '#ABE1FF', // 蓝色 1
+  '#C0E9FF', // 蓝色 2
+  '#8DD4FF', // 蓝色 3
+  '#9AE2FF', // 蓝色 4
+];
+
+// 大区中心点坐标 (可以根据实际需要调整)
+const regionCenterMap: Record<string, [number, number]> = {
+  西南大区: [102.5, 29.0], // 调整位置
+  华中大区: [113.0, 31.0], // 调整位置
+  西北大区: [95.0, 38.0],
+  华北大区: [115.5, 39.5],
+  华南大区: [113.0, 23.0], // 调整位置
+  华东大区: [119.0, 32.5],
+  浙江大区: [120.15507, 30.274084], // 杭州坐标
+};
+
 const targetCities = Object.keys(geoCoordMap);
 const valueData: any = {};
 targetCities.forEach((city) => {
@@ -64,16 +138,16 @@ targetCities.forEach((city) => {
 
 // React 组件
 const ChinaMapChart = () => {
-  const chartRef = useRef(null);
-  let myChart = useRef(null);
+  const chartRef = useRef<HTMLDivElement>(null);
+  let myChart = useRef<echarts.EChartsType | null>(null);
   const originalEffects = useRef({
-    effectScatter: [],
+    effectScatter: [] as any[],
     linesEffectShow: true,
   });
   const regionLabelSeriesId = useRef(
     'region-label-series-' + Math.random().toString(36).slice(2, 9),
   );
-  // 省份标签系列ID
+  // 省份标签系列ID - 不再使用，但保留ID以防万一
   const provinceLabelSeriesId = useRef(
     'province-label-series-' + Math.random().toString(36).slice(2, 9),
   );
@@ -81,9 +155,12 @@ const ChinaMapChart = () => {
   const hangzhouIconSeriesId = useRef(
     'hangzhou-icon-series-' + Math.random().toString(36).slice(2, 9),
   );
-  const highlightedProvinces = useRef<string[]>([]);
-  // 存储省份的原始颜色，用于恢复
-  const provinceOriginalColors = useRef<Record<string, any>>({});
+  // 当前高亮的大区
+  const highlightedRegion = useRef<string | null>(null);
+  // 存储大区的原始颜色，用于恢复
+  const regionOriginalColors = useRef<Record<string, any>>({});
+  // 用于存储定时器ID，以便可以取消
+  const labelHideTimeout = useRef<NodeJS.Timeout | null>(null);
 
   // 存储初始 regions 配置（台湾/南海诸岛等隐藏规则）
   const initialRegions = useRef([
@@ -109,99 +186,10 @@ const ChinaMapChart = () => {
     },
   ]);
 
-  const cityToProvinceMap: any = {
-    武汉: ['河南', '湖北', '湖南', '安徽'],
-    成都: ['四川', '贵州', '广西', '云南', '西藏', '重庆'],
-    重庆: ['四川', '贵州', '广西', '云南', '西藏', '重庆'],
-    西安: ['陕西', '甘肃', '宁夏', '青海', '新疆'],
-    北京: ['北京', '天津', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江'],
-    石家庄: [
-      '北京',
-      '天津',
-      '河北',
-      '山西',
-      '内蒙古',
-      '辽宁',
-      '吉林',
-      '黑龙江',
-    ],
-    广州: ['广东', '福建', '江西', '海南'],
-    珠海: ['广东', '福建', '江西', '海南'],
-    深圳: ['广东', '福建', '江西', '海南'],
-    南京: ['江苏', '山东', '上海'],
-    上海: ['江苏', '山东', '上海'],
-    杭州: ['浙江'],
-  };
-
-  // 大区映射
-  const provinceToRegionMap = {
-    四川: '西南大区',
-    贵州: '西南大区',
-    广西: '西南大区',
-    云南: '西南大区',
-    西藏: '西南大区',
-    重庆: '西南大区',
-    河南: '华中大区',
-    湖北: '华中大区',
-    湖南: '华中大区',
-    安徽: '华中大区',
-    陕西: '西北大区',
-    甘肃: '西北大区',
-    宁夏: '西北大区',
-    青海: '西北大区',
-    新疆: '西北大区',
-    北京: '华北大区',
-    天津: '华北大区',
-    河北: '华北大区',
-    山西: '华北大区',
-    内蒙古: '华北大区',
-    辽宁: '华北大区',
-    吉林: '华北大区',
-    黑龙江: '华北大区',
-    广东: '华南大区',
-    福建: '华南大区',
-    江西: '华南大区',
-    海南: '华南大区',
-    江苏: '华东大区',
-    山东: '华东大区',
-    上海: '华东大区',
-    浙江: '浙江大区',
-  };
-
-  // 计算省份列表的中心坐标
-  const calculateCenterCoord = (provinces: string[]) => {
-    if (!provinces.length) return [0, 0];
-
-    let sumX = 0;
-    let sumY = 0;
-    let count = 0;
-
-    provinces.forEach((province) => {
-      const coord = provinceCenterMap[province];
-      if (coord) {
-        sumX += coord[0];
-        sumY += coord[1];
-        count++;
-      }
-      // 浙江大区往下偏移一点
-      if (province === '浙江') {
-        sumY -= 1;
-      }
-    });
-
-    return count > 0 ? [sumX / count, sumY / count] : [0, 0];
-  };
-
-  // 获取大区名称
-  const getRegionName = (provinces: string[]) => {
-    if (!provinces.length) return '';
-    return provinceToRegionMap[provinces[0]] || '';
-  };
-
   const geoGpsMap = [120.15507, 30.274084];
   const colors = '#1D94C9';
   // 高亮颜色配置
-  const highlightColor = '#40C4FF';
+  const highlightColor = '#ABE2FF';
   const normalColor = {
     type: 'linear',
     x: 0,
@@ -216,7 +204,7 @@ const ChinaMapChart = () => {
   };
 
   // 数据处理函数
-  const convertData = (data) => {
+  const convertData = (data: any[]) => {
     const res = [];
     for (let i = 0; i < data.length; i++) {
       const geoCoord = geoCoordMap[data[i].name];
@@ -230,7 +218,7 @@ const ChinaMapChart = () => {
     return res;
   };
 
-  const separateHangzhouData = (data) => {
+  const separateHangzhouData = (data: any[]) => {
     const hangzhouData = [];
     const hzdqData = [];
     const otherData = [];
@@ -250,7 +238,7 @@ const ChinaMapChart = () => {
     return { hangzhouData, hzdqData, otherData };
   };
 
-  const convertToLineData = (data, gps) => {
+  const convertToLineData = (data: any[], gps: number[]) => {
     const res = [];
     for (let i = 0; i < data.length; i++) {
       const dataItem = data[i];
@@ -280,105 +268,135 @@ const ChinaMapChart = () => {
     return mapData;
   };
 
-  // 修复后的高亮省份方法：保留初始regions配置
-  const highlightProvinces = (provinces: string[]) => {
-    if (!myChart.current || !provinces.length) return;
+  // 高亮指定大区
+  const highlightRegion = (regionName: string) => {
+    if (!myChart.current || !regionName) return;
 
-    highlightedProvinces.current = provinces;
-    const option = myChart.current.getOption();
-    const newGeo = JSON.parse(JSON.stringify(option.geo[0]));
+    highlightedRegion.current = regionName;
+    const option = myChart.current.getOption() as echarts.EChartsOption;
+    const newGeo = JSON.parse(JSON.stringify(option.geo?.[0] || {}));
 
     // 保留初始regions配置（台湾/南海诸岛等隐藏规则）
     newGeo.regions = [...initialRegions.current];
 
-    provinces.forEach((province) => {
-      if (!provinceOriginalColors.current[province]) {
-        provinceOriginalColors.current[province] = {
+    const provincesInRegion = regionToProvincesMap[regionName] || [];
+    // const highlightColorForRegion =
+    //   regionHighlightColors[regionName] || highlightColor; // 不再使用统一颜色
+
+    provincesInRegion.forEach((province, index) => {
+      if (!regionOriginalColors.current[province]) {
+        // 假设初始状态是 normalColor 和 transparent border
+        regionOriginalColors.current[province] = {
           areaColor: normalColor,
           borderColor: 'transparent',
         };
       }
 
+      // === 修改：为每个省份选择不同的蓝色 ===
+      const colorIndex = index % blueShades.length;
+      const provinceHighlightColor = blueShades[colorIndex];
+
       // 追加高亮省份配置
       newGeo.regions.push({
         name: province,
         itemStyle: {
-          areaColor: highlightColor,
+          areaColor: provinceHighlightColor, // 使用不同的蓝色
           borderColor: '#007ECA',
-          borderWidth: 2,
+          borderWidth: 0,
           shadowColor: 'rgba(0, 126, 202, 0.5)',
-          shadowBlur: 10,
+          shadowBlur: 0,
         },
       });
     });
 
-    myChart.current.setOption({ geo: [newGeo] });
+    myChart.current.setOption({ geo: [newGeo] }, false); // 不合并，替换整个geo配置
   };
 
-  // 修复后的清除高亮方法：恢复初始regions配置
-  const clearProvinceHighlight = () => {
-    if (!myChart.current || highlightedProvinces.current.length === 0) return;
+  // 清除大区高亮
+  const clearRegionHighlight = () => {
+    if (!myChart.current || !highlightedRegion.current) return;
 
-    const option = myChart.current.getOption();
-    const newGeo = JSON.parse(JSON.stringify(option.geo[0]));
+    const option = myChart.current.getOption() as echarts.EChartsOption;
+    const newGeo = JSON.parse(JSON.stringify(option.geo?.[0] || {}));
 
     // 恢复为初始regions配置
     newGeo.regions = [...initialRegions.current];
 
-    myChart.current.setOption({ geo: [newGeo] });
-    highlightedProvinces.current = [];
+    myChart.current.setOption({ geo: [newGeo] }, false); // 不合并
+    highlightedRegion.current = null;
   };
 
-  // 显示省份名称标签
-  const showProvinceLabels = (provinces: string[]) => {
-    if (!myChart.current || !provinces.length) return;
+  // 显示大区名称标签
+  const showRegionLabel = (regionName: string) => {
+    if (!myChart.current || !regionName) return;
 
-    const provinceLabelData = provinces.map((province) => {
-      const coord = provinceCenterMap[province];
-      return {
-        name: province,
-        value: coord,
-      };
-    });
+    const centerCoord = regionCenterMap[regionName] || [0, 0];
 
-    myChart.current.setOption({
-      series: [
-        {
-          id: provinceLabelSeriesId.current,
-          data: provinceLabelData,
-          label: {
-            normal: {
-              show: true,
-              formatter: (params) => params.name,
-              fontSize: 16,
-              color: '#005689',
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
-              padding: [3, 8],
-              borderRadius: 2,
-              fontWeight: 'bold',
+    // 清除之前的隐藏定时器
+    if (labelHideTimeout.current) {
+      clearTimeout(labelHideTimeout.current);
+      labelHideTimeout.current = null;
+    }
+
+    myChart.current.setOption(
+      {
+        series: [
+          {
+            id: regionLabelSeriesId.current,
+            data: [
+              {
+                name: regionName,
+                value: centerCoord,
+              },
+            ],
+            label: {
+              normal: {
+                show: true,
+                formatter: regionName,
+                fontSize: 24,
+                fontWeight: 'bold',
+                color: '#005689',
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                padding: [5, 10],
+                borderRadius: 4,
+                // 尝试避免与点重叠的策略，这里简化为使用预设的偏移坐标
+                // 更复杂的策略需要计算附近点的位置，这里暂不实现
+                // 可以考虑使用 offset 或 rich text 的 position 等属性微调
+              },
             },
           },
-        },
-      ],
-    });
+        ],
+      },
+      false,
+    ); // 不合并
   };
 
-  // 隐藏省份名称标签
-  const hideProvinceLabels = () => {
+  // 隐藏大区名称标签
+  const hideRegionLabel = () => {
     if (!myChart.current) return;
 
-    myChart.current.setOption({
-      series: [
+    // 设置一个短暂的延迟再隐藏，避免鼠标快速移动时标签闪烁
+    if (labelHideTimeout.current) {
+      clearTimeout(labelHideTimeout.current);
+    }
+    labelHideTimeout.current = setTimeout(() => {
+      myChart.current?.setOption(
         {
-          id: provinceLabelSeriesId.current,
-          label: {
-            normal: {
-              show: false,
+          series: [
+            {
+              id: regionLabelSeriesId.current,
+              label: {
+                normal: {
+                  show: false,
+                },
+              },
             },
-          },
+          ],
         },
-      ],
-    });
+        false,
+      ); // 不合并
+      labelHideTimeout.current = null;
+    }, 200); // 200ms 延迟
   };
 
   useEffect(() => {
@@ -396,7 +414,7 @@ const ChinaMapChart = () => {
       const otherCityRipple = { brushType: 'stroke', period: 4, scale: 2.5 };
       const hangzhouRipple = { brushType: 'fill', period: 3, scale: 3 };
 
-      const option = {
+      const option: echarts.EChartsOption = {
         backgroundColor: 'transparent',
         geo: {
           show: true,
@@ -409,7 +427,7 @@ const ChinaMapChart = () => {
           regions: [...initialRegions.current],
           label: {
             emphasis: {
-              show: true,
+              show: true, // 悬停时显示省份标签
               fontSize: 14,
               color: '#007ECA',
               fontWeight: 'bold',
@@ -576,11 +594,11 @@ const ChinaMapChart = () => {
             id: regionLabelSeriesId.current,
             type: 'scatter',
             coordinateSystem: 'geo',
-            data: [],
+            data: [], // 初始为空
             symbolSize: 0,
             label: {
               normal: {
-                show: false,
+                show: false, // 初始隐藏
                 fontSize: 24,
                 fontWeight: 'bold',
                 color: '#005689',
@@ -591,7 +609,6 @@ const ChinaMapChart = () => {
             },
             zlevel: 3,
           },
-          // 省份名称标签层
           {
             id: provinceLabelSeriesId.current,
             type: 'scatter',
@@ -618,134 +635,119 @@ const ChinaMapChart = () => {
 
       // 保存原始效果配置
       const initialOption = myChart.current.getOption();
-      originalEffects.current.effectScatter = initialOption.series
-        .filter((s) => s.type === 'effectScatter')
-        .map((s) => ({
-          id: s.id,
-          showEffectOn: s.showEffectOn,
-          rippleEffect: s.rippleEffect,
-        }));
+      originalEffects.current.effectScatter =
+        initialOption.series
+          ?.filter((s: any) => s.type === 'effectScatter')
+          .map((s: any) => ({
+            id: s.id,
+            showEffectOn: s.showEffectOn,
+            rippleEffect: s.rippleEffect,
+          })) || [];
       originalEffects.current.linesEffectShow = true;
 
-      // 鼠标悬停事件
-      myChart.current.on('mouseover', function (params: any) {
-        if (
-          params.componentType === 'series' &&
-          params.seriesType === 'effectScatter'
-        ) {
-          // 停止涟漪效果
-          myChart.current.setOption({
-            series: initialOption.series.map((s: any) => {
-              if (s.type === 'effectScatter') {
-                return {
-                  ...s,
-                  rippleEffect: { ...s.rippleEffect, period: 0 },
-                };
-              }
-              if (s.type === 'lines') {
-                return {
-                  ...s,
-                  lineStyle: { ...s.lineStyle, normal: { width: 0 } },
-                  effect: { ...s.effect, show: false },
-                };
-              }
-              return s;
-            }),
-          });
+      // ===== 修改后的事件监听逻辑 =====
 
-          // 高亮相关省份并显示大区名称
-          const cityName = params.name;
-          const provincesToHighlight = cityToProvinceMap[cityName];
-          if (provincesToHighlight) {
-            highlightProvinces(provincesToHighlight);
-            showProvinceLabels(provincesToHighlight);
+      // 鼠标悬停事件 - 监听地图区域 (map series)
+      myChart.current.on(
+        'mouseover',
+        { seriesType: 'map' },
+        function (params: any) {
+          // console.log("Mouse over province:", params); // 调试用
+          if (
+            params.componentType === 'series' &&
+            params.seriesType === 'map'
+          ) {
+            const provinceName = params.name;
+            const regionName = provinceToRegionMap[provinceName];
 
-            const centerCoord = calculateCenterCoord(provincesToHighlight);
-            const regionName = getRegionName(provincesToHighlight);
-
-            myChart.current.setOption({
-              series: [
-                {
-                  id: regionLabelSeriesId.current,
-                  data: [
-                    {
-                      name: regionName,
-                      value: centerCoord,
-                    },
-                  ],
-                  label: {
-                    normal: {
-                      show: true,
-                      formatter: regionName,
-                    },
-                  },
-                },
-              ],
-            });
-          }
-        }
-      });
-
-      // 鼠标离开事件
-      myChart.current.on('mouseout', function (params: any) {
-        if (
-          params.componentType === 'series' &&
-          params.seriesType === 'effectScatter'
-        ) {
-          // 恢复涟漪效果
-          myChart.current.setOption({
-            series: myChart.current.getOption().series.map((s: any) => {
-              if (s.type === 'effectScatter') {
-                const original = originalEffects.current.effectScatter.find(
-                  (orig) => orig.id === s.id,
-                );
-                if (original) {
-                  return {
-                    ...s,
-                    showEffectOn: original.showEffectOn,
-                    rippleEffect: original.rippleEffect,
-                  };
-                }
-                return s;
-              }
-              if (s.type === 'lines') {
-                return {
-                  ...s,
-                  lineStyle: {
-                    normal: {
-                      color: colors,
-                      width: 1,
-                      opacity: 0.2,
-                      curveness: -0.2,
-                    },
-                  },
-                  effect: {
-                    ...s.effect,
-                    show: originalEffects.current.linesEffectShow,
-                  },
-                };
-              }
-              return s;
-            }),
-          });
-
-          clearProvinceHighlight();
-          hideProvinceLabels();
-
-          myChart.current.setOption({
-            series: [
+            // 停止涟漪效果
+            myChart.current?.setOption(
               {
-                id: regionLabelSeriesId.current,
-                label: {
-                  normal: {
-                    show: false,
-                  },
-                },
+                series: myChart.current.getOption().series?.map((s: any) => {
+                  if (s.type === 'effectScatter') {
+                    return {
+                      ...s,
+                      rippleEffect: { ...s.rippleEffect, period: 0 },
+                    };
+                  }
+                  if (s.type === 'lines') {
+                    return {
+                      ...s,
+                      lineStyle: { ...s.lineStyle, normal: { width: 0 } },
+                      effect: { ...s.effect, show: false },
+                    };
+                  }
+                  return s;
+                }),
               },
-            ],
-          });
-        }
-      });
+              false,
+            ); // 不合并
+
+            // 高亮大区并显示大区名称
+            if (regionName) {
+              highlightRegion(regionName);
+              showRegionLabel(regionName);
+            }
+          }
+        },
+      );
+
+      // 鼠标离开事件 - 监听地图区域 (map series)
+      myChart.current.on(
+        'mouseout',
+        { seriesType: 'map' },
+        function (params: any) {
+          // console.log("Mouse out province:", params); // 调试用
+          if (
+            params.componentType === 'series' &&
+            params.seriesType === 'map'
+          ) {
+            // 恢复涟漪效果
+            const currentOption = myChart.current?.getOption();
+            myChart.current?.setOption(
+              {
+                series: currentOption?.series?.map((s: any) => {
+                  if (s.type === 'effectScatter') {
+                    const original = originalEffects.current.effectScatter.find(
+                      (orig) => orig.id === s.id,
+                    );
+                    if (original) {
+                      return {
+                        ...s,
+                        showEffectOn: original.showEffectOn,
+                        rippleEffect: original.rippleEffect,
+                      };
+                    }
+                    return s;
+                  }
+                  if (s.type === 'lines') {
+                    return {
+                      ...s,
+                      lineStyle: {
+                        normal: {
+                          color: colors,
+                          width: 1,
+                          opacity: 0.2,
+                          curveness: -0.2,
+                        },
+                      },
+                      effect: {
+                        ...s.effect,
+                        show: originalEffects.current.linesEffectShow,
+                      },
+                    };
+                  }
+                  return s;
+                }),
+              },
+              false,
+            ); // 不合并
+
+            clearRegionHighlight();
+            hideRegionLabel(); // 触发隐藏逻辑
+          }
+        },
+      );
     }
 
     // 窗口大小调整处理
@@ -757,6 +759,9 @@ const ChinaMapChart = () => {
     // 组件卸载清理
     return () => {
       window.removeEventListener('resize', handleResize);
+      if (labelHideTimeout.current) {
+        clearTimeout(labelHideTimeout.current);
+      }
       myChart.current?.dispose();
       myChart.current = null;
     };
