@@ -1,11 +1,14 @@
 .feedback {
   background: #f7f7f7;
-  padding: 0 120px 250px;
   background: url("~@/assets/images/product-mask.png") no-repeat right bottom;
   background-size: contain;
+  padding-bottom: 250px;
   &-header {
+    
   }
   &-content {
+  padding: 0 120px ;
+
     margin-top: 145px;
     &-title {
       text-align: center;
@@ -28,8 +31,15 @@
         font-size: 16px;
         font-weight: 500;
       }
-      .ant-form-item {
-        margin-bottom: 20px;
+       .ant-form-item {
+        margin-bottom: 51px;
+        .ant-form-item-label {
+          label {
+            line-height: 16px;
+            height: 16px !important;
+            padding-bottom: 15px !important;
+          }
+        }
       }
       .ant-btn {
         position: relative;
