@@ -19,6 +19,7 @@ import { useParams, useRequest } from '@umijs/max';
 
 const ProductDetail: React.FC = () => {
   const params = useParams();
+  const swiperRef = useRef(null)
   console.log('🚀 ~ ProductDetail ~ params:', params);
   // 获取产品详情
   const { data: productDetail, run } = useRequest(getProductDetail, {
@@ -148,7 +149,7 @@ const ProductDetail: React.FC = () => {
               },
             }}
             // onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            onSwiper={(swiper) => swiperRef.current = swiper}
             onAutoplayTimeLeft={(swiper, time, progress) => {
               bannerRef.current?.style?.setProperty(
                 '--progressWidth',
@@ -176,10 +177,10 @@ const ProductDetail: React.FC = () => {
             ))}
             {productDetail?.function?.detail?.length > 1 && (
               <>
-                <div className="swiper-next">
+                <div className="swiper-next" onClick={() => swiperRef.current.slideNext()}>
                   <img src={jiantouRight} alt="" />
                 </div>
-                <div className="swiper-prev">
+                <div className="swiper-prev" onClick={() => swiperRef.current.slidePrev()}>
                   <img src={jiantouLeft} alt="" />
                 </div>
               </>
@@ -202,10 +203,10 @@ const ProductDetail: React.FC = () => {
               autoplay={{
                 delay: 3000,
                 disableOnInteraction: false,
-                pauseOnMouseEnter: true,
+                // pauseOnMouseEnter: true,
               }}
               modules={[Autoplay, Mousewheel]}
-              spaceBetween={150}
+              spaceBetween={100}
               slidesPerView={3}
             >
               {productDetail?.value?.detail.map((item, index) => {

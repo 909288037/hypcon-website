@@ -36,15 +36,22 @@ const HardwareProductDetail = () => {
   // 获取产品详情
   const { data } = useRequest(() => {
     return getProductDetail(params.type, params.id);
+    
+  }, {
+    refreshDeps: [params.id],
   });
   // 获取规格参数数据
   const { data: specData } = useRequest(() => {
     return getProductSpecification(params.id);
+  }, {
+    refreshDeps: [params.id],
   });
 
   // 获取产品类目列表
   const { data: productFileList } = useRequest(() => {
     return getProductCategory();
+  }, {
+    refreshDeps: [params.id],
   });
 
   const { data: fileList, run: _getFileList } = useRequest(getProductFileList, {
@@ -66,24 +73,29 @@ const HardwareProductDetail = () => {
     return originalElement;
   };
   const tabItems = useMemo(() => {
-    return [
+    let data = [
       {
         key: '1',
         label: '产品概述',
         children: null,
       },
-      {
+    ];
+    if (specData?.length > 0) {
+      data.push({
         key: '2',
         label: '规格参数',
         children: null,
-      },
-      {
+      });
+    }
+    if (fileList?.rows?.length > 0) {
+      data.push({
         key: '3',
         label: '资料下载',
         children: null,
-      },
-    ];
-  }, []);
+      });
+    }
+    return data;
+  }, [specData, fileList]);
   const [currentKey, setCurrentKey] = useState(tabItems[0].key);
   //   相关产品列表
   const [currentNavKey, setCurrentNavKey] = useState('1');
@@ -200,11 +212,12 @@ const HardwareProductDetail = () => {
                       <div>8*UI</div>
                     </div> */}
                     <div
-                      className="hardware-product-recommend-item-text ql-editor"
-                      dangerouslySetInnerHTML={{
+                      className="hardware-product-recommend-item-text"
+                    >
+                      <div className='ql-editor'   dangerouslySetInnerHTML={{
                         __html: item.detail,
-                      }}
-                    ></div>
+                      }}></div>
+                    </div>
                   </div>
                 );
               })}

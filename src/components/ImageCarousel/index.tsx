@@ -3,7 +3,28 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './index.less';
+function ensureMultipleOfThree(arr) {
+    // 创建原数组的副本，避免修改原数组
+    const result = [...arr];
+    const currentLength = arr.length;
+    const remainder = currentLength % 3;
 
+    // 如果余数为0，说明已经是3的倍数，直接返回
+    if (remainder === 0) {
+        return result;
+    }
+
+    // 计算需要补充的元素个数
+    const needed = 3 - remainder;
+
+    // 循环添加原数组的元素进行填充
+    for (let i = 0; i < needed; i++) {
+        // 使用取模运算确保索引不越界，实现循环效果
+        result.push(arr[i % currentLength]);
+    }
+
+    return result;
+}
 const CircularCarousel = ({ dataSource }) => {
   const swiperRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -14,18 +35,8 @@ const CircularCarousel = ({ dataSource }) => {
   const paginationRef = useRef(null);
 
   const list = useMemo(() => {
-    let data = [];
-    if (dataSource && dataSource?.length > 0) {
-      if (dataSource?.length < 3) {
-        // 重复添加数据以确保至少有3个slide
-        const repeatTimes = Math.ceil(3 / dataSource.length);
-        for (let i = 0; i < repeatTimes; i++) {
-          data = [...data, ...dataSource];
-        }
-      } else {
-        data = [...dataSource];
-      }
-    }
+    let data =ensureMultipleOfThree(dataSource || [])
+    console.log("🚀 ~ CircularCarousel ~ data:", data)
     return data;
   }, [dataSource]);
 

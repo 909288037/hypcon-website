@@ -131,7 +131,7 @@ const Download = () => {
     }
   }, [productFileList]);
   useEffect(() => {
-    if (!selectType.id) return;
+    // if (!selectType.id) return;
     if (selectProduct.id) {
       _getFileList({
         fileCategoryId: currentNavKey?.id,

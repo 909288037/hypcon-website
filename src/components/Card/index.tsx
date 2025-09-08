@@ -1,5 +1,7 @@
 import rightArrowImg from '@/assets/images/right-arrow.png';
+import { extractPlainTextFromHTML } from '@/utils';
 import { history } from '@umijs/max';
+import { Typography } from 'antd';
 import React from 'react';
 import './index.less';
 interface CardProps {
@@ -10,6 +12,7 @@ interface CardProps {
     color?: string;
   };
 }
+const { Paragraph } = Typography;
 
 /**
  * 高亮文本中的关键字
@@ -163,7 +166,7 @@ const Card: React.FC<CardProps> = ({
         onClick={() => {
           if (dataSource.detailType === '0') {
             history.push(
-              `/download/?search=${dataSource.name}&fileCategoryId=${dataSource.categoryId}&id=${dataSource.id}`,
+              `/download/?search=${dataSource.name}&id=${dataSource.id}`,
             );
             return;
           }
@@ -216,14 +219,18 @@ const Card: React.FC<CardProps> = ({
             ? highlightKeywords(dataSource?.name, matchOption.keyword)
             : dataSource?.name}
         </div>
-        <div
-          className="card-body-desc ql-editor"
-          dangerouslySetInnerHTML={{
-            __html: matchOption
-              ? highlightKeywords(dataSource?.description, matchOption?.keyword)
-              : dataSource?.description,
-          }}
-        ></div>
+        <Paragraph ellipsis={{ rows: 3 }}>
+          <div className="card-body-desc ">
+            {extractPlainTextFromHTML(
+              matchOption
+                ? highlightKeywords(
+                    dataSource?.description,
+                    matchOption?.keyword,
+                  )
+                : dataSource?.description,
+            )}
+          </div>
+        </Paragraph>
       </div>
       <div className="card-footer">
         <div className="card-footer-btn">

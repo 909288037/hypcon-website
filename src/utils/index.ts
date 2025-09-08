@@ -82,7 +82,7 @@ export const goPage = (item: any) => {
     }
     // 无详情
     if(item.detailType === '0') {
-        history.push(`/download/?search=${item.name}&fileCategoryId=${item.categoryId}&id=${item.id}`);
+        history.push(`/download/?search=${item.name}&id=${item.id}`);
         return
       }
     // 跳转软件详情
@@ -96,7 +96,7 @@ export const goPage = (item: any) => {
 
     // 跳转产品列表
     if (
-      item.products?.length > 0 ||
+      item.products?.length > 0 || item.children?.length > 0 ||
       (item.children?.length === 0 && item.products?.length === 0)
     ) {
       if (item.image) {

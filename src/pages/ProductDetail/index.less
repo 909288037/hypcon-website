@@ -230,7 +230,13 @@
         .fl-product-detail-banner-right {
           width: 902px;
           height: 522px;
+          border-radius: 20px;
           // margin-bottom: 138px;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
         }
       }
       .fl-product-detail-banner-swiper {
@@ -239,7 +245,7 @@
         .swiper-pagination-bullets {
           position: absolute;
           right: 140px;
-          bottom: -27px;
+          bottom: -50px;
           width: 902px;
           left: inherit;
           top: inherit;
@@ -344,7 +350,7 @@
         align-items: center;
         &-icon {
           width: 78px;
-          height: 78px;
+          height: auto;
           margin-top: 93px;
           img {
             width: 100%;
@@ -364,10 +370,10 @@
           font-size: 16px;
           color: #000000;
           &-item {
-            display: flex;
-            align-items: flex-start;
+            width: 295px;
+            margin: 0 auto;
             font-style: normal;
-            line-height: 21px;
+            // line-height: 21px;
             margin-bottom: 25px;
             // &::before {
             //   content: '';
@@ -380,9 +386,7 @@
             //   border-radius: 99999px;
             //   margin-right: 8px;
             // }
-            &:last-child {
-              margin-bottom: 49px;
-            }
+           
           }
         }
       }

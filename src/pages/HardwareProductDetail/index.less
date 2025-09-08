@@ -11,7 +11,7 @@
     }
     &-img {
       width: 100%;
-      margin-top: 30px;
+      // margin-top: 30px;
 
       img {
         width: 100%;
@@ -109,19 +109,24 @@
     }
   }
   &-item {
-    padding: 181px 0 76px;
-    background:
-      linear-gradient(180deg, #f2f5f8 0%, #ffffff 28%, #e8f2fe 100%),
-      linear-gradient(
-        180deg,
-        #000000 0%,
-        rgba(0, 0, 0, 0) 11%,
-        rgba(0, 0, 0, 0) 11%,
-        rgba(0, 0, 0, 0) 85%,
-        #000000 100%
-      ),
-      rgba(233, 240, 245, 0.4);
+    position: relative;
+    padding: 0;
+    // background:
+    //   linear-gradient(180deg, #f2f5f8 0%, #ffffff 28%, #e8f2fe 100%),
+    //   linear-gradient(
+    //     180deg,
+    //     #000000 0%,
+    //     rgba(0, 0, 0, 0) 11%,
+    //     rgba(0, 0, 0, 0) 11%,
+    //     rgba(0, 0, 0, 0) 85%,
+    //     #000000 100%
+    //   ),
+    //   rgba(233, 240, 245, 0.4);
     &-title {
+      position: absolute;
+      top: 181px;
+      left: 50%;
+      transform: translateX(-50%);
       text-align: center;
       font-weight: 500;
       font-size: 52px;
@@ -152,6 +157,10 @@
     background: transparent;
     padding-left: 120px;
     padding-right: 120px;
+    .hardware-product-item-title {
+      position: relative;
+      margin-bottom: 231px;
+    }
     &::after {
       content: '';
       width: 100%;
@@ -189,8 +198,8 @@
         }
         &-img {
           position: absolute;
-          top: 0;
-          left: 50%;
+          top: -20px;
+          left: 55%;
           transform: translate(-50%, -50%);
           width: 450px;
           height: 300px;
@@ -281,10 +290,9 @@
   &-download {
     display: flex;
     padding: 87px 120px 30px;
-    background: #f7f7f7;
     min-height: 100vh;
     background: url('../../assets/images/product-mask.png') no-repeat right
-      bottom;
+      bottom, #f7f7f7;
     background-size: contain;
     &-nav {
       &-item {

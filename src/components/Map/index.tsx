@@ -374,6 +374,50 @@ const ChinaMapChart = () => {
           map: 'china',
           roam: false,
           zoom: 1,
+          layoutCenter: ['51%', '43%'], //地图位置
+          layoutSize: '70%',
+          regions: [
+            {
+              name: '台湾',
+              itemStyle: {
+                opacity: 0, // 设置透明度为0，完全隐藏
+                borderWidth: 0, // 隐藏边框
+              },
+              label: {
+                show: false, // 隐藏标签
+              },
+            },
+             {
+              name: '南海诸岛',
+              itemStyle: {
+                opacity: 0, // 设置透明度为0，完全隐藏
+                borderWidth: 0, // 隐藏边框
+              },
+              label: {
+                show: false, // 隐藏标签
+              },
+            },
+             {
+              name: '香港',
+              itemStyle: {
+                opacity: 0, // 设置透明度为0，完全隐藏
+                borderWidth: 0, // 隐藏边框
+              },
+              label: {
+                show: false, // 隐藏标签
+              },
+            },
+             {
+              name: '澳门',
+              itemStyle: {
+                opacity: 0, // 设置透明度为0，完全隐藏
+                borderWidth: 0, // 隐藏边框
+              },
+              label: {
+                show: false, // 隐藏标签
+              },
+            },
+          ],
           label: {
             emphasis: {
               show: true,
@@ -390,13 +434,13 @@ const ChinaMapChart = () => {
               areaColor: normalColor,
               shadowColor: '#96BBDA',
               shadowOffsetX: 0,
-              shadowOffsetY: 5,
-              shadowBlur: 5,
+              shadowOffsetY: 0,
+              shadowBlur: 0,
             },
             emphasis: {
               areaColor: highlightColor,
               borderColor: '#007ECA',
-              borderWidth: 2,
+              borderWidth: 0,
             },
           },
         },
@@ -484,7 +528,7 @@ const ChinaMapChart = () => {
                 show: true,
                 rich: {
                   hz: {
-                    color: '#007ECA',
+                    color: '#0055FF',
                     fontSize: 24,
                     fontWeight: 'bold',
                   },
@@ -507,8 +551,8 @@ const ChinaMapChart = () => {
             coordinateSystem: 'geo',
             data: convertData(hangzhouData), // 使用相同的杭州数据
             symbol: `image://${hangzhouIcon}`, // 自定义图标
-            symbolSize: 48, // 图标大小
-            symbolOffset: [0, -20], // 图标偏移调整
+            symbolSize: 26, // 图标大小
+            symbolOffset: [0, 0], // 图标偏移调整
             label: {
               normal: {
                 show: false, // 不显示额外标签，避免重复

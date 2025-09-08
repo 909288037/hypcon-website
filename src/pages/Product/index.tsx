@@ -54,11 +54,15 @@ const Product = () => {
             <div className="gradient-text">{data?.name}</div>
           </div>
           <div
-            className="fl-product-content-left-desc ql-editor"
-            dangerouslySetInnerHTML={{
+            className="fl-product-content-left-desc "
+           
+          >
+            <div className='ql-editor'  dangerouslySetInnerHTML={{
               __html: data?.description,
-            }}
-          ></div>
+            }}>
+
+            </div>
+          </div>
           <div className="fl-product-content-left-list">
             {data?.detailList?.map((item, index) => (
               <div className="fl-product-content-left-list-item" key={item.id}>

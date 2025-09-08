@@ -57,17 +57,22 @@ const TopBanner = ({ dataSource }) => {
                     loop
                   ></video>
                 )}
-                {item.link && (
-                  <div
-                    className="fl-home-banner-link"
-                    onClick={() => {
-                      window.open(item.link);
-                    }}
-                  >
-                    <div className="fl-home-banner-link-text">了解更多</div>
-                    <div className="fl-home-banner-link-arrow"></div>
+                {
+                  <div className="fl-home-banner-title">
+                    {item.title}
+                    {item.link && (
+                      <div
+                        className="fl-home-banner-link"
+                        onClick={() => {
+                          window.open(item.link);
+                        }}
+                      >
+                        <div className="fl-home-banner-link-text">了解更多</div>
+                        <div className="fl-home-banner-link-arrow"></div>
+                      </div>
+                    )}
                   </div>
-                )}
+                }
               </div>
             </SwiperSlide>
           );
