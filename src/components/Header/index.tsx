@@ -13,7 +13,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import downArrow from '../../assets/images/down-arrow.svg';
 import localeIcon from '../../assets/images/locale.svg';
 import searchIcon from '../../assets/images/search.svg';
 import zkxxActive from '../../assets/images/zkxx-active.png';
@@ -204,7 +203,8 @@ const Header: FC<BaseProps> = ({
               }}
             >
               <span className="menu-title">{item.title}</span>
-              <ReactSVG className="menu-icon" src={downArrow}></ReactSVG>
+              <div className="menu-icon"></div>
+              {/* <ReactSVG className="menu-icon" src={downArrow}></ReactSVG> */}
             </div>
           );
         })}

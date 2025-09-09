@@ -64,29 +64,12 @@
       .menu-icon {
         width: 18px;
         height: 18px;
-        div {
-          height: 100%;
-        }
+        background: url('~@/assets/images/down-arrow.png') no-repeat center;
+        background-size: 100% 100%;
       }
       &:first-child {
         margin-left: 0;
       }
-      // &:hover {
-      //   color: #007eca;
-      //   path {
-      //     stroke: #007eca !important;
-      //   }
-      //   .fl-header-dropdown {
-      //     max-height: 600px;
-      //     padding: 42px 120px;
-      //     color: #666666;
-      //   }
-      //   .menu-title {
-      //     &::after {
-      //       width: 100%;
-      //     }
-      //   }
-      // }
     }
   }
   &-right {
@@ -242,8 +225,10 @@
             }
           }
 
-          path {
-            stroke: #007eca;
+          .menu-icon {
+            background: url('~@/assets/images/down-arrow-active.png') no-repeat
+              center;
+            background-size: 100% 100%;
           }
         }
       }
@@ -306,6 +291,11 @@
           path {
             stroke: #007eca;
           }
+        }
+        .menu-icon {
+          background: url('~@/assets/images/down-arrow-black.png') no-repeat
+            center;
+          background-size: 100% 100%;
         }
       }
     }
