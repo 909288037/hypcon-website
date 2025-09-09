@@ -27,7 +27,14 @@ const NewsBlock = ({ dataSource }) => {
 
       <div className="news-block-content">
         {/* 封面图 */}
-        <div className="news-block-cover">
+        <div className="news-block-cover" onClick={() => {
+                const item = dataSource?.[0];
+                if (item.link) {
+                  window.open(item.link);
+                  return;
+                }
+                history.push(`/product-notice/${item?.id}`);
+              }}>
           <img src={dataSource?.[0]?.image} alt="" />
           <div className="news-block-cover-title">
             {dataSource?.[0]?.noticeTitle}

@@ -354,18 +354,34 @@ const SolutionBanner = ({ dataSource }) => {
                     <div className="fl-solution-banner-tag-text">
                       推荐产品：
                     </div>
-                    <div className="fl-solution-banner-tag-list">
-                      {item?.productList?.map((tag, tagIndex) => (
-                        <span
-                          className="fl-solution-banner-tag-item"
-                          key={tagIndex}
-                          onClick={() => {
-                            goPage(tag);
-                          }}
-                        >
-                          {tag.name}
-                        </span>
-                      ))}
+                  <div className="fl-solution-banner-tag-list">
+                      {item?.productList?.reduce((rows, tag, tagIndex) => {
+                        if (tagIndex % 2 === 0) {
+                          rows.push(
+                            <div className="tag-row" key={`row-${tagIndex}`}>
+                              <span
+                                className="fl-solution-banner-tag-item"
+                                onClick={() => {
+                                  goPage(tag);
+                                }}
+                              >
+                                {tag.name}
+                              </span>
+                              {item?.productList[tagIndex + 1] && (
+                                <span
+                                  className="fl-solution-banner-tag-item"
+                                  onClick={() => {
+                                    goPage(item?.productList[tagIndex + 1]);
+                                  }}
+                                >
+                                  {item?.productList[tagIndex + 1].name}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        }
+                        return rows;
+                      }, [])}
                     </div>
                   </div>
                 )}

@@ -1,6 +1,7 @@
 import arrowIcon from '@/assets/images/jiantou-right.png';
 import qrcodeIcon from '@/assets/images/qrcode.svg';
 import arrowRight from '@/assets/images/right-arrow-primary.png';
+import CustomEmpty from '@/components/CustomEmpty';
 import Header from '@/components/Header';
 import {
   getProductCategory,
@@ -34,25 +35,33 @@ const HardwareProductDetail = () => {
   const index = searchParams.get('index');
   console.log('🚀 ~ ProductDetail ~ params:', params);
   // 获取产品详情
-  const { data } = useRequest(() => {
-    return getProductDetail(params.type, params.id);
-    
-  }, {
-    refreshDeps: [params.id],
-  });
+  const { data } = useRequest(
+    () => {
+      return getProductDetail(params.type, params.id);
+    },
+    {
+      refreshDeps: [params.id],
+    },
+  );
   // 获取规格参数数据
-  const { data: specData } = useRequest(() => {
-    return getProductSpecification(params.id);
-  }, {
-    refreshDeps: [params.id],
-  });
+  const { data: specData } = useRequest(
+    () => {
+      return getProductSpecification(params.id);
+    },
+    {
+      refreshDeps: [params.id],
+    },
+  );
 
   // 获取产品类目列表
-  const { data: productFileList } = useRequest(() => {
-    return getProductCategory();
-  }, {
-    refreshDeps: [params.id],
-  });
+  const { data: productFileList } = useRequest(
+    () => {
+      return getProductCategory();
+    },
+    {
+      refreshDeps: [params.id],
+    },
+  );
 
   const { data: fileList, run: _getFileList } = useRequest(getProductFileList, {
     manual: true,
@@ -73,7 +82,7 @@ const HardwareProductDetail = () => {
     return originalElement;
   };
   const tabItems = useMemo(() => {
-    let data = [
+    let _data = [
       {
         key: '1',
         label: '产品概述',
@@ -81,22 +90,24 @@ const HardwareProductDetail = () => {
       },
     ];
     if (specData?.length > 0) {
-      data.push({
+      _data.push({
         key: '2',
         label: '规格参数',
         children: null,
       });
     }
-    if (fileList?.rows?.length > 0) {
-      data.push({
+    if (data?.haveFile) {
+      _data.push({
         key: '3',
         label: '资料下载',
         children: null,
       });
     }
-    return data;
+
+    return _data;
   }, [specData, fileList]);
   const [currentKey, setCurrentKey] = useState(tabItems[0].key);
+  console.log('🚀 ~ currentKey:', currentKey);
   //   相关产品列表
   const [currentNavKey, setCurrentNavKey] = useState('1');
   const [imgVisible, setImgVisible] = useState({
@@ -211,12 +222,13 @@ const HardwareProductDetail = () => {
                       <div>4G全网通</div>
                       <div>8*UI</div>
                     </div> */}
-                    <div
-                      className="hardware-product-recommend-item-text"
-                    >
-                      <div className='ql-editor'   dangerouslySetInnerHTML={{
-                        __html: item.detail,
-                      }}></div>
+                    <div className="hardware-product-recommend-item-text">
+                      <div
+                        className="ql-editor"
+                        dangerouslySetInnerHTML={{
+                          __html: item.detail,
+                        }}
+                      ></div>
                     </div>
                   </div>
                 );
@@ -281,77 +293,81 @@ const HardwareProductDetail = () => {
             })}
           </div>
           <div className="hardware-product-download-list">
-            {fileList?.rows?.map((item) => {
-              return (
-                <div
-                  className="hardware-product-download-list-item"
-                  key={item.id}
-                >
-                  <div className="hardware-product-download-list-item-img" />
-                  <div className="hardware-product-download-list-item-text">
-                    <div className="hardware-product-download-list-item-text-title">
-                      <span>{item.name}</span>
-                    </div>
-                    <div className="hardware-product-download-list-item-text-footer">
-                      <div className="hardware-product-download-list-item-text-footer-left">
-                        <div>
-                          发行日期：
-                          {dayjs(item.createTime).format('YYYY.MM.DD')}
-                        </div>
-                        <div>版本号：{item.version}</div>
-                        <div>资料编号：{item.id}</div>
+            {fileList?.rows?.length > 0 ? (
+              fileList?.rows?.map((item) => {
+                return (
+                  <div
+                    className="hardware-product-download-list-item"
+                    key={item.id}
+                  >
+                    <div className="hardware-product-download-list-item-img" />
+                    <div className="hardware-product-download-list-item-text">
+                      <div className="hardware-product-download-list-item-text-title">
+                        <span>{item.name}</span>
                       </div>
-                      {item.url && (
-                        <div className="hardware-product-download-list-item-text-footer-right">
-                          {(isImage(item.url) ||
-                            item.url?.endsWith?.('.pdf')) && (
+                      <div className="hardware-product-download-list-item-text-footer">
+                        <div className="hardware-product-download-list-item-text-footer-left">
+                          <div>
+                            发行日期：
+                            {dayjs(item.createTime).format('YYYY.MM.DD')}
+                          </div>
+                          <div>版本号：{item.version}</div>
+                          <div>资料编号：{item.id}</div>
+                        </div>
+                        {item.url && (
+                          <div className="hardware-product-download-list-item-text-footer-right">
+                            {(isImage(item.url) ||
+                              item.url?.endsWith?.('.pdf')) && (
+                              <div
+                                onClick={() => {
+                                  // 如果是pdf直接打开
+                                  if (item.url.endsWith('.pdf')) {
+                                    window.open(item.url);
+                                  } else {
+                                    setImgVisible({
+                                      url: item.url,
+                                      visible: true,
+                                    });
+                                  }
+                                }}
+                              >
+                                预览
+                                <EyeOutlined />
+                              </div>
+                            )}
                             <div
                               onClick={() => {
-                                // 如果是pdf直接打开
-                                if (item.url.endsWith('.pdf')) {
-                                  window.open(item.url);
-                                } else {
-                                  setImgVisible({
-                                    url: item.url,
-                                    visible: true,
-                                  });
-                                }
+                                downloadFile(
+                                  item.url,
+                                  `${item.name}.${item.url.split('.').pop()}`,
+                                );
                               }}
                             >
-                              预览
-                              <EyeOutlined />
+                              下载
+                              <DownloadOutlined />
                             </div>
-                          )}
-                          <div
-                            onClick={() => {
-                              downloadFile(
-                                item.url,
-                                `${item.name}.${item.url.split('.').pop()}`,
-                              );
-                            }}
-                          >
-                            下载
-                            <DownloadOutlined />
+                            <Popover
+                              content={
+                                <QRCode value={item.url} bordered={false} />
+                              }
+                            >
+                              <div>
+                                二维码
+                                <span>
+                                  <ReactSVG src={qrcodeIcon} />
+                                </span>
+                              </div>
+                            </Popover>
                           </div>
-                          <Popover
-                            content={
-                              <QRCode value={item.url} bordered={false} />
-                            }
-                          >
-                            <div>
-                              二维码
-                              <span>
-                                <ReactSVG src={qrcodeIcon} />
-                              </span>
-                            </div>
-                          </Popover>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <CustomEmpty />
+            )}
             <div className="hardware-product-download-pagination">
               <Pagination
                 hideOnSinglePage

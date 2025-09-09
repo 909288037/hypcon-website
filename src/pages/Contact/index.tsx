@@ -1,5 +1,7 @@
 import Header from '@/components/Header';
 import address from './images/address.png';
+import email from './images/email.png';
+import phone from './images/phone.png';
 
 import { getContact } from '@/services/AboutNetwork';
 import { QrcodeOutlined } from '@ant-design/icons';
@@ -37,7 +39,7 @@ const Contact = () => {
           </div>
           <div className="fl-contact-content-left-item">
             <div className="fl-contact-content-left-item-icon">
-              <img src={address} alt="" />
+              <img src={phone} alt="" />
             </div>
             <div className="fl-contact-content-left-item-text">
               <div className="fl-contact-content-left-item-text-title">
@@ -50,7 +52,7 @@ const Contact = () => {
           </div>
           <div className="fl-contact-content-left-item">
             <div className="fl-contact-content-left-item-icon">
-              <img src={address} alt="" />
+              <img src={email} alt="" />
             </div>
             <div className="fl-contact-content-left-item-text">
               <div className="fl-contact-content-left-item-text-title">

@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 
-import bgImg from './images/bg.png';
+import bgImg from './images/bg.jpg';
 
 import ChinaMapChart from '@/components/Map';
 import { getServiceNetwork } from '@/services/ServiceNetwork';
@@ -28,12 +28,14 @@ const ServiceNetwork = () => {
         </div>
       </div>
       <div className="fl-service-network-map">
-        <div
-          className="fl-service-network-map-desc ql-editor"
-          dangerouslySetInnerHTML={{
-            __html: serviceNetworkData?.detail,
-          }}
-        ></div>
+        <div className="fl-service-network-map-desc">
+          <div
+            className=" ql-editor"
+            dangerouslySetInnerHTML={{
+              __html: serviceNetworkData?.detail,
+            }}
+          ></div>
+        </div>
         <img src={bgImg} alt="" />
         <div className="fl-service-network-map-content">
           <ChinaMapChart />

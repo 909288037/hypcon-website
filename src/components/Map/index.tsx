@@ -136,6 +136,8 @@ targetCities.forEach((city) => {
   valueData[city] = city === '杭州' ? 30000 : 10000;
 });
 
+const layoutCenter = ['51%', '50%']
+const layoutSize = '90%';
 // React 组件
 const ChinaMapChart = () => {
   const chartRef = useRef<HTMLDivElement>(null);
@@ -273,6 +275,7 @@ const ChinaMapChart = () => {
     return mapData;
   };
 
+
   // 高亮指定大区
   const highlightRegion = (regionName: string) => {
     if (!myChart.current || !regionName) return;
@@ -332,11 +335,15 @@ const ChinaMapChart = () => {
   };
 
   // 显示大区名称标签和省份名称标签
+  // === 修改后的 showLabels 函数 ===
   const showLabels = (regionName: string) => {
     if (!myChart.current || !regionName) return;
 
     const provincesInRegion = regionToProvincesMap[regionName] || [];
+
+    // === 关键修改：过滤掉 geoCoordMap 中已存在的省份 ===
     const provinceLabelData = provincesInRegion
+      .filter(province => !geoCoordMap.hasOwnProperty(province)) // 过滤掉已有坐标的省份
       .map((province) => {
         const center = provinceCenterMap[province];
         if (center) {
@@ -347,21 +354,24 @@ const ChinaMapChart = () => {
         }
         return null;
       })
-      .filter((item) => item !== null);
+      .filter((item) => item !== null); // 移除 center 为 null 的项
 
     // 计算大区中心点（所有省份中心点的平均值）
+    // （计算逻辑保持不变，但应确保参与计算的省份是有效的）
     let totalX = 0;
     let totalY = 0;
     let validProvinceCount = 0;
+    // 使用过滤后的 provinceLabelData 来计算中心点
     provinceLabelData.forEach((item: any) => {
-      totalX += item.value[0];
-      totalY += item.value[1];
-      validProvinceCount++;
+        totalX += item.value[0];
+        totalY += item.value[1];
+        validProvinceCount++;
     });
+
     const regionCenterCoord: [number, number] =
       validProvinceCount > 0
         ? [totalX / validProvinceCount, totalY / validProvinceCount + 1.5] // 微调Y坐标使标签在上方
-        : [0, 0]; // fallback
+        : regionCenterMap[regionName] || [0, 0]; // fallback to predefined center or [0,0]
 
     // 清除之前的隐藏定时器
     if (labelHideTimeout.current) {
@@ -394,10 +404,10 @@ const ChinaMapChart = () => {
               },
             },
           },
-          // 省份名称标签
+          // 省份名称标签 (已过滤)
           {
             id: provinceLabelSeriesId.current,
-            data: provinceLabelData,
+            data: provinceLabelData, // 使用过滤后的数据
             label: {
               normal: {
                 show: true,
@@ -476,8 +486,8 @@ const ChinaMapChart = () => {
             map: 'china',
             roam: false,
             zoom: 1,
-            layoutCenter: ['51%', '43%'], //地图位置
-            layoutSize: '70%',
+            layoutCenter, //地图位置
+            layoutSize,
             // 使用初始regions配置
             regions: [...initialRegions.current],
             label: {
@@ -509,8 +519,8 @@ const ChinaMapChart = () => {
             map: 'china',
             roam: false,
             zoom: 1,
-            layoutCenter: ['51%', '43.5%'], //地图位置
-            layoutSize: '70%',
+            layoutCenter: [layoutCenter[0], parseInt(layoutCenter[1]) + 0.5 + '%'], //地图位置
+            layoutSize,
             // 使用初始regions配置
             regions: [
               // === 修改：移除对台湾、香港、澳门的隐藏设置，并设置灰色背景 ===
@@ -567,8 +577,8 @@ const ChinaMapChart = () => {
             map: 'china',
             roam: false,
             zoom: 1,
-            layoutCenter: ['51%', '44%'], //地图位置
-            layoutSize: '70%',
+            layoutCenter: [layoutCenter[0], parseInt(layoutCenter[1]) + 1 + '%'], //地图位置
+            layoutSize,
             // 使用初始regions配置
             regions: [
               // === 修改：移除对台湾、香港、澳门的隐藏设置，并设置灰色背景 ===
@@ -716,9 +726,9 @@ const ChinaMapChart = () => {
             },
             itemStyle: {
               normal: {
-                color: colors,
+                color: "#3685FF",
                 shadowBlur: 10,
-                shadowColor: colors,
+                shadowColor: "#3685FF",
               },
             },
             zlevel: 1, // 低于图标层，确保涟漪在图标下方
@@ -818,7 +828,6 @@ const ChinaMapChart = () => {
           })) || [];
       originalEffects.current.linesEffectShow = true;
 
-      // ===== 修改后的事件监听逻辑 =====
 
       // 鼠标悬停事件 - 监听地图区域 (map series)
       myChart.current.on(
@@ -944,3 +953,6 @@ const ChinaMapChart = () => {
 };
 
 export default ChinaMapChart;
+
+
+

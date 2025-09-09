@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { isImage } from '@/utils';
@@ -12,6 +12,13 @@ import './index.less';
 
 const TopBanner = ({ dataSource }) => {
   const homeBannerRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [curTime, setCurTime] = useState(3000)
+  console.log("🚀 ~ TopBanner ~ curTime:", curTime)
+  const videoRef = useRef({})
+
+
+  
   return (
     <div ref={homeBannerRef} className="fl-home-banner">
       <Swiper
@@ -23,7 +30,7 @@ const TopBanner = ({ dataSource }) => {
           crossFade: true,
         }}
         autoplay={{
-          delay: 3000,
+          delay: 5000,
           disableOnInteraction: false,
         }}
         loop
@@ -33,7 +40,9 @@ const TopBanner = ({ dataSource }) => {
             return `<span class=${className}></span>`;
           },
         }}
-        // onSlideChange={() => console.log('slide change')}
+        onSlideChange={(swiper) => {
+          setActiveIndex(swiper.realIndex);
+        }}
         onSwiper={(swiper) => console.log(swiper)}
         onAutoplayTimeLeft={(swiper, time, progress) => {
           homeBannerRef.current?.style?.setProperty(
@@ -50,11 +59,21 @@ const TopBanner = ({ dataSource }) => {
                   <img src={item.image} alt="" />
                 ) : (
                   <video
+                  ref={(ref) => {
+                    videoRef.current[index] = ref;
+                  } }
                     src={item.image}
                     controls={false}
                     muted
                     autoPlay
                     loop
+                    // onLoadedData={(e) => {
+                    //   if(activeIndex === index) {
+                    //     e.target.currentTime = 0
+                    //     setCurTime(Math.ceil(e.target.duration) * 1000)
+                    //   }
+                    //   console.log("🚀 ~ e:", e)
+                    // }}
                   ></video>
                 )}
                 {

@@ -67,7 +67,7 @@ const Product = () => {
             {data?.detailList?.map((item, index) => (
               <div className="fl-product-content-left-list-item" key={item.id}>
                 <div className="fl-product-content-left-list-item-icon">
-                  <img src={item.image} alt="" />
+                 {item.image && <img src={item.image} alt="" />}
                 </div>
                 <div className="fl-product-content-left-list-item-title">
                   {item.title}
@@ -81,7 +81,7 @@ const Product = () => {
         </div>
       </div>
       <div className="fl-product-cards">
-        {data?.productList?.map((item) => {
+        {[...(data?.productList || []), ...(data?.childList || [])]?.map((item) => {
           return (
             <Card
               key={item.id}

@@ -64,7 +64,11 @@ export default function Layout() {
       >
         <Helmet></Helmet>
         {/* <AppStore /> */}
-        <Outlet />
+        <div style={{
+          minHeight: '100vh'
+        }}>
+          <Outlet />
+        </div>
         {/* 悬浮按钮 */}
         <div className="fl-float-btn" hidden={!showTop}>
           <Popover

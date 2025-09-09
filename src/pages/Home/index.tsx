@@ -78,7 +78,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="fl-home">
       {/* 头部 导航 */}
-      <Header className="fl-home-header" />
+      <Header className="fl-home-header" isFixed/>
 
       {/* 首页轮播图 */}
       <div className="fl-home-banner">

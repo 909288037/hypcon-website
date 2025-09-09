@@ -119,7 +119,7 @@ const Footer = () => {
         <div className="fl-footer-contact-wrapper">
           {/* 联系方式 */}
           <div className="fl-footer-contact">
-            <div>{data?.title}</div>
+            <div>{data?.sixth}</div>
             <div>电话: {data?.third}</div>
             <div>
               邮箱: <a href={`mailto:${data?.fourth}`}>{data?.fourth}</a>

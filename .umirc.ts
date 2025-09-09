@@ -8,6 +8,9 @@ export default defineConfig({
   initialState: {},
   request: {},
   layout: false,
+  favicons: [
+    '/favicon.ico',
+  ],
   title: '泛联·HYPCON',
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   routes: routers,

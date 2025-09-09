@@ -1,8 +1,9 @@
 import rightArrowImg from '@/assets/images/right-arrow.png';
-import { extractPlainTextFromHTML } from '@/utils';
+import { extractPlainTextFromHTML, goPage } from '@/utils';
 import { history } from '@umijs/max';
 import { Typography } from 'antd';
 import React from 'react';
+import defaultImage from '@/assets/images/default-img.jpg';
 import './index.less';
 interface CardProps {
   type?: 'view' | 'download';
@@ -182,7 +183,7 @@ const Card: React.FC<CardProps> = ({
         }}
       >
         <div className="card-download-header">
-          <img src={dataSource?.image} alt="" />
+          <img src={dataSource?.image || defaultImage} alt="" />
         </div>
         <div className="card-download-body">
           <div className="card-download-body-title">{dataSource?.name}</div>
@@ -204,14 +205,17 @@ const Card: React.FC<CardProps> = ({
         // 跳转软件详情
         if (dataSource.type === '0') {
           history.push(`/product/${dataSource.type}/${dataSource.id}`);
+          return
         } else if (dataSource.type === '1') {
           // 跳转硬件详情
           history.push(`/product-hardware/${dataSource.type}/${dataSource.id}`);
+          return
         }
+        goPage(dataSource);
       }}
     >
       <div className="card-header">
-        <img src={dataSource?.image} alt="" />
+        <img src={dataSource?.image || defaultImage} alt="" />
       </div>
       <div className="card-body">
         <div className="card-body-title">
@@ -220,15 +224,14 @@ const Card: React.FC<CardProps> = ({
             : dataSource?.name}
         </div>
         <Paragraph ellipsis={{ rows: 3 }}>
-          <div className="card-body-desc ">
-            {extractPlainTextFromHTML(
-              matchOption
-                ? highlightKeywords(
-                    dataSource?.description,
-                    matchOption?.keyword,
-                  )
-                : dataSource?.description,
-            )}
+          <div className="card-body-desc">
+            {
+              matchOption ? highlightKeywords(
+                extractPlainTextFromHTML(dataSource?.description),
+                matchOption.keyword
+              ) : extractPlainTextFromHTML(dataSource?.description)
+            }
+        
           </div>
         </Paragraph>
       </div>

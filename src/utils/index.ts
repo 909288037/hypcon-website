@@ -96,6 +96,7 @@ export const goPage = (item: any) => {
     if (
       item.products?.length > 0 || item.children?.length > 0 ||
       (item.children?.length === 0 && item.products?.length === 0)
+      || (!item.children && !item.products)
     ) {
       if (item.image) {
         // 有分类图

@@ -1,11 +1,12 @@
 import { RightOutlined } from '@ant-design/icons';
 import { history, useModel, useRequest } from '@umijs/max';
 import classNames from 'classnames';
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 
 import { getProductList, getSolutionList } from '@/services/HomeController';
 import { goPage } from '@/utils';
+import { useScroll } from 'ahooks';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
@@ -14,8 +15,6 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import downArrow from '../../assets/images/down-arrow.svg';
 import localeIcon from '../../assets/images/locale.svg';
-import logoActive from '../../assets/images/logo-active.png';
-import logo from '../../assets/images/logo.png';
 import searchIcon from '../../assets/images/search.svg';
 import zkxxActive from '../../assets/images/zkxx-active.png';
 import zkxx from '../../assets/images/zkxx.png';
@@ -24,9 +23,26 @@ import './index.less';
 interface BaseProps {
   className?: string;
   theme?: 'default' | 'light';
+  isFixed?: boolean;
 }
 
-const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
+const Header: FC<BaseProps> = ({
+  className,
+  theme = 'default',
+  isFixed = false,
+}) => {
+  const scroll = useScroll(document);
+  const [isShow, setIsShow] = useState(false);
+  useEffect(() => {
+    if (isFixed) {
+      if (scroll?.top >= 10) {
+        setIsShow(true);
+      } else {
+        setIsShow(false);
+      }
+    }
+  }, [scroll]);
+
   const { setProductList, setSolutionList } = useModel(
     'global',
     ({ setProductList, setSolutionList }) => ({
@@ -149,18 +165,21 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
       className={classNames('fl-header', className, {
         'fl-header-hover': currentIndex > -1,
         [`fl-header-${theme}`]: theme,
+        'fl-header-light': isShow,
       })}
     >
       <div
-        className="fl-header-logo"
+        className={classNames('fl-header-logo', {
+          'fl-header-logo-hover': currentIndex > -1 || theme !== 'default',
+        })}
         onClick={() => {
           history.push('/');
         }}
       >
-        <img
+        {/* <img
           src={currentIndex > -1 || theme !== 'default' ? logoActive : logo}
           alt="泛联·HYPCON"
-        />
+        /> */}
       </div>
       <div
         className="fl-header-menu"
@@ -386,7 +405,11 @@ const Header: FC<BaseProps> = ({ className, theme = 'default' }) => {
       <div className="fl-header-right">
         <div className="fl-header-right-logo">
           <img
-            src={currentIndex > -1 || theme !== 'default' ? zkxxActive : zkxx}
+            src={
+              currentIndex > -1 || theme !== 'default' || isShow
+                ? zkxxActive
+                : zkxx
+            }
             alt=""
           />
         </div>

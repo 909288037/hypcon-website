@@ -26,7 +26,7 @@ const Introduction = () => {
     <div className="fl-introduction">
       <Header className="fl-introduction-header" />
       <div className="fl-introduction-banner">
-        <img src={bannerImg} alt="" />
+        <img src={aboutData?.image} alt="" />
         <div className="fl-introduction-banner-title">{aboutData?.title}</div>
       </div>
       <div className="fl-introduction-advantage">
@@ -80,9 +80,13 @@ const Introduction = () => {
                   </div>
                 </div>
                 <div className="fl-introduction-zhi-card-item-content">
-                  {item.imageMobile && <div className="fl-introduction-zhi-card-item-content-img">
-                    <img src={item.imageMobile} alt="" />
-                  </div>}
+                  {
+                    <div className="fl-introduction-zhi-card-item-content-img">
+                      {item.imageMobile && (
+                        <img src={item.imageMobile} alt="" />
+                      )}
+                    </div>
+                  }
                   <div
                     className="fl-introduction-zhi-card-item-content-text ql-editor"
                     dangerouslySetInnerHTML={{
