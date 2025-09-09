@@ -42,6 +42,9 @@ function setRem() {
 
 export function render(oldRender: any) {
   setRem()
+  if (history.scrollRestoration) {
+  history.scrollRestoration = 'manual';
+}
  window.onresize = function () {
   console.log('resize');
   

@@ -83,11 +83,11 @@ const HardwareProductDetail = () => {
     }
     return originalElement;
   };
-  const [currentKey, setCurrentKey] = useState('1');
+  const [currentKey, setCurrentKey] = useState('-1');
 
   const tabItems = useMemo(() => {
     let _data = [];
-    if(data?.overview?.length > 0) {
+    if (data?.overview?.length > 0) {
       _data.push({
         key: '1',
         label: '产品概述',
@@ -108,9 +108,10 @@ const HardwareProductDetail = () => {
         children: null,
       });
     }
-    setCurrentKey(_data[0]?.key || '-1')
+    setCurrentKey(_data[0]?.key);
     return _data;
-  }, [specData, fileList]);
+  }, [data]);
+
   console.log('🚀 ~ currentKey:', currentKey);
   //   相关产品列表
   const [currentNavKey, setCurrentNavKey] = useState('1');
@@ -151,12 +152,13 @@ const HardwareProductDetail = () => {
             <img src={data?.image} alt="" />
           </div>
         )}
-        <div
-          className="hardware-product-detail-text "
-        >
-          <div className='ql-editor'  dangerouslySetInnerHTML={{
-            __html: data?.description,
-          }}></div>
+        <div className="hardware-product-detail-text ">
+          <div
+            className="ql-editor"
+            dangerouslySetInnerHTML={{
+              __html: data?.description,
+            }}
+          ></div>
         </div>
         <div className="hardware-product-detail-tags">
           {data?.traitList?.map((item: any, index: number) => (
@@ -173,14 +175,16 @@ const HardwareProductDetail = () => {
             </div>
           ))}
         </div>
-       {tabItems?.length > 0 && <div className="hardware-product-detail-tabs">
-          <Tabs
-            defaultActiveKey="1"
-            activeKey={currentKey}
-            items={tabItems}
-            onChange={onTabChange}
-          />
-        </div>}
+        {tabItems?.length > 0 && (
+          <div className="hardware-product-detail-tabs">
+            <Tabs
+              defaultActiveKey="1"
+              activeKey={currentKey}
+              items={tabItems}
+              onChange={onTabChange}
+            />
+          </div>
+        )}
       </div>
       {/* 产品概述 */}
       {currentKey === '1' && data?.overview?.length > 0 && (
