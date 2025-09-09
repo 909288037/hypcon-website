@@ -42,6 +42,10 @@ const NewsBlock = ({ dataSource }) => {
               className="news-block-list-item"
               key={index}
               onClick={() => {
+                if (item.link) {
+                  window.open(item.link);
+                  return;
+                }
                 history.push(`/product-notice/${item?.id}`);
               }}
             >
