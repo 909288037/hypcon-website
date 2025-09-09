@@ -35,5 +35,7 @@ export default defineConfig({
    history: {
     type: 'hash'
   },
+   extraBabelPlugins:
+    process.env.NODE_ENV === "production" ? ["transform-remove-console"] : []
 });
 

@@ -80,9 +80,9 @@ const Introduction = () => {
                   </div>
                 </div>
                 <div className="fl-introduction-zhi-card-item-content">
-                  <div className="fl-introduction-zhi-card-item-content-img">
+                  {item.imageMobile && <div className="fl-introduction-zhi-card-item-content-img">
                     <img src={item.imageMobile} alt="" />
-                  </div>
+                  </div>}
                   <div
                     className="fl-introduction-zhi-card-item-content-text ql-editor"
                     dangerouslySetInnerHTML={{
