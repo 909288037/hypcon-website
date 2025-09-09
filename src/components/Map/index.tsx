@@ -147,7 +147,7 @@ const ChinaMapChart = () => {
   const regionLabelSeriesId = useRef(
     'region-label-series-' + Math.random().toString(36).slice(2, 9),
   );
-  // 省份标签系列ID - 不再使用，但保留ID以防万一
+  // 省份标签系列ID - 新增
   const provinceLabelSeriesId = useRef(
     'province-label-series-' + Math.random().toString(36).slice(2, 9),
   );
@@ -164,25 +164,30 @@ const ChinaMapChart = () => {
 
   // 存储初始 regions 配置（台湾/南海诸岛等隐藏规则）
   const initialRegions = useRef([
+    // === 修改：移除对台湾、香港、澳门的隐藏设置，并设置灰色背景 ===
     {
       name: '台湾',
-      itemStyle: { opacity: 0, borderWidth: 0 },
-      label: { show: false, emphasis: { show: false } },
+      itemStyle: { areaColor: '#F3F3F3', borderColor: '#F3F3F3' }, // 灰色背景
+      label: { show: false, emphasis: { show: true } },
+      silent: true,
+    },
+    {
+      name: '香港',
+      itemStyle: { areaColor: '#F3F3F3', borderColor: '#F3F3F3' }, // 灰色背景
+      label: { show: false, emphasis: { show: true } },
+      silent: true,
+    },
+    {
+      name: '澳门',
+      itemStyle: { areaColor: '#F3F3F3', borderColor: '#F3F3F3' }, // 灰色背景
+      label: { show: false, emphasis: { show: true } },
+      silent: true,
     },
     {
       name: '南海诸岛',
       itemStyle: { opacity: 0, borderWidth: 0 },
       label: { show: false, emphasis: { show: false } },
-    },
-    {
-      name: '香港',
-      itemStyle: { opacity: 0, borderWidth: 0 },
-      label: { show: false, emphasis: { show: false } },
-    },
-    {
-      name: '澳门',
-      itemStyle: { opacity: 0, borderWidth: 0 },
-      label: { show: false, emphasis: { show: false } },
+      silent: true,
     },
   ]);
 
@@ -326,11 +331,37 @@ const ChinaMapChart = () => {
     highlightedRegion.current = null;
   };
 
-  // 显示大区名称标签
-  const showRegionLabel = (regionName: string) => {
+  // 显示大区名称标签和省份名称标签
+  const showLabels = (regionName: string) => {
     if (!myChart.current || !regionName) return;
 
-    const centerCoord = regionCenterMap[regionName] || [0, 0];
+    const provincesInRegion = regionToProvincesMap[regionName] || [];
+    const provinceLabelData = provincesInRegion
+      .map((province) => {
+        const center = provinceCenterMap[province];
+        if (center) {
+          return {
+            name: province,
+            value: center,
+          };
+        }
+        return null;
+      })
+      .filter((item) => item !== null);
+
+    // 计算大区中心点（所有省份中心点的平均值）
+    let totalX = 0;
+    let totalY = 0;
+    let validProvinceCount = 0;
+    provinceLabelData.forEach((item: any) => {
+      totalX += item.value[0];
+      totalY += item.value[1];
+      validProvinceCount++;
+    });
+    const regionCenterCoord: [number, number] =
+      validProvinceCount > 0
+        ? [totalX / validProvinceCount, totalY / validProvinceCount + 1.5] // 微调Y坐标使标签在上方
+        : [0, 0]; // fallback
 
     // 清除之前的隐藏定时器
     if (labelHideTimeout.current) {
@@ -341,12 +372,13 @@ const ChinaMapChart = () => {
     myChart.current.setOption(
       {
         series: [
+          // 大区名称标签
           {
             id: regionLabelSeriesId.current,
             data: [
               {
                 name: regionName,
-                value: centerCoord,
+                value: regionCenterCoord,
               },
             ],
             label: {
@@ -355,13 +387,27 @@ const ChinaMapChart = () => {
                 formatter: regionName,
                 fontSize: 24,
                 fontWeight: 'bold',
-                color: '#005689',
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                color: '#007ECA',
+                backgroundColor: 'transparent',
                 padding: [5, 10],
                 borderRadius: 4,
-                // 尝试避免与点重叠的策略，这里简化为使用预设的偏移坐标
-                // 更复杂的策略需要计算附近点的位置，这里暂不实现
-                // 可以考虑使用 offset 或 rich text 的 position 等属性微调
+              },
+            },
+          },
+          // 省份名称标签
+          {
+            id: provinceLabelSeriesId.current,
+            data: provinceLabelData,
+            label: {
+              normal: {
+                show: true,
+                formatter: '{b}',
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: '#007ECA',
+                backgroundColor: 'transparent',
+                padding: [3, 8],
+                borderRadius: 2,
               },
             },
           },
@@ -371,8 +417,8 @@ const ChinaMapChart = () => {
     ); // 不合并
   };
 
-  // 隐藏大区名称标签
-  const hideRegionLabel = () => {
+  // 隐藏大区名称标签和省份名称标签
+  const hideLabels = () => {
     if (!myChart.current) return;
 
     // 设置一个短暂的延迟再隐藏，避免鼠标快速移动时标签闪烁
@@ -385,6 +431,14 @@ const ChinaMapChart = () => {
           series: [
             {
               id: regionLabelSeriesId.current,
+              label: {
+                normal: {
+                  show: false,
+                },
+              },
+            },
+            {
+              id: provinceLabelSeriesId.current,
               label: {
                 normal: {
                   show: false,
@@ -458,12 +512,50 @@ const ChinaMapChart = () => {
             layoutCenter: ['51%', '43.5%'], //地图位置
             layoutSize: '70%',
             // 使用初始regions配置
-            regions: [...initialRegions.current],
+            regions: [
+              // === 修改：移除对台湾、香港、澳门的隐藏设置，并设置灰色背景 ===
+              {
+                name: '台湾',
+                itemStyle: {
+                  areaColor: '#D4D4D4',
+                  borderColor: '#D4D4D4',
+                  shadowBlur: 20,
+                }, // 灰色背景
+                label: { show: false, emphasis: { show: true } },
+                silent: true,
+              },
+              {
+                name: '香港',
+                itemStyle: {
+                  areaColor: '#D4D4D4',
+                  borderColor: '#D4D4D4',
+                  shadowBlur: 20,
+                }, // 灰色背景
+                label: { show: false, emphasis: { show: true } },
+                silent: true,
+              },
+              {
+                name: '澳门',
+                itemStyle: {
+                  areaColor: '#D4D4D4',
+                  borderColor: '#D4D4D4',
+                  shadowBlur: 20,
+                }, // 灰色背景
+                label: { show: false, emphasis: { show: true } },
+                silent: true,
+              },
+              {
+                name: '南海诸岛',
+                itemStyle: { opacity: 0, borderWidth: 0 },
+                label: { show: false, emphasis: { show: false } },
+                silent: true,
+              },
+            ],
             silent: true,
             itemStyle: {
               areaColor: '#CBE3FA',
               borderColor: 'transparent',
-              shadowColor: '#96BBDA',
+              shadowColor: '#D4D4D4',
               shadowOffsetX: 0,
               shadowOffsetY: 0,
               shadowBlur: 20,
@@ -478,55 +570,53 @@ const ChinaMapChart = () => {
             layoutCenter: ['51%', '44%'], //地图位置
             layoutSize: '70%',
             // 使用初始regions配置
-            regions: [...initialRegions.current],
-            silent: true,
-            itemStyle: {
-              areaColor: '#BBD7F1',
-              borderColor: 'transparent',
-              shadowColor: '#96BBDA',
-              shadowOffsetX: 0,
-              shadowOffsetY: 0,
-              shadowBlur: 20,
-            },
-            z: 3,
-          },
-          {
-            show: true,
-            map: 'china',
-            roam: false,
-            zoom: 1,
-            layoutCenter: ['51%', '44.5%'], //地图位置
-            layoutSize: '70%',
-            // 使用初始regions配置
-            regions: [...initialRegions.current],
-            silent: true,
-            itemStyle: {
-              areaColor: '#9ABEDC',
-              borderColor: 'transparent',
-              shadowColor: '#96BBDA',
-              shadowOffsetX: 0,
-              shadowOffsetY: 0,
-              shadowBlur: 20,
-            },
-            z: 2,
-          },
-          {
-            show: true,
-            map: 'china',
-            roam: false,
-            zoom: 1,
-            layoutCenter: ['51%', '45%'], //地图位置
-            layoutSize: '70%',
-            // 使用初始regions配置
-            regions: [...initialRegions.current],
+            regions: [
+              // === 修改：移除对台湾、香港、澳门的隐藏设置，并设置灰色背景 ===
+              {
+                name: '台湾',
+                itemStyle: {
+                  areaColor: '#BBBBBB',
+                  borderColor: '#BBBBBB',
+                  shadowBlur: 20,
+                }, // 灰色背景
+                label: { show: false, emphasis: { show: true } },
+                silent: true,
+              },
+              {
+                name: '香港',
+                itemStyle: {
+                  areaColor: '#BBBBBB',
+                  borderColor: '#BBBBBB',
+                  shadowBlur: 20,
+                }, // 灰色背景
+                label: { show: false, emphasis: { show: true } },
+                silent: true,
+              },
+              {
+                name: '澳门',
+                itemStyle: {
+                  areaColor: '#BBBBBB',
+                  borderColor: '#BBBBBB',
+                  shadowBlur: 20,
+                }, // 灰色背景
+                label: { show: false, emphasis: { show: true } },
+                silent: true,
+              },
+              {
+                name: '南海诸岛',
+                itemStyle: { opacity: 0, borderWidth: 0 },
+                label: { show: false, emphasis: { show: false } },
+                silent: true,
+              },
+            ],
             silent: true,
             itemStyle: {
               areaColor: '#8FB6D5',
               borderColor: 'transparent',
-              shadowColor: '#96BBDA',
+              shadowColor: '#94B9D8',
               shadowOffsetX: 0,
               shadowOffsetY: 0,
-              shadowBlur: 20,
+              shadowBlur: 10,
             },
             z: 1,
           },
@@ -683,14 +773,15 @@ const ChinaMapChart = () => {
                 show: false, // 初始隐藏
                 fontSize: 24,
                 fontWeight: 'bold',
-                color: '#005689',
-                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                color: '#007ECA',
+                backgroundColor: 'transparent',
                 padding: [5, 10],
                 borderRadius: 4,
               },
             },
             zlevel: 3,
           },
+          // 省份名称标签层 - 新增
           {
             id: provinceLabelSeriesId.current,
             type: 'scatter',
@@ -702,8 +793,8 @@ const ChinaMapChart = () => {
                 show: false,
                 fontSize: 16,
                 fontWeight: 'bold',
-                color: '#005689',
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                color: '#007ECA',
+                backgroundColor: 'transparent',
                 padding: [3, 8],
                 borderRadius: 2,
               },
@@ -765,10 +856,10 @@ const ChinaMapChart = () => {
               false,
             ); // 不合并
 
-            // 高亮大区并显示大区名称
+            // 高亮大区并显示大区名称和省份名称
             if (regionName) {
               highlightRegion(regionName);
-              showRegionLabel(regionName);
+              showLabels(regionName); // 修改为调用 showLabels
             }
           }
         },
@@ -826,7 +917,7 @@ const ChinaMapChart = () => {
             ); // 不合并
 
             clearRegionHighlight();
-            hideRegionLabel(); // 触发隐藏逻辑
+            hideLabels(); // 修改为调用 hideLabels
           }
         },
       );
