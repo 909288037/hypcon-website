@@ -164,8 +164,7 @@ const Header: FC<BaseProps> = ({
     <div
       className={classNames('fl-header', className, {
         'fl-header-hover': currentIndex > -1,
-        [`fl-header-${theme}`]: theme,
-        'fl-header-light': isShow,
+        [`fl-header-${isShow ? 'light' : theme}`]: theme || isShow,
       })}
     >
       <div
