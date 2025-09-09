@@ -56,7 +56,9 @@ const HardwareProductDetail = () => {
   // 获取产品类目列表
   const { data: productFileList } = useRequest(
     () => {
-      return getProductCategory();
+      return getProductCategory({
+        id: params.id,
+      });
     },
     {
       refreshDeps: [params.id],
@@ -81,14 +83,17 @@ const HardwareProductDetail = () => {
     }
     return originalElement;
   };
+  const [currentKey, setCurrentKey] = useState('1');
+
   const tabItems = useMemo(() => {
-    let _data = [
-      {
+    let _data = [];
+    if(data?.overview?.length > 0) {
+      _data.push({
         key: '1',
         label: '产品概述',
         children: null,
-      },
-    ];
+      });
+    }
     if (specData?.length > 0) {
       _data.push({
         key: '2',
@@ -103,10 +108,9 @@ const HardwareProductDetail = () => {
         children: null,
       });
     }
-
+    setCurrentKey(_data[0]?.key || '-1')
     return _data;
   }, [specData, fileList]);
-  const [currentKey, setCurrentKey] = useState(tabItems[0].key);
   console.log('🚀 ~ currentKey:', currentKey);
   //   相关产品列表
   const [currentNavKey, setCurrentNavKey] = useState('1');
@@ -133,7 +137,6 @@ const HardwareProductDetail = () => {
   }, [index]);
 
   const onTabChange = (key: string) => {
-    console.log(key);
     setCurrentKey(key);
   };
   return (
@@ -149,11 +152,12 @@ const HardwareProductDetail = () => {
           </div>
         )}
         <div
-          className="hardware-product-detail-text ql-editor"
-          dangerouslySetInnerHTML={{
+          className="hardware-product-detail-text "
+        >
+          <div className='ql-editor'  dangerouslySetInnerHTML={{
             __html: data?.description,
-          }}
-        ></div>
+          }}></div>
+        </div>
         <div className="hardware-product-detail-tags">
           {data?.traitList?.map((item: any, index: number) => (
             <div className="hardware-product-detail-tag" key={index}>
@@ -169,17 +173,17 @@ const HardwareProductDetail = () => {
             </div>
           ))}
         </div>
-        <div className="hardware-product-detail-tabs">
+       {tabItems?.length > 0 && <div className="hardware-product-detail-tabs">
           <Tabs
             defaultActiveKey="1"
             activeKey={currentKey}
             items={tabItems}
             onChange={onTabChange}
           />
-        </div>
+        </div>}
       </div>
       {/* 产品概述 */}
-      {currentKey === '1' && (
+      {currentKey === '1' && data?.overview?.length > 0 && (
         <div className="hardware-product-overview">
           {data?.overview?.map((item) => {
             return (

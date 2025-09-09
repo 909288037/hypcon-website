@@ -32,9 +32,10 @@ export async function getProductFileList(params) {
 }
 
 // 获取产品目录
-export async function getProductCategory() {
+export async function getProductCategory(params) {
   return request<any>(`/prod/api/product/productFileCategory`, {
     method: 'GET',
+    params
   });
 }
 

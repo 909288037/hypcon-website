@@ -19,7 +19,7 @@ import { useParams, useRequest } from '@umijs/max';
 
 const ProductDetail: React.FC = () => {
   const params = useParams();
-  const swiperRef = useRef(null)
+  const swiperRef = useRef(null);
   console.log('🚀 ~ ProductDetail ~ params:', params);
   // 获取产品详情
   const { data: productDetail, run } = useRequest(getProductDetail, {
@@ -44,152 +44,168 @@ const ProductDetail: React.FC = () => {
             {productDetail?.name}
           </div>
           <div className="fl-product-detail-banner-text-desc">
-            <div
-              className="fl-product-detail-banner-text-desc-item ql-editor"
-              dangerouslySetInnerHTML={{
-                __html: productDetail?.description,
-              }}
-            ></div>
-            {/* <div className="fl-product-detail-banner-text-desc-item">
-              数据可视化
+            <div className="fl-product-detail-banner-text-desc-item ">
+              <div
+                className="ql-editor"
+                dangerouslySetInnerHTML={{
+                  __html: productDetail?.description,
+                }}
+              ></div>
             </div>
-            <div className="fl-product-detail-banner-text-desc-item">
-              数据处理
-            </div> */}
           </div>
         </div>
       </div>
       {/* 简介 */}
-      <div className="fl-product-detail-introduction">
-        <div className="fl-product-detail-introduction-title">
-          <div className="gradient-text">{productDetail?.intro?.title}</div>
-        </div>
-        <div
-          className="fl-product-detail-introduction-text ql-editor"
-          dangerouslySetInnerHTML={{
-            __html: productDetail?.intro?.detail,
-          }}
-        ></div>
-        {/* 功能 */}
-        <div className="fl-product-detail-function">
-          {productDetail?.traitList?.map((item, index) => {
-            return (
-              <div className="fl-product-detail-function-item" key={index}>
-                <div className="fl-product-detail-function-item-icon">
-                  <img src={item.image} alt="" />
-                </div>
-                <div className="fl-product-detail-function-item-title">
-                  {item.title}
-                </div>
-                <div className="fl-product-detail-function-item-desc">
-                  {item.second}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      {/* 产品特色 */}
-      <div className="fl-product-detail-feature">
-        <div className="fl-product-detail-feature-title">产品特色</div>
-        {/* 标题 */}
-        <div className="fl-product-detail-feature-list-title ">
-          <div className="gradient-text">{productDetail?.feature?.title}</div>
-        </div>
-        <div className="fl-product-detail-feature-list">
-          {productDetail?.feature?.detail?.map((item, index) => (
-            <div className="fl-product-detail-feature-item" key={index}>
-              <div className="fl-product-detail-feature-item-img">
-                <img src={item.image} alt="" />
-                <div className="fl-product-detail-feature-item-title">
-                  {item.title}
-                </div>
-              </div>
-              <div
-                className="fl-product-detail-feature-item-desc ql-editor"
-                dangerouslySetInnerHTML={{
-                  __html: item.intro,
-                }}
-              ></div>
-            </div>
-          ))}
-        </div>
-      </div>
-      {/* 核心功能 */}
-      <div className="fl-product-detail-core">
-        <div className="fl-product-detail-core-title">核心功能</div>
-        {/* 标题 */}
-        <div className="fl-product-detail-core-title2">
-          <div className="gradient-text">{productDetail?.function?.title}</div>
-        </div>
-        {/* 轮播图 */}
-        <div className="fl-product-detail-core-banner" ref={bannerRef}>
-          <Swiper
-            className="fl-product-detail-banner-swiper"
-            modules={[Navigation, Pagination, Autoplay, EffectFade]}
-            spaceBetween={0}
-            slidesPerView={1}
-            effect="fade"
-            fadeEffect={{
-              crossFade: true,
-            }}
-            navigation={{
-              nextEl: '.swiper-next',
-              prevEl: '.swiper-prev',
-            }}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-            }}
-            loop
-            pagination={{
-              clickable: true,
-              renderBullet: function (index, className) {
-                return `<span class=${className}></span>`;
-              },
-            }}
-            // onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => swiperRef.current = swiper}
-            onAutoplayTimeLeft={(swiper, time, progress) => {
-              bannerRef.current?.style?.setProperty(
-                '--progressWidth',
-                Math.round((1 - progress) * 100) + '%',
-              );
-            }}
-          >
-            {productDetail?.function?.detail?.map((item, index) => (
-              <SwiperSlide key={index}>
-                <div className="fl-product-detail-banner-box">
-                  <div className="fl-product-detail-banner-left">
-                    <div className="fl-product-detail-banner-title gradient-text">
-                      {item.title}
-                    </div>
-                    <div
-                      className="fl-product-detail-banner-desc ql-editor"
-                      dangerouslySetInnerHTML={{ __html: item.intro }}
-                    ></div>
-                  </div>
-                  <div className="fl-product-detail-banner-right">
+      {productDetail?.intro && (
+        <div className="fl-product-detail-introduction">
+          <div className="fl-product-detail-introduction-title">
+            <div className="gradient-text">{productDetail?.intro?.title}</div>
+          </div>
+          <div className="fl-product-detail-introduction-text ">
+            <div
+              className="ql-editor"
+              dangerouslySetInnerHTML={{
+                __html: productDetail?.intro?.detail,
+              }}
+            ></div>
+          </div>
+          {/* 功能 */}
+          <div className="fl-product-detail-function">
+            {productDetail?.traitList?.map((item, index) => {
+              return (
+                <div className="fl-product-detail-function-item" key={index}>
+                  <div className="fl-product-detail-function-item-icon">
                     <img src={item.image} alt="" />
                   </div>
+                  <div className="fl-product-detail-function-item-title">
+                    {item.title}
+                  </div>
+                  <div className="fl-product-detail-function-item-desc">
+                    {item.second}
+                  </div>
                 </div>
-              </SwiperSlide>
-            ))}
-            {productDetail?.function?.detail?.length > 1 && (
-              <>
-                <div className="swiper-next" onClick={() => swiperRef.current.slideNext()}>
-                  <img src={jiantouRight} alt="" />
-                </div>
-                <div className="swiper-prev" onClick={() => swiperRef.current.slidePrev()}>
-                  <img src={jiantouLeft} alt="" />
-                </div>
-              </>
-            )}
-          </Swiper>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
+      {/* 产品特色 */}
+      {productDetail?.feature && (
+        <div className="fl-product-detail-feature">
+          <div className="fl-product-detail-feature-title">产品特色</div>
+          {/* 标题 */}
+          <div className="fl-product-detail-feature-list-title ">
+            <div className="gradient-text">{productDetail?.feature?.title}</div>
+          </div>
+          <div className="fl-product-detail-feature-list">
+            {productDetail?.feature?.detail?.map((item, index) => (
+              <div className="fl-product-detail-feature-item" key={index}>
+                <div className="fl-product-detail-feature-item-img">
+                  <img src={item.image} alt="" />
+                  <div className="fl-product-detail-feature-item-title">
+                    {item.title}
+                  </div>
+                </div>
+                <div className="fl-product-detail-feature-item-desc ">
+                  <div
+                    className="ql-editor"
+                    dangerouslySetInnerHTML={{
+                      __html: item.intro,
+                    }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {/* 核心功能 */}
+      {productDetail?.function && (
+        <div className="fl-product-detail-core">
+          <div className="fl-product-detail-core-title">核心功能</div>
+          {/* 标题 */}
+          <div className="fl-product-detail-core-title2">
+            <div className="gradient-text">
+              {productDetail?.function?.title}
+            </div>
+          </div>
+          {/* 轮播图 */}
+          <div className="fl-product-detail-core-banner" ref={bannerRef}>
+            <Swiper
+              className="fl-product-detail-banner-swiper"
+              modules={[Navigation, Pagination, Autoplay, EffectFade]}
+              spaceBetween={0}
+              slidesPerView={1}
+              effect="fade"
+              fadeEffect={{
+                crossFade: true,
+              }}
+              navigation={{
+                nextEl: '.swiper-next',
+                prevEl: '.swiper-prev',
+              }}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
+              loop
+              pagination={{
+                clickable: true,
+                renderBullet: function (index, className) {
+                  return `<span class=${className}></span>`;
+                },
+              }}
+              // onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => (swiperRef.current = swiper)}
+              onAutoplayTimeLeft={(swiper, time, progress) => {
+                bannerRef.current?.style?.setProperty(
+                  '--progressWidth',
+                  Math.round((1 - progress) * 100) + '%',
+                );
+              }}
+            >
+              {productDetail?.function?.detail?.map((item, index) => (
+                <SwiperSlide key={index}>
+                  <div className="fl-product-detail-banner-box">
+                    <div className="fl-product-detail-banner-left">
+                      <div className="fl-product-detail-banner-title gradient-text">
+                        {item.title}
+                      </div>
+                      <div className="fl-product-detail-banner-desc ">
+                        <div
+                          className="ql-editor"
+                          dangerouslySetInnerHTML={{ __html: item.intro }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="fl-product-detail-banner-right">
+                      <img src={item.image} alt="" />
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+              {productDetail?.function?.detail?.length > 1 && (
+                <>
+                  <div
+                    className="swiper-next"
+                    onClick={() => swiperRef.current.slideNext()}
+                  >
+                    <img src={jiantouRight} alt="" />
+                  </div>
+                  <div
+                    className="swiper-prev"
+                    onClick={() => swiperRef.current.slidePrev()}
+                  >
+                    <img src={jiantouLeft} alt="" />
+                  </div>
+                </>
+              )}
+            </Swiper>
+          </div>
+        </div>
+      )}
       {/* 产品优势 */}
-      {advantageList.length > 0 && (
+      {productDetail?.value && (
         <div className="fl-product-detail-advantage">
           <div className="fl-product-detail-advantage-title">应用价值</div>
           {/* 标题 */}
@@ -222,12 +238,14 @@ const ProductDetail: React.FC = () => {
                       </div>
                       <div className="fl-product-detail-advantage-banner-item-desc">
                         ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
-                        <div
-                          className="fl-product-detail-advantage-banner-item-desc-item ql-editor"
-                          dangerouslySetInnerHTML={{
-                            __html: item.intro,
-                          }}
-                        ></div>
+                        <div className="fl-product-detail-advantage-banner-item-desc-item ">
+                          <div
+                            className="ql-editor"
+                            dangerouslySetInnerHTML={{
+                              __html: item.intro,
+                            }}
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </SwiperSlide>

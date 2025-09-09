@@ -52,6 +52,11 @@ export default function Layout() {
       transformers={[legacyLogicalPropertiesTransformer]}
     >
       <ConfigProvider
+        theme={{
+          token: {
+            fontFamily: 'MiSans-Medium'
+          },
+        }}
         //   theme={{
         //     token: {
         //       ...antdToken

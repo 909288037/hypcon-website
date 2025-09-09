@@ -170,12 +170,14 @@ const Solution = () => {
                       <div className="fl-solution-value-banner-item-title">
                         {item.title}
                       </div>
-                      <div
-                        className="fl-solution-value-banner-item-desc ql-editor"
-                        dangerouslySetInnerHTML={{
-                          __html: item.intro,
-                        }}
-                      />
+                      <div className="fl-solution-value-banner-item-desc">
+                        <div
+                          className="ql-editor"
+                          dangerouslySetInnerHTML={{
+                            __html: item.intro,
+                          }}
+                        ></div>
+                      </div>
                       ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
                       <div className="fl-solution-value-banner-item-count">
                         <div className="fl-solution-value-banner-item-count-num">

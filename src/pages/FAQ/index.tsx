@@ -98,11 +98,12 @@ const FAQ = () => {
                   </div>
                 </div>
                 <div
-                  className=" fl-faq-content-list-item-content ql-editor"
-                  dangerouslySetInnerHTML={{
+                  className=" fl-faq-content-list-item-content "
+                >
+                  <div className='ql-editor'   dangerouslySetInnerHTML={{
                     __html: item.noticeContent,
-                  }}
-                ></div>
+                  }}></div>
+                </div>
                 {/* 展开按钮 */}
                 <div className={'fl-faq-content-list-item-btn'}>
                   {isShow ? '收起查看' : '展开查看'}

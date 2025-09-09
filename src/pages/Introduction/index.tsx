@@ -5,7 +5,6 @@ import { getAbout } from '@/services/AboutNetwork';
 import { useRequest } from '@umijs/max';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
-import bannerImg from './images/banner.png';
 import './index.less';
 const Introduction = () => {
   const [hoverIndex, setHoverIndex] = useState(0);
@@ -87,12 +86,14 @@ const Introduction = () => {
                       )}
                     </div>
                   }
-                  <div
-                    className="fl-introduction-zhi-card-item-content-text ql-editor"
-                    dangerouslySetInnerHTML={{
-                      __html: item.intro,
-                    }}
-                  ></div>
+                  <div className="fl-introduction-zhi-card-item-content-text ">
+                    <div
+                      className="ql-editor"
+                      dangerouslySetInnerHTML={{
+                        __html: item.intro,
+                      }}
+                    ></div>
+                  </div>
                 </div>
               </div>
             );

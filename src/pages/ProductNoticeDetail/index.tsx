@@ -22,11 +22,12 @@ const ProductNoticeDetail = () => {
         <div className="gradient-text">{detail?.noticeTitle}</div>
       </div>
       <div
-        className="product-notice-detail-content ql-editor"
-        dangerouslySetInnerHTML={{
+        className="product-notice-detail-content"
+      >
+        <div className='ql-editor' dangerouslySetInnerHTML={{
           __html: detail?.noticeContent,
-        }}
-      ></div>
+        }}></div>
+      </div>
       <div className="product-notice-detail-btn">
         <Button
           type="primary"

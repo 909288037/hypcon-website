@@ -157,7 +157,9 @@ const Search = () => {
   };
 
   useEffect(() => {
-    onSearch(searchVal);
+    if(searchVal.trim()) {
+      onSearch(searchVal);  
+    }
   }, [currentKey]);
   const onTabChange = (key: string) => {
     console.log(key);

@@ -87,9 +87,11 @@ export const goPage = (item: any) => {
     if (item.type === '0') {
       
       history.push(`/product/${item.type}/${item.relationId || item.id}`);
+      return
     } else if (item.type === '1') {
       // 跳转硬件详情
       history.push(`/product-hardware/${item.type}/${item.relationId || item.id}`);
+      return
     }
 
     // 跳转产品列表

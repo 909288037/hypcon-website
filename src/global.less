@@ -171,42 +171,77 @@ body {
   }
 }
 .ant-modal-content {
-   &::before {
-     content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  z-index: -1;
-  margin: -2px;
-  border-radius: inherit; /*important*/
-  background: linear-gradient( 90deg, #007ECA 0%, #22C55E 100%);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    margin: -2px;
+    border-radius: inherit; /*important*/
+    background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+  }
+}
+
+.ant-input-outlined {
+  outline: none;
+  background-clip: padding-box;
+  &:hover,
+  &:focus {
+    border: 1px solid transparent !important;
+    background-clip: padding-box, border-box !important;
+    background-origin: padding-box, border-box !important;
+    background-image:
+      linear-gradient(white, white),
+      linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+  }
+}
+.ant-select {
+  &:hover {
+    .ant-select-selector {
+      border: 1px solid transparent !important;
+      background-clip: padding-box, border-box !important;
+      background-origin: padding-box, border-box !important;
+      background-image:
+        linear-gradient(to right, #fff, #fff),
+        linear-gradient(90deg, #007eca 0%, #22c55e 100%) !important;
+    }
   }
 }
 
 @font-face {
   font-family: 'MiSans-Bold';
-  src: url("./assets/font/MiSans/ttf/MiSans-Bold.ttf") format("truetype"), url("./assets/font/MiSans/woff/MiSans-Regular.woff") format("woff");
+  src:
+    url('./assets/font/MiSans/ttf/MiSans-Bold.ttf') format('truetype'),
+    url('./assets/font/MiSans/woff/MiSans-Regular.woff') format('woff');
 }
 
-@font-face { 
+@font-face {
   font-family: 'MiSans-Regular';
-  src: url("./assets/font/MiSans/ttf/MiSans-Regular.ttf") format("truetype"), url("./assets/font/MiSans/woff/MiSans-Regular.woff") format("woff");
+  src:
+    url('./assets/font/MiSans/ttf/MiSans-Regular.ttf') format('truetype'),
+    url('./assets/font/MiSans/woff/MiSans-Regular.woff') format('woff');
 }
 
 @font-face {
   font-family: 'MiSans-Medium';
-  src: url("./assets/font/MiSans/ttf/MiSans-Medium.ttf") format("truetype"), url("./assets/font/MiSans/woff/MiSans-Medium.woff") format("woff");
+  src:
+    url('./assets/font/MiSans/ttf/MiSans-Medium.ttf') format('truetype'),
+    url('./assets/font/MiSans/woff/MiSans-Medium.woff') format('woff');
 }
 
 @font-face {
   font-family: 'MiSans-Light';
-  src: url("./assets/font/MiSans/ttf/MiSans-Light.ttf") format("truetype"), url("./assets/font/MiSans/woff/MiSans-Light.woff") format("woff");
+  src:
+    url('./assets/font/MiSans/ttf/MiSans-Light.ttf') format('truetype'),
+    url('./assets/font/MiSans/woff/MiSans-Light.woff') format('woff');
 }
 
-@font-face { 
+@font-face {
   font-family: 'MiSans-Normal';
-  src: url("./assets/font/MiSans/ttf/MiSans-Normal.ttf") format("truetype"), url("./assets/font/MiSans/woff/MiSans-Normal.woff") format("woff");
+  src:
+    url('./assets/font/MiSans/ttf/MiSans-Normal.ttf') format('truetype'),
+    url('./assets/font/MiSans/woff/MiSans-Normal.woff') format('woff');
 }
-

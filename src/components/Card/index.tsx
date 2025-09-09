@@ -188,11 +188,12 @@ const Card: React.FC<CardProps> = ({
         <div className="card-download-body">
           <div className="card-download-body-title">{dataSource?.name}</div>
           <div
-            className="card-download-body-desc ql-editor"
-            dangerouslySetInnerHTML={{
+            className="card-download-body-desc"
+          >
+            <div className='ql-editor' dangerouslySetInnerHTML={{
               __html: dataSource?.description,
-            }}
-          ></div>
+            }}></div>
+          </div>
         </div>
         <div className="card-download-btn"></div>
       </div>
@@ -211,6 +212,9 @@ const Card: React.FC<CardProps> = ({
           history.push(`/product-hardware/${dataSource.type}/${dataSource.id}`);
           return
         }
+        if(dataSource.bind) {
+          dataSource.isSolution = true;
+        }
         goPage(dataSource);
       }}
     >
@@ -220,16 +224,16 @@ const Card: React.FC<CardProps> = ({
       <div className="card-body">
         <div className="card-body-title">
           {matchOption
-            ? highlightKeywords(dataSource?.name, matchOption.keyword)
-            : dataSource?.name}
+            ? highlightKeywords(dataSource?.name || dataSource?.title, matchOption.keyword)
+            : dataSource?.name || dataSource?.title}
         </div>
         <Paragraph ellipsis={{ rows: 3 }}>
           <div className="card-body-desc">
             {
               matchOption ? highlightKeywords(
-                extractPlainTextFromHTML(dataSource?.description),
+                extractPlainTextFromHTML(dataSource?.description || dataSource?.intro),
                 matchOption.keyword
-              ) : extractPlainTextFromHTML(dataSource?.description)
+              ) : extractPlainTextFromHTML(dataSource?.description|| dataSource?.intro)
             }
         
           </div>

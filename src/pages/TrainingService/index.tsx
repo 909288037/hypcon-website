@@ -17,12 +17,14 @@ const TrainingService = () => {
         </div>
         <div className="training-service-bg-title">
           <div>{data?.title}</div>
-          <div
-            className="training-service-bg-title-desc ql-editor"
-            dangerouslySetInnerHTML={{
-              __html: data?.detail,
-            }}
-          ></div>
+          <div className="training-service-bg-title-desc">
+            <div
+              className="ql-editor"
+              dangerouslySetInnerHTML={{
+                __html: data?.detail,
+              }}
+            ></div>
+          </div>
         </div>
       </div>
       <div className="training-service-content">
