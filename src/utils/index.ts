@@ -93,7 +93,7 @@ export const goPage = (item: any) => {
       history.push(`/product-hardware/${item.type}/${item.relationId || item.id}`);
       return
     }
-
+    if(!item.id) return
     // 跳转产品列表
     if (
       item.products?.length > 0 || item.children?.length > 0 ||
