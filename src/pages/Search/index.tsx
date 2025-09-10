@@ -157,8 +157,8 @@ const Search = () => {
   };
 
   useEffect(() => {
-    if(searchVal.trim()) {
-      onSearch(searchVal);  
+    if (searchVal.trim()) {
+      onSearch(searchVal);
     }
   }, [currentKey]);
   const onTabChange = (key: string) => {
@@ -425,39 +425,47 @@ const Search = () => {
           <div className="fl-search-file">
             <div className="fl-search-file-content">
               <div className="fl-search-file-content-nav">
-                {productFileList?.map((item, index) => {
-                  return (
-                    <div
-                      className="fl-search-file-content-nav-item"
-                      key={item.id}
-                      onClick={() => {
-                        setCurrentNavKey(item);
-                        if (!searchVal.trim()) return;
-                        getDownloadList({
-                          name: searchVal,
-                          fileCategoryId: item.id,
-                          pageSize: 8,
-                        });
-                      }}
-                    >
+                {productFileList
+                  ?.filter((item) => {
+                    return (
+                      downloadList?.rows.findIndex(
+                        (i) => i.fileCategoryId === item.id,
+                      ) !== -1
+                    );
+                  })
+                  ?.map((item, index) => {
+                    return (
                       <div
-                        className={classNames(
-                          'fl-search-file-content-nav-item-title',
-                          {
-                            'gradient-text': currentNavKey?.id === item.id,
-                          },
-                        )}
+                        className="fl-search-file-content-nav-item"
+                        key={item.id}
+                        onClick={() => {
+                          setCurrentNavKey(item);
+                          if (!searchVal.trim()) return;
+                          getDownloadList({
+                            name: searchVal,
+                            fileCategoryId: item.id,
+                            pageSize: 8,
+                          });
+                        }}
                       >
-                        {item.name}
-                      </div>
-                      {currentNavKey?.id === item.id && (
-                        <div className="fl-search-file-content-nav-item-arrow">
-                          <img src={arrowIcon} alt="" />
+                        <div
+                          className={classNames(
+                            'fl-search-file-content-nav-item-title',
+                            {
+                              'gradient-text': currentNavKey?.id === item.id,
+                            },
+                          )}
+                        >
+                          {item.name}
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
+                        {currentNavKey?.id === item.id && (
+                          <div className="fl-search-file-content-nav-item-arrow">
+                            <img src={arrowIcon} alt="" />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
               </div>
               {downloadList?.rows?.length > 0 ? (
                 <div className="fl-search-file-content-list">
@@ -470,7 +478,9 @@ const Search = () => {
                         <div className="fl-search-file-content-list-item-img" />
                         <div className="fl-search-file-content-list-item-text">
                           <div className="fl-search-file-content-list-item-text-title">
-                            <span>{highlightKeywords(item.name, searchVal)}</span>
+                            <span>
+                              {highlightKeywords(item.name, searchVal)}
+                            </span>
                           </div>
                           <div className="fl-search-file-content-list-item-text-footer">
                             <div className="fl-search-file-content-list-item-text-footer-left">
