@@ -67,8 +67,14 @@ const TrainingService = () => {
             <div className="training-service-content-item-title">
               <div className="gradient-text">线下培训</div>
             </div>
-            <div className="training-service-content-item-content">
-              <div className="training-service-content-item-content-left">
+            <div className="training-service-content-item-content off">
+              {data?.off?.image && (
+                <div className="training-service-content-item-content-right">
+                  <img src={data?.off?.image} alt="" />
+                </div>
+              )}
+
+              <div className="training-service-content-item-content-left ">
                 {data?.off?.data?.map((item, index) => {
                   return (
                     <div
@@ -91,12 +97,6 @@ const TrainingService = () => {
                   );
                 })}
               </div>
-
-              {data?.off?.image && (
-                <div className="training-service-content-item-content-right">
-                  <img src={data?.off?.image} alt="" />
-                </div>
-              )}
             </div>
           </div>
         )}

@@ -142,7 +142,7 @@ const ImageSlider = ({ dataSource }) => {
           {_caseList?.map((item, index) => {
             return (
               <SwiperSlide
-                key={item?.id}
+                key={index}
                 className={classNames('fl-case-banner-swiper-item')}
               >
                 <div className="fl-case-banner-swiper-img">

@@ -123,7 +123,7 @@ const SolutionBanner = ({ dataSource }) => {
     const dotRect = dotEl.getBoundingClientRect();
 
     // 计算相对坐标（相对于容器）
-    const titleX = titleRect.left - bannerRect.left + titleRect.width + 100;
+    const titleX = titleRect.left - bannerRect.left + titleRect.width + 35;
     const titleY = titleRect.top - bannerRect.top + titleRect.height / 2;
     const dotX = dotRect.left - bannerRect.left + dotRect.width / 2;
     const dotY = dotRect.top - bannerRect.top + dotRect.height / 2;
@@ -273,7 +273,7 @@ const SolutionBanner = ({ dataSource }) => {
     if (title.x === 0 && title.y === 0) return '';
 
     // 计算水平线段的终点（从标题向右延伸100px）
-    const horizontalEndX = title.x + 200;
+    const horizontalEndX = title.x + 180;
     const horizontalEndY = title.y;
 
     // 生成路径：标题 -> 水平100px -> 热点圆点
