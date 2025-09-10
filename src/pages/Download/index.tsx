@@ -93,8 +93,8 @@ const Download = () => {
   });
 
   // 获取产品类目列表
-  const { data: productFileList } = useRequest(() => {
-    return getProductCategory();
+  const { data: productFileList, run: _getProductFileList } = useRequest(getProductCategory, {
+    manual: true,
   });
 
   // 搜索
@@ -105,6 +105,8 @@ const Download = () => {
   const onSearch = (val = searchVal) => {
     console.log('触发搜索');
     if (!val.trim()) return;
+    isSearch.current = true;
+    _getProductFileList()
     searchRun({
       keyword: val,
       pageNum: 1,
@@ -150,6 +152,9 @@ const Download = () => {
   useEffect(() => {
     if (!selectType.id) return;
     if (selectProduct.id) {
+       _getProductFileList({
+        id: selectProduct.id,
+      })
       _getFileList({
         // fileCategoryId: currentNavKey?.id,
         productId: selectProduct.id,
@@ -158,11 +163,14 @@ const Download = () => {
         setCurrentNavKey(res.rows?.[0]?.fileCategoryId);
       });
     }
-
+   
     return () => {};
   }, [selectProduct.id]);
   useEffect(() => {
     if (idParams) {
+      _getProductFileList({
+        id: idParams,
+      })
       setSelectProduct({
         id: idParams,
         name: searchValParams,
@@ -371,14 +379,12 @@ const Download = () => {
                   }}
                   onPressEnter={() => {
                     onSearch();
-                    isSearch.current = true;
                   }}
                 ></Input>
               </div>
               <div
                 className="fl-download-search-button"
                 onClick={() => {
-                  isSearch.current = true;
                   onSearch();
                 }}
               >
@@ -410,7 +416,12 @@ const Download = () => {
 
       <div className="fl-download-content">
         <div className="fl-download-content-nav">
-          {productFileList?.map((item, index) => {
+          {productFileList?.filter(item => {
+            if(isSearch.current) {
+              return list?.rows.findIndex(i => i.fileCategoryId === item.id) !== -1
+            }
+            return item
+          })?.map((item, index) => {
             return (
               <div
                 className="fl-download-content-nav-item"
