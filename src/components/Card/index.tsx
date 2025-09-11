@@ -203,6 +203,11 @@ const Card: React.FC<CardProps> = ({
     <div
       className="card"
       onClick={() => {
+        if(dataSource.detailType === '0') return
+        if(dataSource.link) {
+          window.open(dataSource.link)
+          return
+        }
         // 跳转软件详情
         if (dataSource.type === '0') {
           history.push(`/product/${dataSource.type}/${dataSource.id}`);

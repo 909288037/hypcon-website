@@ -55,15 +55,17 @@ const Solution = () => {
 
   const _solutionDetail = useMemo(() => {
     let data = solutionDetail?.value || [];
-    // 数据小于4个时候填充数据，前面一个占位，剩余的家在后面
-    if (data.length < 4) {
-      data = [{ hidden: true }, ...data];
-      if (data.length < 4) {
-        for (let index = 0; index < 4 - data.length; index++) {
-          data.push({ hidden: true });
-        }
-      }
-    }
+    // 数据小于4个时候填充数据，前面一个占位，剩余的加在后面
+    // if (data.length > 1 && data.length < 4) {
+    //   data = [{ hidden: true }, ...data];
+    //   if (data.length < 4) {
+    //     for (let index = 0; index < 4 - solutionDetail?.value?.length - 1; index++) {
+    //       data.push({ hidden: true });
+    //     }
+    //   }
+    // }
+    console.log('🚀 ~ Solution ~ data:', data);
+
     return data;
   }, [solutionDetail?.value]);
   return (
@@ -98,7 +100,7 @@ const Solution = () => {
                     {item.title}
                   </div>
                   <div className="fl-solution-content-left-list-item-num">
-                    {item.res1}%-{item.res2}%
+                    {item.res1}
                   </div>
                 </div>
               ))}
@@ -143,58 +145,105 @@ const Solution = () => {
         <div className="fl-solution-section fl-solution-value">
           <div className="fl-solution-title">价值亮点</div>
           <div className="fl-solution-value-banner">
-            <Swiper
-              // mousewheel
-              loop
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              modules={[Autoplay, Mousewheel]}
-              spaceBetween={60}
-              slidesPerView={4}
-              // centeredSlides={true}
-            >
-              {_solutionDetail?.map((item, index) => {
-                return (
-                  <SwiperSlide key={item.title}>
-                    <div
-                      className="fl-solution-value-banner-item"
-                      hidden={item.hidden}
-                    >
-                      {/* 图标 */}
-                      <div className="fl-solution-value-banner-item-icon">
-                        <img src={item.image} alt="" />
-                      </div>
-                      <div className="fl-solution-value-banner-item-title">
-                        {item.title}
-                      </div>
-                      <div className="fl-solution-value-banner-item-desc">
-                        <div
-                          className="ql-editor"
-                          dangerouslySetInnerHTML={{
-                            __html: item.intro,
-                          }}
-                        ></div>
-                      </div>
-                      ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
-                      <div className="fl-solution-value-banner-item-count">
-                        <div className="fl-solution-value-banner-item-count-num">
-                          <div className="gradient-text">{item.res1}%</div>
-                          <div className="count-icon">
-                            <img src={item.res1 < 0 ? downImg : upImg} alt="" />
-                          </div>
+            {_solutionDetail?.length < 4 ? (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '60px'
+              }}>
+                {_solutionDetail?.map((item, index) => {
+                  return (
+                    <div key={item.title}>
+                      <div className="fl-solution-value-banner-item">
+                        {/* 图标 */}
+                        <div className="fl-solution-value-banner-item-icon">
+                          <img src={item.image} alt="" />
                         </div>
-                        <div className="fl-solution-value-banner-item-count-title">
-                          {item.res2}
+                        <div className="fl-solution-value-banner-item-title">
+                          {item.title}
+                        </div>
+                        <div className="fl-solution-value-banner-item-desc">
+                          <div
+                            className="ql-editor"
+                            dangerouslySetInnerHTML={{
+                              __html: item.intro,
+                            }}
+                          ></div>
+                        </div>
+                        ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+                        <div className="fl-solution-value-banner-item-count">
+                          <div className="fl-solution-value-banner-item-count-num">
+                            <div className="gradient-text">{item.res1}%</div>
+                            <div className="count-icon">
+                              <img
+                                src={item.res1 < 0 ? downImg : upImg}
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                          <div className="fl-solution-value-banner-item-count-title">
+                            {item.res2}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
+                  );
+                })}
+              </div>
+            ) : (
+              <Swiper
+                // mousewheel
+                loop
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
+                }}
+                modules={[Autoplay, Mousewheel]}
+                spaceBetween={60}
+                slidesPerView={4}
+              >
+                {_solutionDetail?.map((item, index) => {
+                  return (
+                    <SwiperSlide key={item.title}>
+                      <div className="fl-solution-value-banner-item">
+                        {/* 图标 */}
+                        <div className="fl-solution-value-banner-item-icon">
+                          <img src={item.image} alt="" />
+                        </div>
+                        <div className="fl-solution-value-banner-item-title">
+                          {item.title}
+                        </div>
+                        <div className="fl-solution-value-banner-item-desc">
+                          <div
+                            className="ql-editor"
+                            dangerouslySetInnerHTML={{
+                              __html: item.intro,
+                            }}
+                          ></div>
+                        </div>
+                        ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+                        <div className="fl-solution-value-banner-item-count">
+                          <div className="fl-solution-value-banner-item-count-num">
+                            <div className="gradient-text">{item.res1}%</div>
+                            <div className="count-icon">
+                              <img
+                                src={item.res1 < 0 ? downImg : upImg}
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                          <div className="fl-solution-value-banner-item-count-title">
+                            {item.res2}
+                          </div>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            )}
           </div>
         </div>
       )}

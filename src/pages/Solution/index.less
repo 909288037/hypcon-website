@@ -74,10 +74,14 @@
       &-list {
         display: flex;
         align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
         margin-top: 110px;
+        
 
         &-item {
           margin-left: 60px;
+          margin-bottom: 20px;
           &:first-child {
             margin-left: 0;
           }
@@ -184,6 +188,7 @@
           margin-left: 3px;
           margin-bottom: 20px;
           cursor: pointer;
+          line-height: normal;
           &:hover {
             opacity: 0.6;
           }
@@ -267,6 +272,7 @@
         }
         &-count {
           margin-bottom: 40px;
+          width: 100%;
           &-num {
             display: flex;
             align-items: center;
@@ -288,6 +294,9 @@
             font-size: 13px;
             color: #000000;
             margin-top: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
       }

@@ -378,7 +378,7 @@ const Header: FC<BaseProps> = ({
                 spaceBetween={0}
                 slidesPerView={1}
                 autoplay={{
-                  delay: 3000,
+                  delay: 1000,
                   disableOnInteraction: false,
                 }}
                 loop
