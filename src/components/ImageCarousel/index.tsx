@@ -84,7 +84,7 @@ const CircularCarousel = ({ dataSource }) => {
 
     swiperInstance.on('progress', handleProgress);
     swiperInstance.on('setTransition', handleSetTransition);
-    swiperInstance.on('slideChangeTransitionEnd', (swiper) => {
+    swiperInstance.on('slideChangeTransitionStart', (swiper) => {
       setCurrentIndex(swiper.realIndex || 0);
       console.log('🚀 ~ swiper.realIndex:', swiper.realIndex);
     });

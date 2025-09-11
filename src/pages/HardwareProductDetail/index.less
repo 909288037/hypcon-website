@@ -32,14 +32,19 @@
     &-tags {
       margin-top: 62px;
       display: flex;
-      align-items: center;
-      justify-content: space-around;
+      // align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 65px;
     }
     &-tag {
       display: inline-block;
       text-align: center;
-      margin-bottom: 105px;
-      &:first-child {
+      margin-bottom: 40px;
+      width: 15%;
+      margin-left: calc(10% / 5);
+
+      &:nth-child(6n + 1) {
         margin-left: 0;
       }
       &-icon {

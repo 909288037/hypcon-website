@@ -21,13 +21,14 @@ import {
   Popover,
   QRCode,
   Tabs,
+  Typography,
 } from 'antd';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import './index.less';
-
+const { Paragraph } = Typography;
 const pageSize = 6;
 const HardwareProductDetail = () => {
   const params = useParams();
@@ -169,9 +170,11 @@ const HardwareProductDetail = () => {
               <div className="hardware-product-detail-tag-title">
                 {item.title}
               </div>
-              <div className="hardware-product-detail-tag-text">
-                {item.second}
-              </div>
+              <Paragraph ellipsis={{ rows: 2 }}>
+                <div className="hardware-product-detail-tag-text">
+                  {item.second}
+                </div>
+              </Paragraph>
             </div>
           ))}
         </div>

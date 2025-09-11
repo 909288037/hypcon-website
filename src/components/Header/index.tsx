@@ -371,9 +371,9 @@ const Header: FC<BaseProps> = ({
               </div>
             )} */}
           </div>
-          {imagesSwiperArr.length > 0 && (
+          {(
             <div className="fl-header-cascader-swiper">
-              <Swiper
+            {imagesSwiperArr?.length > 0 &&  <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={0}
                 slidesPerView={1}
@@ -396,7 +396,7 @@ const Header: FC<BaseProps> = ({
                     </SwiperSlide>
                   );
                 })}
-              </Swiper>
+              </Swiper>}
             </div>
           )}
         </div>

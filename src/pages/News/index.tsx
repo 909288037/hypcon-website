@@ -147,17 +147,13 @@ const News = () => {
                       seCurrentYear(value);
                       run({
                         queryCreateDate:
-                          value +
-                          '-' +
-                          (currentMonth < 10
-                            ? '0' + currentMonth
-                            : currentMonth),
-                        noticeTitle: searchVal,
+                          value ,
+                        noticeTitle: searchVal || '',
                       });
                     }}
                   />
                 </div>
-                <div className="solution-select-month">
+                {/* <div className="solution-select-month">
                   <Select
                     defaultValue={new Date().getMonth() + 1}
                     options={monthList}
@@ -175,7 +171,7 @@ const News = () => {
                       });
                     }}
                   />
-                </div>
+                </div> */}
               </div>
               <div className="solution-search">
                 {!searchVal && (

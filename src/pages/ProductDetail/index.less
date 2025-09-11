@@ -70,14 +70,18 @@
   &-function {
     margin-top: 48px;
     display: flex;
-    align-items: center;
+    // align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     &-item {
+      // 一行6个
+      width: 16%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-right: 160px;
-      &:last-child {
+      margin-right: calc(4% / 5);
+      margin-bottom: 20px;
+      &:nth-child(6n + 1) {
         margin-right: 0;
       }
       &-icon {
@@ -101,6 +105,7 @@
         font-weight: 300;
         margin-top: 10px;
         font-family: MiSans-Light;
+        text-align: center;
       }
     }
   }
@@ -220,26 +225,30 @@
       margin-top: 172px;
       .fl-product-detail-banner-box {
         display: flex;
-        align-items: center;
         justify-content: space-between;
         padding-left: 216px;
         padding-right: 140px;
         .fl-product-detail-banner-left {
           width: 642px;
+          margin-top: 93px;
           .fl-product-detail-banner-title {
             font-weight: 500;
             font-size: 32px;
             line-height: 48px;
           }
           .fl-product-detail-banner-desc {
+            height: 500px;
+            overflow-y: auto;
             line-height: 21px;
             margin-top: 43px;
+          
           }
         }
         .fl-product-detail-banner-right {
           width: 902px;
           height: 522px;
           border-radius: 20px;
+          margin-left: 20px;
           // margin-bottom: 138px;
           img {
             width: 100%;

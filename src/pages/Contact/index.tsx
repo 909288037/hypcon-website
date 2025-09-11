@@ -6,8 +6,11 @@ import phone from './images/phone.png';
 import { getContact } from '@/services/AboutNetwork';
 import { QrcodeOutlined } from '@ant-design/icons';
 import { useRequest } from '@umijs/max';
+import { Popover } from 'antd';
 import './index.less';
+import { useState } from 'react';
 const Contact = () => {
+  const [showIndex, setShowIndex] = useState(-1)
   // 获取联系我们接口
   const { data, error, loading } = useRequest(() => {
     return getContact();
@@ -70,18 +73,26 @@ const Contact = () => {
                 <div
                   className="fl-contact-content-left-contact-item"
                   key={index}
+                  onMouseEnter={() => setShowIndex(index)}
+                  onMouseLeave={() => setShowIndex(-1)}
                 >
                   <div className="fl-contact-content-left-contact-item-title">
                     <span className="title">{item.title}</span>{' '}
                     <span className="subTitle">销售二维码</span>
                   </div>
                   <div className="fl-contact-content-left-contact-item-icon">
-                    <div className="qrcode-icon">
-                      <QrcodeOutlined />
-                    </div>
-                    <div className="qrcode-img">
-                      <img src={item.image} />
-                    </div>
+                    <Popover
+                      open={showIndex === index}
+                      content={
+                        <div className="qrcode-img">
+                          <img src={item.image} />
+                        </div>
+                      }
+                    >
+                      <div className="qrcode-icon">
+                        <QrcodeOutlined />
+                      </div>
+                    </Popover>
                   </div>
                 </div>
               );

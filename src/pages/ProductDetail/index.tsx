@@ -8,7 +8,9 @@ import {
   Mousewheel,
   Navigation,
   Pagination,
+  
 } from 'swiper/modules';
+import {Typography} from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './index.less';
 
@@ -16,7 +18,7 @@ import jiantouLeft from '@/assets/images/jiantou-left.png';
 import jiantouRight from '@/assets/images/jiantou-right.png';
 import { getProductDetail } from '@/services/ProductController';
 import { useParams, useRequest } from '@umijs/max';
-
+const { Paragraph } = Typography;
 const ProductDetail: React.FC = () => {
   const params = useParams();
   const swiperRef = useRef(null);
@@ -80,9 +82,11 @@ const ProductDetail: React.FC = () => {
                   <div className="fl-product-detail-function-item-title">
                     {item.title}
                   </div>
-                  <div className="fl-product-detail-function-item-desc">
-                    {item.second}
-                  </div>
+                  <Paragraph ellipsis={{ rows: 2 }}>
+                    <div className="fl-product-detail-function-item-desc">
+                      {item.second}
+                    </div>
+                  </Paragraph>
                 </div>
               );
             })}
@@ -145,7 +149,7 @@ const ProductDetail: React.FC = () => {
                 prevEl: '.swiper-prev',
               }}
               autoplay={{
-                delay: 3000,
+                delay: 6000,
                 disableOnInteraction: false,
               }}
               loop
@@ -213,45 +217,81 @@ const ProductDetail: React.FC = () => {
             <div className="gradient-text">{productDetail?.value?.title}</div>
           </div>
           <div className="fl-product-detail-advantage-banner">
-            <Swiper
-              // mousewheel
-              loop
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-                // pauseOnMouseEnter: true,
-              }}
-              modules={[Autoplay, Mousewheel]}
-              spaceBetween={100}
-              slidesPerView={3}
-            >
-              {productDetail?.value?.detail.map((item, index) => {
-                return (
-                  <SwiperSlide key={index}>
-                    <div className="fl-product-detail-advantage-banner-item">
-                      {/* 图标 */}
-                      <div className="fl-product-detail-advantage-banner-item-icon">
-                        <img src={item.image} alt="" />
-                      </div>
-                      <div className="fl-product-detail-advantage-banner-item-title">
-                        {item.item}
-                      </div>
-                      <div className="fl-product-detail-advantage-banner-item-desc">
-                        ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
-                        <div className="fl-product-detail-advantage-banner-item-desc-item ">
-                          <div
-                            className="ql-editor"
-                            dangerouslySetInnerHTML={{
-                              __html: item.intro,
-                            }}
-                          ></div>
+            {productDetail?.value?.detail?.length < 3 ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: 100,
+                }}
+              >
+                {productDetail?.value?.detail.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <div className="fl-product-detail-advantage-banner-item">
+                        {/* 图标 */}
+                        <div className="fl-product-detail-advantage-banner-item-icon">
+                          <img src={item.image} alt="" />
+                        </div>
+                        <div className="fl-product-detail-advantage-banner-item-title">
+                          {item.item}
+                        </div>
+                        <div className="fl-product-detail-advantage-banner-item-desc">
+                          ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+                          <div className="fl-product-detail-advantage-banner-item-desc-item ">
+                            <div
+                              className="ql-editor"
+                              dangerouslySetInnerHTML={{
+                                __html: item.intro,
+                              }}
+                            ></div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
+                  );
+                })}
+              </div>
+            ) : (
+              <Swiper
+                // mousewheel
+                loop
+                autoplay={{
+                  delay: 6000,
+                  disableOnInteraction: false,
+                }}
+                modules={[Autoplay, Mousewheel]}
+                spaceBetween={100}
+                slidesPerView={3}
+              >
+                {productDetail?.value?.detail.map((item, index) => {
+                  return (
+                    <SwiperSlide key={index}>
+                      <div className="fl-product-detail-advantage-banner-item">
+                        {/* 图标 */}
+                        <div className="fl-product-detail-advantage-banner-item-icon">
+                          <img src={item.image} alt="" />
+                        </div>
+                        <div className="fl-product-detail-advantage-banner-item-title">
+                          {item.item}
+                        </div>
+                        <div className="fl-product-detail-advantage-banner-item-desc">
+                          ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+                          <div className="fl-product-detail-advantage-banner-item-desc-item ">
+                            <div
+                              className="ql-editor"
+                              dangerouslySetInnerHTML={{
+                                __html: item.intro,
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            )}
           </div>
         </div>
       )}
