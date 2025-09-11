@@ -93,9 +93,12 @@ const Download = () => {
   });
 
   // 获取产品类目列表
-  const { data: productFileList, run: _getProductFileList } = useRequest(getProductCategory, {
-    manual: true,
-  });
+  const { data: productFileList, run: _getProductFileList } = useRequest(
+    getProductCategory,
+    {
+      manual: true,
+    },
+  );
 
   // 搜索
   const { run: searchRun } = useRequest(getSearchList, {
@@ -106,8 +109,8 @@ const Download = () => {
     console.log('触发搜索');
     if (!val.trim()) return;
     isSearch.current = true;
-    _getProductFileList()
-    searchRun({
+    _getProductFileList();
+    _getFileList({
       keyword: val,
       pageNum: 1,
       pageSize: 6,
@@ -115,7 +118,7 @@ const Download = () => {
       console.log('🚀 ~ onSearch ~ res:', res);
       setList(res);
       setCurrentNavKey({
-        id: res.rows?.[0]?.fileCategoryId,
+        id: res?.rows?.[0]?.fileCategoryId,
       });
       setSelectType({
         name: '选择类别',
@@ -152,9 +155,9 @@ const Download = () => {
   useEffect(() => {
     if (!selectType.id) return;
     if (selectProduct.id) {
-       _getProductFileList({
+      _getProductFileList({
         id: selectProduct.id,
-      })
+      });
       _getFileList({
         // fileCategoryId: currentNavKey?.id,
         productId: selectProduct.id,
@@ -163,14 +166,14 @@ const Download = () => {
         setCurrentNavKey(res.rows?.[0]?.fileCategoryId);
       });
     }
-   
+
     return () => {};
   }, [selectProduct.id]);
   useEffect(() => {
     if (idParams) {
       _getProductFileList({
         id: idParams,
-      })
+      });
       setSelectProduct({
         id: idParams,
         name: searchValParams,
@@ -401,8 +404,13 @@ const Download = () => {
                   <div
                     className="fl-download-bg-hot-search-list-item"
                     key={item.id}
-                    onClick={() => {
+                    onClick={async () => {
                       onSearch(item.title);
+                     
+                      // _getFileList({
+                      //   keyword: item.title,
+                      //   pageSize: 6,
+                      // });
                     }}
                   >
                     {item.title}
@@ -416,41 +424,49 @@ const Download = () => {
 
       <div className="fl-download-content">
         <div className="fl-download-content-nav">
-          {productFileList?.filter(item => {
-            if(isSearch.current) {
-              return list?.rows.findIndex(i => i.fileCategoryId === item.id) !== -1
-            }
-            return item
-          })?.map((item, index) => {
-            return (
-              <div
-                className="fl-download-content-nav-item"
-                key={item.id}
-                onClick={() => {
-                  setCurrentNavKey(item);
-                  if (!selectProduct.id) return;
-                  _getFileList({
-                    fileCategoryId: item?.id,
-                    productId: selectProduct.id,
-                    pageSize: 6,
-                  });
-                }}
-              >
+          {productFileList
+            ?.filter((item) => {
+              if (isSearch.current) {
+                return (
+                  list?.rows.findIndex((i) => i.fileCategoryId === item.id) !==
+                  -1
+                );
+              }
+              return item;
+            })
+            ?.map((item, index) => {
+              return (
                 <div
-                  className={classNames('fl-download-content-nav-item-title', {
-                    'gradient-text': currentNavKey?.id === item.id,
-                  })}
+                  className="fl-download-content-nav-item"
+                  key={item.id}
+                  onClick={() => {
+                    setCurrentNavKey(item);
+                    if (!selectProduct.id) return;
+                    _getFileList({
+                      fileCategoryId: item?.id,
+                      productId: selectProduct.id,
+                      pageSize: 6,
+                    });
+                  }}
                 >
-                  {item.name}
-                </div>
-                {currentNavKey?.id === item.id && (
-                  <div className="fl-download-content-nav-item-arrow">
-                    <img src={arrowIcon} alt="" />
+                  <div
+                    className={classNames(
+                      'fl-download-content-nav-item-title',
+                      {
+                        'gradient-text': currentNavKey?.id === item.id,
+                      },
+                    )}
+                  >
+                    {item.name}
                   </div>
-                )}
-              </div>
-            );
-          })}
+                  {currentNavKey?.id === item.id && (
+                    <div className="fl-download-content-nav-item-arrow">
+                      <img src={arrowIcon} alt="" />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
         </div>
         <div className="fl-download-content-list">
           {!list || list?.rows?.length === 0 ? (
