@@ -20,6 +20,7 @@ import './index.less';
 
 const HomePage: React.FC = () => {
   const {
+    
     data: bannerData,
     error,
     loading,
