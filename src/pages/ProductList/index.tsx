@@ -33,7 +33,7 @@ const ProductList = () => {
         <div className="fl-product-list-desc">{data?.description}</div>
       </div>
       <div className="fl-product-list-cards">
-        {data?.productList?.map((item) => {
+        {[...(data?.productList || []), ...(data?.childList || [])]?.map((item) => {
           return (
             <Card
               type={item.detailType === '0' ? 'download' : 'view'}
