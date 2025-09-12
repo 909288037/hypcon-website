@@ -3,14 +3,17 @@
   --swiper-pagination-bottom: 7%;
   --progressWidth: 0;
   overflow: hidden;
+
   .fl-solution-banner-img {
     position: relative;
     width: 100%;
     background: linear-gradient(180deg, #c5e2f2 0%, #007eca 100%);
+
     img {
       width: 100%;
       height: auto;
     }
+
     .fl-solution-banner-title {
       position: absolute;
       top: 13%;
@@ -20,17 +23,20 @@
       font-size: 52px;
       color: #000;
       line-height: 52px;
+
       &-text {
         display: flex;
         align-items: center;
         line-height: 52px;
       }
+
       &-icon {
         margin-left: 32px;
         display: flex;
         align-items: center;
       }
     }
+
     .fl-solution-banner-desc {
       font-family: MiSans, MiSans;
       font-weight: 400;
@@ -40,11 +46,13 @@
       max-width: 550px;
       margin: 36px 0 40px;
     }
+
     .fl-solution-banner-tag {
       display: flex;
       align-items: baseline;
       // justify-content: flex-start;
       font-size: 13px;
+
       &-text {
         font-family: MiSans, MiSans;
         font-weight: 300;
@@ -53,6 +61,7 @@
         color: #999999;
         flex-shrink: 0;
       }
+
       &-list {
         display: flex;
         flex-direction: column;
@@ -68,15 +77,18 @@
           margin-left: 3px;
           margin-bottom: 20px;
           cursor: pointer;
+
           &:hover {
             opacity: 0.6;
           }
+
           &:first-child {
             margin-left: 0;
           }
         }
       }
     }
+
     .fl-solution-banner-link {
       position: relative;
       width: 100%;
@@ -91,6 +103,7 @@
       display: flex;
       align-items: center;
       margin-top: 36px;
+
       .fl-solution-banner-link-text {
         font-weight: 500;
         /* 设置字体透明 */
@@ -106,6 +119,7 @@
         display: inline-block;
         margin-left: 26px;
       }
+
       .fl-solution-banner-link-arrow {
         position: absolute;
         right: 2px;
@@ -117,6 +131,7 @@
         border-radius: 136px;
         transition: all 0.3s;
         background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+
         &::after {
           position: absolute;
           right: 14.5px;
@@ -125,10 +140,10 @@
 
           width: 15px;
           height: 15px;
-          background: url('../../assets/images/right-arrow.png') no-repeat
-            center;
+          background: url('../../assets/images/right-arrow.png') no-repeat center;
         }
       }
+
       &:hover {
         .fl-solution-banner-link-text {
           position: relative;
@@ -136,6 +151,7 @@
           z-index: 100;
           transition: all 0.3s;
         }
+
         .fl-solution-banner-link-arrow {
           width: calc(100% - 4px);
         }
@@ -160,18 +176,27 @@
       border-radius: 50%;
       margin-right: 19px;
       cursor: pointer;
+
       .ant-progress-inner {
         width: 66px !important;
         height: 66px !important;
         background: rgba(255, 255, 255, 0.3);
       }
     }
+
     .swiper-slide {
       :last-child {
         margin-right: 0 !important;
       }
     }
+    
+    .solution_swiepr_box {
+      display: flex;
+      align-items: center;
+      width: calc(100% - 100px); // 为按钮留出空间
+    }
   }
+
   .fl-solution-banner-pagination {
     flex: 1;
     padding: 0 5%;
@@ -180,11 +205,76 @@
     background: rgba(255, 255, 255, 0.3);
     box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
     border-radius: 50px;
+    
+    // 内置导航按钮样式
+    .swiper-button-prev,
+    .swiper-button-next {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-top: 0;
+      
+      &::after {
+        font-size: 14px;
+        color: #666;
+        font-weight: bold;
+      }
+      
+      &:hover {
+        background: #f5f5f5;
+        border-color: #007ECA;
+        
+        &::after {
+          color: #007ECA;
+        }
+      }
+    }
+    
+    .swiper-button-prev {
+      left: 10px;
+      margin-left: 0;
+    }
+    
+    .swiper-button-next {
+      right: 10px;
+      margin-right: 0;
+    }
+    
+    // 在小屏幕上隐藏导航按钮
+    @media (max-width: 768px) {
+      .swiper-button-prev,
+      .swiper-button-next {
+        display: none;
+      }
+    }
+  }
+
+  .fl-solution-banner-pagination {
+    flex: 1;
+    padding: 0 5%;
+    height: 100%;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
+
     .swiper-slide-thumb-active {
       .fl-solution-banner-title {
         opacity: 1 !important;
         font-weight: 500;
         color: #333333 !important;
+
         .fl-solution-banner-line {
           width: 20px !important;
         }
@@ -196,6 +286,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
       &:hover {
         .fl-solution-banner-title {
           opacity: 1 !important;
@@ -210,6 +301,7 @@
         font-family: MiSans, MiSans;
         text-align: center;
         white-space: nowrap;
+
         .fl-solution-banner-line {
           position: absolute;
           bottom: -12px;
@@ -222,23 +314,27 @@
           transition: all 0.3s;
         }
       }
+
       .fl-solution-banner-progress {
         position: relative;
         height: 4px;
         width: 100%;
         background: rgba(255, 255, 255, 0.4);
         border-radius: 10px;
+
         .fl-solution-banner-progress-bullet {
           position: absolute;
           height: 100%;
           width: 0;
           border-radius: 10px;
         }
+
         .swiper-pagination-bullet-active {
           width: var(--progressWidth);
           background-color: #fff;
         }
       }
+
       &:last-child {
         .fl-solution-banner-title {
           // margin-right: 0;
@@ -253,11 +349,13 @@
     left: 0;
     width: 100%;
     height: 100%;
+
     &-item {
       display: flex;
       position: absolute;
       z-index: 100;
       cursor: pointer;
+
       &-title {
         font-family: MiSans, MiSans;
         font-weight: 600;
@@ -287,12 +385,14 @@
             height: 27px;
             background-color: rgba(255, 255, 255, 0.9);
           }
+
           &:nth-child(2) {
             width: 7px;
             height: 7px;
             background-color: rgba(0, 126, 202, 1);
           }
         }
+
         &::after {
           content: '';
           display: block;
@@ -313,6 +413,7 @@
         .fl-solution-banner-hotspot-item-title {
           color: #007eca !important;
         }
+
         .fl-solution-banner-hotspot-dot {
           background: transparent;
 
@@ -320,19 +421,23 @@
             &:nth-child(1) {
               background: #007eca;
             }
+
             &:nth-child(2) {
               background: #ffffff;
             }
           }
+
           &::after {
             background-color: rgba(0, 126, 202, 0.25);
             transform: translate(-50%, -50%) scale(1.8);
           }
         }
       }
+
       &.left {
         flex-direction: row-reverse;
         align-items: center;
+
         .fl-solution-banner-hotspot-dot {
           margin-right: 16px;
         }
@@ -340,26 +445,32 @@
 
       &.right {
         align-items: center;
+
         .fl-solution-banner-hotspot-dot {
           margin-left: 19px;
         }
       }
+
       &.bottom {
         flex-direction: column;
         align-items: center;
+
         .fl-solution-banner-hotspot-dot {
           margin-top: 12px;
         }
       }
+
       &.top {
         flex-direction: column-reverse;
         align-items: center;
+
         .fl-solution-banner-hotspot-dot {
           margin-bottom: 16px;
         }
       }
     }
   }
+
   &-title-line {
     position: absolute;
     top: 0;
@@ -367,10 +478,12 @@
     z-index: 100;
     pointer-events: none;
   }
+
   .fl-solution-banner-title-text {
     position: relative;
     display: flex;
     align-items: center;
+
     // max-width: 500px;
     .fl-solution-banner-title-line {
       position: absolute;
@@ -381,6 +494,145 @@
       left: 100%;
       margin-left: 80px;
       background-color: #bee0ea;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .fl-solution-banner {
+    .fl-solution-banner-img {
+      height: calc(100vh);
+
+      img {
+        height: 100%;
+      }
+
+      .fl-solution-banner-title {
+        top: 1.5rem;
+        left: .4rem;
+        width: auto;
+        line-height: 1.2;
+        max-width: calc(100% - .8rem);
+
+        .fl-solution-banner-title-text {
+          font-size: .9rem;
+          line-height: 1.2;
+
+        }
+
+        .fl-solution-banner-desc {
+          font-size: .45rem;
+          max-width: none;
+          line-height: 1.5;
+          margin-bottom: .35rem;
+        }
+
+        .custom-primary-btn {
+          width: 3.25rem;
+          height: 1rem;
+          border-radius: 1.25rem;
+          padding: 0 .25rem;
+          margin-top: 1rem;
+
+          .custom-btn-text {
+            font-size: .35rem;
+          }
+
+          .custom-btn-arrow {
+            width: .65rem;
+            height: .65rem;
+
+            &::after {
+              width: .45rem;
+              height: .45rem;
+              background-size: 100% 100%;
+            }
+          }
+
+          &:hover {
+            .custom-btn-arrow {
+              width: calc(100% - .1rem);
+              height: calc(100% - .1rem);
+            }
+          }
+        }
+
+        .fl-solution-banner-tag {
+          font-size: .35rem;
+
+          .fl-solution-banner-tag-list {
+            .fl-solution-banner-tag-item {
+              width: auto;
+              padding: .25rem .3rem;
+              height: auto;
+              display: inline-block;
+              font-size: .35rem;
+              border-radius: 1.25rem;
+              margin-right: .3rem;
+              margin-bottom: .375rem;
+
+              &:nth-child(even) {
+                margin-right: 0;
+              }
+            }
+          }
+
+          .fl-solution-banner-tag-text {
+            font-size: .35rem;
+          }
+        }
+      }
+
+    }
+
+    .fl-solution-banner-pagination {
+      border-radius: 1.25rem;
+
+      .fl-solution-banner-slide {
+        .fl-solution-banner-title {
+          font-size: .35rem;
+          line-height: 1.5;
+
+          .fl-solution-banner-line {
+            bottom: -.05rem;
+            height: .05rem;
+          }
+        }
+      }
+
+      .swiper-slide-thumb-active {
+        .fl-solution-banner-title {
+          .fl-solution-banner-line {
+            width: 100% !important;
+          }
+        }
+      }
+    }
+
+    .fl-solution-banner-pagination-box {
+      width: calc(100% - .8rem);
+      bottom: .7rem;
+      height: .825rem;
+
+      .fl-solution-banner-pagination-btn {
+        margin-right: .2375rem;
+
+        .ant-progress-inner {
+          width: .825rem !important;
+          height: .825rem !important;
+        }
+      }
+    }
+
+
+  }
+
+  // 响应式处理 - 在小屏幕上隐藏导航按钮
+  @media (max-width: 768px) {
+    .fl-solution-banner-pagination-box {
+      .solution_swiepr_box {
+        width: 100%;
+      }
     }
   }
 }

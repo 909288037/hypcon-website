@@ -1,5 +1,6 @@
 .product-notice {
   background: #f7f7f7;
+
   &-title {
     font-weight: 500;
     font-size: 52px;
@@ -8,13 +9,16 @@
     margin-top: 145px;
     margin-bottom: 122px;
   }
+
   &-content {
     padding: 0 120px 346px;
     background: url("~@/assets/images/product-mask.png") no-repeat right bottom;
     background-size: contain;
+
     &-list {
       padding: 46px 114px;
       border-top: 1px solid rgba(0, 0, 0, 0.1);
+
       &-item {
         padding: 30px 48px;
         border-radius: 20px;
@@ -22,6 +26,7 @@
         transition: all 0.3s;
         background: #fff;
         margin-bottom: 30px;
+
         &-title {
           font-weight: 500;
           font-size: 20px;
@@ -29,6 +34,7 @@
           line-height: 32px;
           margin-bottom: 28px;
         }
+
         &-footer {
           display: flex;
           align-items: center;
@@ -36,17 +42,20 @@
           font-weight: 500;
           font-size: 16px;
           color: #666666;
-          &-time {
-          }
+
+          &-time {}
+
           &-btn {
             span {
               margin-left: 13px;
             }
           }
         }
+
         &:hover {
           transform: translateY(-5px);
           box-shadow: 0px 6px 20px 4px rgba(0, 126, 202, 0.1);
+
           .product-notice-content-list-item-title {
             color: transparent;
             /* 设置线性渐变，从红色渐变到蓝色 */
@@ -59,6 +68,7 @@
             /* 把当前元素设置为行内块，以便能够应用背景 */
             display: inline-block;
           }
+
           .product-notice-content-list-item-footer {
             color: #007eca;
           }
@@ -66,10 +76,13 @@
       }
     }
   }
+
   &-pagination {
     margin-top: 140px;
+
     .ant-pagination-item {
       background-color: transparent !important;
+
       a {
         color: transparent !important;
         /* 设置线性渐变，从红色渐变到蓝色 */
@@ -82,14 +95,17 @@
         height: 100%;
       }
     }
+
     .ant-pagination-item-active {
       border: none !important;
       border-radius: 50% !important;
       background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+
       a {
         color: #fff !important;
       }
     }
+
     .ant-pagination-prev,
     .ant-pagination-next {
       img {
@@ -98,8 +114,44 @@
         vertical-align: top;
       }
     }
+
     .ant-pagination-disabled {
       opacity: 0.5 !important;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .product-notice {
+    margin-top: 1.5rem;
+    padding: 1rem .4rem 1.5rem;
+
+    .product-notice-title {
+      margin: 0 0 .5rem;
+    }
+
+    .product-notice-content {
+      padding: 0;
+
+      &-list {
+        padding: .5rem 0 0;
+        width: 100%;
+        &-item {
+          padding: .4rem;
+
+
+
+          &-title{
+            font-size: .5rem;
+            line-height: 1.2;
+            margin-bottom: .25rem;
+          }
+          &-footer{
+            font-size: .35rem;
+            line-height: 1.4;
+          }
+        }
+      }
     }
   }
 }

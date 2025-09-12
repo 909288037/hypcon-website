@@ -395,11 +395,11 @@ const ChinaMapChart = () => {
               normal: {
                 show: true,
                 formatter: regionName,
-                fontSize: 24,
+                fontSize:window.innerWidth < 768 ? 16 : 24,
                 fontWeight: 'bold',
                 color: '#007ECA',
                 backgroundColor: 'transparent',
-                padding: [5, 10],
+                padding: window.innerWidth < 768 ? [3, 6] : [5, 10],
                 borderRadius: 4,
               },
             },
@@ -412,11 +412,11 @@ const ChinaMapChart = () => {
               normal: {
                 show: true,
                 formatter: '{b}',
-                fontSize: 16,
+                fontSize:  window.innerWidth < 768 ? 12 : 16,
                 fontWeight: 'bold',
                 color: '#007ECA',
                 backgroundColor: 'transparent',
-                padding: [3, 8],
+                padding: window.innerWidth < 768 ? [2, 4] : [3, 8],
                 borderRadius: 2,
               },
             },
@@ -493,7 +493,7 @@ const ChinaMapChart = () => {
             label: {
               emphasis: {
                 show: true, // 悬停时显示省份标签
-                fontSize: 14,
+                fontSize: window.innerWidth < 768 ? 12 : 14 ,
                 color: '#007ECA',
                 fontWeight: 'bold',
                 lineHeight: 20,
@@ -647,7 +647,7 @@ const ChinaMapChart = () => {
                 show: true,
                 textStyle: {
                   color: '#000',
-                  fontSize: 14,
+                  fontSize: window.innerWidth < 768 ? 12 : 14,
                   fontWeight: 'bold',
                 },
                 formatter: function (params: any) {
@@ -681,7 +681,7 @@ const ChinaMapChart = () => {
                 rich: {
                   other: {
                     color: '#007ECA',
-                    fontSize: 16,
+                    fontSize: window.innerWidth < 768 ? 12 : 16,
                     fontWeight: 'bold',
                   },
                 },
@@ -718,7 +718,7 @@ const ChinaMapChart = () => {
                 rich: {
                   hz: {
                     color: '#0055FF',
-                    fontSize: 24,
+                    fontSize: window.innerWidth < 768 ? 16 : 24,
                     fontWeight: 'bold',
                   },
                 },
@@ -740,7 +740,7 @@ const ChinaMapChart = () => {
             coordinateSystem: 'geo',
             data: convertData(hangzhouData), // 使用相同的杭州数据
             symbol: `image://${hangzhouIcon}`, // 自定义图标
-            symbolSize: 26, // 图标大小
+            symbolSize: window.innerWidth < 768 ? 16 : 26, // 图标大小
             symbolOffset: [0, 0], // 图标偏移调整
             label: {
               normal: {
@@ -781,11 +781,11 @@ const ChinaMapChart = () => {
             label: {
               normal: {
                 show: false, // 初始隐藏
-                fontSize: 24,
+                fontSize: window.innerWidth < 768 ? 16 : 24,
                 fontWeight: 'bold',
                 color: '#007ECA',
                 backgroundColor: 'transparent',
-                padding: [5, 10],
+                padding:window.innerWidth < 768 ? [3 , 8] : [5, 10],
                 borderRadius: 4,
               },
             },
@@ -801,7 +801,7 @@ const ChinaMapChart = () => {
             label: {
               normal: {
                 show: false,
-                fontSize: 16,
+                fontSize: window.innerWidth < 768 ? 12 : 16,
                 fontWeight: 'bold',
                 color: '#007ECA',
                 backgroundColor: 'transparent',

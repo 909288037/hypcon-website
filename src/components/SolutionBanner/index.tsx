@@ -2,6 +2,7 @@ import { useImageTransition } from '@/hooks/useImageTransition';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import bgImg from './images/background.png';
+import bgImg1 from './images/background1.png';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -171,7 +172,7 @@ const SolutionBanner = ({ dataSource }) => {
       );
     });
 
-    return () => {};
+    return () => { };
   }, []);
   const getImageDimensions = (
     url: string,
@@ -219,7 +220,7 @@ const SolutionBanner = ({ dataSource }) => {
     if (endImgInfo) {
       startTransition();
     }
-    return () => {};
+    return () => { };
   }, [endImgInfo]);
 
   useEffect(() => {
@@ -228,13 +229,13 @@ const SolutionBanner = ({ dataSource }) => {
       setStartImageUrl(endImageUrl);
       setCurImg(listMemo?.[currentIndex]?._key);
     }
-    return () => {};
+    return () => { };
   }, [isAnimating, endPos, endImageUrl]);
 
   useEffect(() => {
     const key = listMemo?.[currentIndex]?._key;
     handleContainerClick(key);
-    return () => {};
+    return () => { };
   }, [currentIndex]);
 
   const getCurrentWidth = () => {
@@ -244,7 +245,6 @@ const SolutionBanner = ({ dataSource }) => {
       return curImgInfo?.imgPosition?.width || 0;
     }
   };
-
   const handleContainerClick = (endInfo) => {
     if (!endInfo) return;
     const data = imgConfig[endInfo];
@@ -280,6 +280,7 @@ const SolutionBanner = ({ dataSource }) => {
     return `M ${title.x} ${title.y} L ${horizontalEndX} ${horizontalEndY} L ${dot.x} ${dot.y}`;
   };
 
+
   return (
     <div
       ref={productBannerRef}
@@ -304,7 +305,7 @@ const SolutionBanner = ({ dataSource }) => {
           stroke="rgba(0, 126, 202, 0.25)"
           strokeWidth="2"
           fill="none"
-          // strokeDasharray={isAnimating ? '5,5' : 'none'}
+        // strokeDasharray={isAnimating ? '5,5' : 'none'}
         />
       </svg>
 
@@ -336,7 +337,8 @@ const SolutionBanner = ({ dataSource }) => {
         {listMemo.map((item, index) => (
           <SwiperSlide key={index}>
             <div className="fl-solution-banner-img">
-              <img src={bgImg} alt="背景图" />
+              <img className='pc-block' src={bgImg} alt="背景图" />
+              <img className='mb-block' src={bgImg1} alt="背景图" />
               {/* 标题 - 添加data-index用于定位 */}
               <div className="fl-solution-banner-title">
                 <div
@@ -354,7 +356,7 @@ const SolutionBanner = ({ dataSource }) => {
                     <div className="fl-solution-banner-tag-text">
                       推荐产品：
                     </div>
-                  <div className="fl-solution-banner-tag-list">
+                    <div className="fl-solution-banner-tag-list">
                       {item?.productList?.reduce((rows, tag, tagIndex) => {
                         if (tagIndex % 2 === 0) {
                           rows.push(
@@ -424,8 +426,10 @@ const SolutionBanner = ({ dataSource }) => {
             }}
           />
         </div>
+
         <Swiper
           className="fl-solution-banner-pagination"
+    
           modules={[
             Navigation,
             Pagination,
@@ -436,6 +440,16 @@ const SolutionBanner = ({ dataSource }) => {
           ]}
           spaceBetween={43}
           slidesPerView={listMemo?.length || 0}
+          breakpoints={{
+            768: {
+              slidesPerView: listMemo?.length || 0,
+              spaceBetween: 43,
+            },
+            200: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+          }}
           watchSlidesProgress
           loop
           onSwiper={setThumbsSwiper}

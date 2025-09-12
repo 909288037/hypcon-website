@@ -3,21 +3,24 @@
   background: url("~@/assets/images/product-mask.png") no-repeat right bottom;
   background-size: contain;
   padding-bottom: 250px;
-  &-header {
-    
-  }
+
+  &-header {}
+
   &-content {
-  padding: 0 120px ;
+    padding: 0 120px;
 
     margin-top: 145px;
+
     &-title {
       text-align: center;
+
       .gradient-text {
         font-weight: 500;
         font-size: 52px;
         line-height: 52px;
         margin-bottom: 66px;
       }
+
       &-desc {
         font-size: 14px;
         color: #666666;
@@ -29,12 +32,15 @@
     &-form {
       padding: 49px 300px 0;
       border-top: 1px solid rgba(0, 0, 0, 0.1);
+
       .ant-form-item-label {
         font-size: 16px;
         font-weight: 500;
       }
-       .ant-form-item {
+
+      .ant-form-item {
         margin-bottom: 51px;
+
         .ant-form-item-label {
           label {
             line-height: 16px;
@@ -43,6 +49,7 @@
           }
         }
       }
+
       .ant-btn {
         position: relative;
         width: 160px;
@@ -51,11 +58,13 @@
         border-radius: 33px;
         font-size: 16px;
         font-weight: 500;
-        background: linear-gradient( 90deg, #007ECA 0%, #22C55E 100%) !important;
+        background: linear-gradient(90deg, #007ECA 0%, #22C55E 100%) !important;
         margin-top: 90px;
+
         &:hover {
           opacity: 0.8;
         }
+
         img {
           position: absolute;
           width: 22px;
@@ -63,6 +72,128 @@
           top: 50%;
           transform: translate(0, -50%);
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .feedback {
+    margin-top: 1.5rem;
+    padding: 1rem .4rem 1.5rem;
+
+    &-content {
+      margin-top: 0;
+      padding: 0;
+
+      &-title {
+        .gradient-text {
+          font-size: .75rem;
+          line-height: 1;
+          margin-bottom: .25rem;
+        }
+
+        &-desc {
+          font-size: .35rem;
+          line-height: 1.4;
+          margin-bottom: .5rem;
+        }
+      }
+
+      &-form {
+        padding: 0;
+        padding-top: .5rem;
+
+        .ant-row {
+          margin: 0 !important;
+          padding: 0 !important;
+          justify-content: space-between;
+
+          .ant-col {
+            margin: 0 !important;
+            padding: 0 !important;
+            padding-bottom: .25rem !important;
+            width: calc((100% - .5rem) / 2);
+            flex: none;
+            max-width: none;
+
+            label {
+              height: auto !important;
+              line-height: 1;
+            }
+
+            .ant-form-item {
+              width: 100%;
+
+              .ant-row {
+                width: 100% !important;
+
+                .ant-col {
+                  width: 100% !important;
+
+                }
+              }
+
+              &-control-input {
+                height: 1rem;
+              }
+            }
+          }
+
+          .ant-col-24 {
+            width: 100%;
+            margin-bottom: 0;
+
+            .ant-form-item-control-input {
+              height: auto;
+
+              textarea {
+                font-size: .35rem;
+              }
+            }
+          }
+
+        }
+
+        &-button {
+          margin-bottom: 0 !important;
+
+          .ant-row {
+            .ant-form-item-control-input {
+              height: auto !important;
+              min-height: auto !important;
+            }
+            .ant-col{
+              margin-bottom: 0 !important;
+              padding-bottom: 0 !important;
+            }
+
+            .ant-btn {
+              width: auto;
+              padding: 0.25rem 0.5rem;
+              line-height: 1;
+              font-size: 0.45rem;
+              border-radius: 1.25rem;
+              height: auto;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              margin: 0rem auto 0;
+
+              img {
+
+                position: relative;
+                width: 0.45rem;
+                height: auto;
+                top: auto;
+                right: auto;
+                transform: translate(0, 0);
+              }
+            }
+          }
+        }
+
+
       }
     }
   }

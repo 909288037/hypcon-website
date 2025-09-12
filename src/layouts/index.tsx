@@ -70,7 +70,7 @@ export default function Layout() {
         <Helmet></Helmet>
         {/* <AppStore /> */}
         <div style={{
-          minHeight: '100vh'
+          minHeight: window.innerWidth > 768 ? '100vh' :'auto'
         }}>
           <Outlet />
         </div>

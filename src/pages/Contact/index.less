@@ -1,16 +1,20 @@
 @import '~@/global.less';
+
 .fl-contact {
   &-header {
     position: absolute !important;
   }
+
   &-banner {
     position: relative;
     height: 860px;
     overflow: hidden;
+
     img {
       width: 100%;
       height: 100%;
     }
+
     &-title {
       position: absolute;
       left: 120px;
@@ -21,20 +25,20 @@
       font-family: "MiSans-Medium";
     }
   }
+
   &-content {
     // height: 1080px;
     padding: 161px 120px 128px;
     display: flex;
     background:
       linear-gradient(0deg, rgba(232, 232, 232, 0.2), rgba(232, 232, 232, 0.2)),
-      linear-gradient(
-        187.91deg,
+      linear-gradient(187.91deg,
         rgba(34, 197, 94, 0.09) -7.47%,
         rgba(0, 126, 202, 0.12) 7.09%,
-        rgba(0, 126, 202, 0) 29.42%
-      ),
+        rgba(0, 126, 202, 0) 29.42%),
       url('./images/content-bg.png') no-repeat center -80px;
     background-size: 100% 100%;
+
     &-left {
       &-title {
         font-weight: 500;
@@ -42,9 +46,10 @@
         color: #666666;
         text-align: center;
         margin-bottom: 59px;
-      font-family: "MiSans-Medium";
+        font-family: "MiSans-Medium";
 
       }
+
       &-item {
         width: 534px;
         height: 120px;
@@ -54,26 +59,31 @@
         box-shadow: 0px 0px 10px 0px rgba(0, 77, 161, 0.1);
         border-radius: 20px 20px 20px 20px;
         margin-bottom: 35px;
+
         &-icon {
           margin-left: 58px;
+
           img {
             width: 35px;
             height: 35px;
             object-fit: contain;
           }
         }
+
         &-text {
           text-align: center;
           flex: 1;
+
           &-title {
             font-weight: 500;
             font-size: 24px;
             color: #000000;
             line-height: 32px;
             margin-bottom: 12px;
-      font-family: "MiSans-Medium";
+            font-family: "MiSans-Medium";
 
           }
+
           &-content {
             width: 266px;
             margin: 0 auto;
@@ -89,6 +99,7 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+
         &-item {
           position: relative;
           width: 257px;
@@ -98,9 +109,11 @@
           align-items: center;
           margin-left: calc(100% - 257px * 2);
           margin-bottom: 12px;
+
           &:nth-child(2n + 1) {
             margin-left: 0;
           }
+
           &::after {
             position: absolute;
             content: '';
@@ -111,23 +124,28 @@
             width: 100%;
             background: #ccc;
           }
+
           &-title {
             font-weight: 500;
             font-family: "MiSans-Medium";
+
             .title {
               font-size: 20px;
               color: rgba(102, 102, 102, 1);
 
             }
+
             .subTitle {
               font-size: 14px;
               font-weight: 500px;
               color: rgba(153, 153, 153, 1);
             }
           }
+
           &-icon {
             position: relative;
             display: flex;
+
             .qrcode-icon {
               position: absolute;
               right: 0;
@@ -145,6 +163,7 @@
               padding: 6px;
 
             }
+
             .qrcode-img {
               width: 100px;
               height: 100px;
@@ -160,18 +179,23 @@
               }
             }
           }
+
           &:hover::after {
             background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
           }
+
           &:hover {
             cursor: pointer;
+
             .qrcode-icon {
               display: none;
             }
+
             .qrcode-img {
               opacity: 1;
               transition: all 0.3s;
             }
+
             .title,
             .subTitle {
               .gradient-text();
@@ -180,14 +204,119 @@
         }
       }
     }
+
     &-right {
       margin-top: 74px;
       margin-left: 114px;
+
       img {
         width: 100%;
         height: 100%;
         // object-fit: contain;
 
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .fl-contact {
+    margin-top: 1.5rem;
+
+    &-banner {
+      height: 7rem;
+
+      &-title {
+        font-size: .9rem;
+        line-height: 1.2;
+        bottom: auto;
+        top: 3rem;
+      }
+    }
+
+    &-content {
+      background-position: 100% .8rem;
+      display: block;
+      padding: 1rem .4rem 1.5rem;
+
+      &-left {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        &-title {
+          font-size: .5rem;
+          width: 100%;
+          line-height: 1.2;
+          margin-bottom: .75rem;
+        }
+
+        &-contact {
+          width: 100%;
+          justify-content: space-between;
+          margin-top: .5rem;
+          &-item {
+            width: calc((100% - .5rem) / 2);
+            margin-left: 0;
+            padding-bottom: .5rem;
+            padding-top: .5rem;
+            &-title{
+              .title{
+                font-size: .5rem;
+                display: block;
+                line-height: 1;
+                margin-bottom: .25rem;
+              }
+              .subTitle{
+                font-size:.35rem ;
+                line-height: 1.4;
+              }
+            }
+            &-icon{
+              .qrcode-icon{
+                width: 1rem;
+                height: 1rem;
+                svg{
+                  width: .5rem;
+                  height: .5rem;
+                }
+              }
+            }
+          }
+        }
+
+        &-item {
+          width: calc((100% - .5rem) / 2);
+          height: auto;
+          flex-direction: column;
+          padding: .5rem .4rem;
+          margin-bottom: .5rem;
+          &-icon{
+            margin-left: 0;
+            margin-bottom: .25rem;
+            img{
+              width: .5rem;
+              height: auto;
+            }
+          }
+          &-text{ 
+            &-title{
+              font-size: .5rem;
+              line-height: 1.2;
+              margin-bottom: .25rem;
+            }
+            &-content{
+              font-size: .35rem;
+              line-height: 1.4;
+              width: 100%;
+            }
+          }
+        }
+      }
+      &-right{
+        margin: 0;
+        margin-top: 1rem;
+        width: 100%;
       }
     }
   }

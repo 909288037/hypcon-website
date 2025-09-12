@@ -3,9 +3,11 @@
     url('~@/assets/images/product-mask.png') no-repeat right bottom,
     #f7f7f7;
   background-size: contain;
+
   &-content {
     padding: 0 120px 63px;
     padding-bottom: 63px;
+
     &-title {
       text-align: center;
       font-weight: 500;
@@ -14,9 +16,11 @@
       margin-bottom: 109px;
       margin-top: 145px;
     }
+
     &-list {
       padding: 46px 114px;
       border-top: 1px solid rgba(0, 0, 0, 0.1);
+
       &-item {
         position: relative;
         padding: 49px 30px 49px 48px;
@@ -25,12 +29,14 @@
         border-radius: 20px 20px 20px 20px;
         margin-bottom: 40px;
         cursor: pointer;
+
         &-title {
           font-weight: 500;
           font-size: 24px;
           color: #000000;
           line-height: 32px;
         }
+
         &-content {
           max-height: 0;
           line-height: 21px;
@@ -38,13 +44,16 @@
           overflow: hidden;
           width: 1183px;
         }
+
         &.show-content {
           box-shadow: 0px 6px 20px 4px rgba(0, 126, 202, 0.1);
+
           .fl-faq-content-list-item-content {
             max-height: 999px;
             margin-top: 30px;
           }
         }
+
         &-btn {
           position: absolute;
           right: 30px;
@@ -55,6 +64,7 @@
           font-size: 16px;
           color: #666666;
           cursor: pointer;
+
           .fl-faq-btn-icon {
             line-height: normal;
             margin-left: 13px;
@@ -64,6 +74,7 @@
             color: #007eca;
           }
         }
+
         &:hover {
           transition: all 0.3s;
           transform: translateY(-5px);
@@ -72,6 +83,7 @@
       }
     }
   }
+
   &-search {
     position: relative;
     display: flex;
@@ -99,11 +111,13 @@
 
     &-input {
       flex: 1;
+
       .ant-input {
         font-size: 24px;
         padding: 0 !important;
       }
     }
+
     &-button {
       width: 60px;
       height: 60px;
@@ -116,15 +130,19 @@
       font-size: 24px;
       margin-left: 10px;
       cursor: pointer;
+
       &:hover {
         opacity: 0.8;
       }
     }
   }
+
   &-pagination {
     margin-top: 140px;
+
     .ant-pagination-item {
       background-color: transparent !important;
+
       a {
         color: transparent !important;
         /* 设置线性渐变，从红色渐变到蓝色 */
@@ -137,14 +155,17 @@
         height: 100%;
       }
     }
+
     .ant-pagination-item-active {
       border: none !important;
       border-radius: 50% !important;
       background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+
       a {
         color: #fff !important;
       }
     }
+
     .ant-pagination-prev,
     .ant-pagination-next {
       img {
@@ -153,8 +174,82 @@
         vertical-align: top;
       }
     }
+
     .ant-pagination-disabled {
       opacity: 0.5 !important;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .fl-faq {
+    margin-top: 1.5rem;
+    padding: 1rem 0rem 1.5rem;
+
+    .fl-faq-content {
+      padding: 0 .4rem;
+
+      &-title {
+        margin: 0 0 .5rem;
+      }
+
+      .fl-faq-search {
+        width: 100%;
+        height: 1rem;
+        border-radius: 1.25rem;
+        padding: 0 .4rem;
+        margin-bottom: .5rem;
+
+        .fl-faq-search-placeholder {
+          left: .4rem;
+
+          .gradient-text {
+            font-size: .45rem;
+          }
+        }
+
+        .fl-faq-search-input {
+          input {
+            font-size: .45rem;
+          }
+        }
+
+        .fl-faq-search-button {
+          width: .75rem;
+          height: .75rem;
+
+          svg {
+            width: .45rem !important;
+            height: .45rem !important;
+          }
+        }
+      }
+
+      .fl-faq-content-list {
+        padding: .5rem 0 0;
+
+        .fl-faq-content-list-item {
+          padding: .4rem;
+
+          &-title {
+            font-size: .45rem;
+            line-height: 1.2;
+            margin-bottom: .25rem;
+            .gradient-text{
+              font-size: .45rem;
+            }
+          }
+
+          &-btn {
+            right: .4rem;
+            bottom: .4rem;
+            font-size: .35rem;
+            line-height: 1;
+          }
+        }
+      }
+    }
+
+
   }
 }

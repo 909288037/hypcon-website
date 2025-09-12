@@ -1,8 +1,8 @@
 .product-notice-detail {
   padding-bottom: 569px;
-  background: url('~@/assets/images/product-mask.png') no-repeat right bottom
-    #f7f7f7;
+  background: url('~@/assets/images/product-mask.png') no-repeat right bottom #f7f7f7;
   background-size: contain;
+
   &-title {
     font-weight: 500;
     font-size: 52px;
@@ -14,6 +14,7 @@
     margin: 0 auto;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
+
   &-content {
     padding: 0 269px;
     margin-top: 46px;
@@ -22,6 +23,7 @@
   &-btn {
     padding: 0 120px;
     text-align: right;
+
     .ant-btn {
       text-align: left;
       justify-content: left;
@@ -35,9 +37,11 @@
       font-weight: 500;
       background: linear-gradient(90deg, #007eca 0%, #22c55e 100%) !important;
       margin-top: 90px;
+
       &:hover {
         opacity: 0.8;
       }
+
       img {
         position: absolute;
         right: 18px;
@@ -45,6 +49,46 @@
         transform: translate(0, -50%);
         width: 22px;
         margin-left: 38px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .product-notice-detail {
+    margin-top: 1.5rem;
+    padding: 1rem .4rem 1.5rem;
+
+    &-title {
+      padding: 0 0 .5rem;
+      margin: 0 auto .5rem;
+    }
+
+    &-content {
+      padding: 0;
+      margin: 0;
+    }
+
+    &-btn {
+      padding-top: 0;
+
+      .ant-btn {
+        margin-top: 0;
+        width: auto;
+        padding: 0.25rem 0.5rem !important;
+        line-height: 1;
+        font-size: 0.45rem;
+        border-radius: 1.25rem;
+        height: auto;
+        margin-top: 1rem;
+        img {
+          position: relative;
+          width: 0.45rem;
+          height: auto;
+          top: auto;
+          right: auto;
+          transform: translate(0, 0);
+        }
       }
     }
   }

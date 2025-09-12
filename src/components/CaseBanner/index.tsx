@@ -123,10 +123,24 @@ const ImageSlider = ({ dataSource }) => {
           }}
           loop={true}
           // 解决宽度变化导致的错位：每次切换后强制更新
-          onSlideChange={() => {}}
+          onSlideChange={() => { }}
           setWrapperSize
           slidesPerView={3}
           spaceBetween={48}
+          breakpoints={
+            {
+
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 48,
+              },
+              200: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+              },
+
+            }
+          }
           centeredSlides={false}
           // slideToClickedSlide={true}
           // onSlideChangeTransitionEnd={(swiper) => {
@@ -149,6 +163,25 @@ const ImageSlider = ({ dataSource }) => {
                   <img src={item?.image} alt="" />
                 </div>
                 <div className="fl-case-banner-swiper-content">
+                  <div className="fl-case-banner-swiper-content-desc-tags mb-block">
+                    <div className="fl-case-banner-swiper-content-desc-tag">
+                      <div className="fl-case-banner-swiper-content-desc-tag-num">
+                        {item?.res1}
+                      </div>
+                      <div className="fl-case-banner-swiper-content-desc-tag-text">
+                        {item?.res2}
+                      </div>
+                    </div>
+
+                    <div className="fl-case-banner-swiper-content-desc-tag">
+                      <div className="fl-case-banner-swiper-content-desc-tag-num">
+                        {item?.res5}
+                      </div>
+                      <div className="fl-case-banner-swiper-content-desc-tag-text">
+                        {item?.res6}
+                      </div>
+                    </div>
+                  </div>
                   <div className="fl-case-banner-swiper-content-title">
                     {item?.title}
                   </div>

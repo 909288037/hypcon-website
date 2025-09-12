@@ -19,7 +19,6 @@ import {
   Thumbs,
 } from 'swiper/modules';
 import './index.less';
-
 const ProductBanner = ({ dataSource }) => {
   console.log('🚀 ~ ProductBanner ~ dataSource:', dataSource);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -109,8 +108,18 @@ const ProductBanner = ({ dataSource }) => {
           FreeMode,
           Thumbs,
         ]}
-        spaceBetween={0}
         slidesPerView={4}
+        spaceBetween={0}
+        breakpoints={{
+          768: {
+            slidesPerView:4,
+            spaceBetween: 0,
+          },
+          300: {
+            slidesPerView:2,
+            spaceBetween: 20,
+          },
+        }}
         // mousewheel
         // freeMode
         watchSlidesProgress
@@ -123,11 +132,10 @@ const ProductBanner = ({ dataSource }) => {
             {/* 进度条 */}
             <div className="fl-product-banner-progress">
               <div
-                className={`fl-product-banner-progress-bullet ${
-                  currentIndex === index
+                className={`fl-product-banner-progress-bullet ${currentIndex === index
                     ? 'swiper-pagination-bullet-active'
                     : ''
-                }`}
+                  }`}
               ></div>
             </div>
           </SwiperSlide>

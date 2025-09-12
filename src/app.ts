@@ -29,10 +29,13 @@ const getScrollbarWidth = () => {
 
 function setRem() {
   //计算出 比例来 当前分辨率的宽%设计稿宽度
-  const scale = document.body.clientWidth / 1920
+  const isMobile = document.body.clientWidth <= 750; // 判断是否为移动端
+  const designWidth = isMobile ? 375 : 1920; // 移动端设计稿通常为 375px
+  const baseFontSize = isMobile ? 37.5 : 192; // 移动端基准 font-size
+  const scale = document.body.clientWidth / designWidth
   // 给根元素设置font-size
-  document.documentElement.style.fontSize = 192 * Math.min(scale, 2) + 'px'
-
+  // document.documentElement.style.fontSize = 192 * Math.min(scale, 2) + 'px'
+  document.documentElement.style.fontSize = baseFontSize * Math.min(scale, 2) + 'px';
   if(window.devicePixelRatio !== 1) {
     const c = document.querySelector('body')
     // c.style.zoom = 1 / window.devicePixelRatio

@@ -2,6 +2,7 @@
   &-detail {
     background: linear-gradient(180deg, #ffffff 44%, #e3f1fa 100%);
     padding: 0 437px;
+
     &-title {
       text-align: center;
       font-weight: 500;
@@ -9,6 +10,7 @@
       line-height: 75px;
       margin-top: 97px;
     }
+
     &-img {
       width: 100%;
       // margin-top: 30px;
@@ -18,6 +20,7 @@
         height: auto;
       }
     }
+
     &-text {
       width: 946px;
       margin: 30px auto 0;
@@ -25,10 +28,12 @@
       font-size: 14px;
       color: #000000;
       line-height: 23px;
+
       .ql-editor {
         font-family: Medium-Normal;
       }
     }
+
     &-tags {
       margin-top: 62px;
       display: flex;
@@ -37,6 +42,7 @@
       flex-wrap: wrap;
       margin-bottom: 65px;
     }
+
     &-tag {
       display: inline-block;
       text-align: center;
@@ -47,16 +53,19 @@
       &:nth-child(6n + 1) {
         margin-left: 0;
       }
+
       &-icon {
         width: 90px;
         height: 90px;
         border-radius: 50%;
         margin: 0 auto;
+
         img {
           width: 100%;
           height: 100%;
         }
       }
+
       &-title {
         font-family: MiSans-Medium;
         font-weight: 500;
@@ -66,6 +75,7 @@
         letter-spacing: 0%;
         margin-top: 30px;
       }
+
       &-text {
         font-weight: 300;
         font-size: 16px;
@@ -75,18 +85,22 @@
         font-family: MiSans-Light;
       }
     }
+
     &-tabs {
       position: relative;
       left: -317px;
+
       .ant-tabs-nav {
         margin-bottom: 0 !important;
       }
+
       .ant-tabs-tab {
         text-align: center;
         padding: 0 !important;
         color: #666666;
         height: 25px;
         margin-bottom: 16px;
+
         .ant-tabs-tab-btn {
           display: flex;
           font-size: 14px;
@@ -97,6 +111,7 @@
           border-radius: 61px;
         }
       }
+
       .ant-tabs-tab-active {
         .ant-tabs-tab-btn {
           font-weight: 400 !important;
@@ -104,22 +119,24 @@
           background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
         }
       }
+
       .ant-tabs-nav-wrap {
         overflow: inherit !important;
+
         .ant-tabs-ink-bar {
           width: 159px !important;
-          background: linear-gradient(
-            90deg,
-            #007eca 0%,
-            #22c55e 100%
-          ) !important;
+          background: linear-gradient(90deg,
+              #007eca 0%,
+              #22c55e 100%) !important;
         }
       }
     }
   }
+
   &-item {
     position: relative;
     padding: 0;
+
     // background:
     //   linear-gradient(180deg, #f2f5f8 0%, #ffffff 28%, #e8f2fe 100%),
     //   linear-gradient(
@@ -142,10 +159,12 @@
       line-height: 52px;
     }
   }
+
   .hardware-product-service {
     position: relative;
     height: 1100px;
     background: transparent;
+
     &::after {
       content: '';
       width: 100%;
@@ -160,16 +179,19 @@
       opacity: 0.35;
     }
   }
+
   .hardware-product-recommend {
     position: relative;
     min-height: 1300px;
     background: transparent;
     padding-left: 120px;
     padding-right: 120px;
+
     .hardware-product-item-title {
       position: relative;
       margin-bottom: 231px;
     }
+
     &::after {
       content: '';
       width: 100%;
@@ -183,9 +205,11 @@
       z-index: -1;
       opacity: 0.35;
     }
+
     &-list {
       display: flex;
       flex-wrap: wrap;
+
       .hardware-product-recommend-item {
         position: relative;
         display: flex;
@@ -199,12 +223,15 @@
         transition: all 0.3s;
         margin-top: 225px;
         margin-left: calc((100% - 473px * 3) / 2);
+
         &:nth-child(3n + 1) {
           margin-left: 0;
         }
+
         &:first-child {
           margin-top: 231px;
         }
+
         &-img {
           position: absolute;
           top: -20px;
@@ -213,23 +240,26 @@
           width: 450px;
           height: 300px;
           user-select: none;
+
           img {
             width: 100%;
             height: 100%;
           }
         }
+
         &-title {
           font-weight: 500;
           font-size: 24px;
           line-height: 32px;
         }
+
         &-params {
           margin-top: 15px;
           display: flex;
           align-items: center;
           justify-content: center;
 
-          > div {
+          >div {
             display: flex;
             align-items: center;
             font-weight: 300;
@@ -237,9 +267,11 @@
             line-height: 16px;
             color: #000000;
             margin-left: 15px;
+
             &:first-child {
               margin-left: 0;
             }
+
             &::before {
               display: block;
               content: '';
@@ -251,6 +283,7 @@
             }
           }
         }
+
         &-text {
           margin-top: 15px;
           text-align: center;
@@ -280,18 +313,22 @@
 
     &-item {
       margin-bottom: 120px;
+
       &-title {
         font-weight: 500;
         font-size: 32px;
         line-height: 32px;
       }
+
       &-content {
         padding: 0 200px;
+
         img {
           width: 100%;
           height: auto;
         }
       }
+
       &:last-child {
         margin-bottom: 0;
       }
@@ -306,6 +343,7 @@
       url('../../assets/images/product-mask.png') no-repeat right bottom,
       #f7f7f7;
     background-size: contain;
+
     &-nav {
       &-item {
         padding: 0 24px;
@@ -316,13 +354,17 @@
         font-weight: 600;
         color: #666666;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
         &-arrow {
           margin-left: 41px;
+
           img {
             width: 7px;
           }
         }
+
         cursor: pointer;
+
         &:hover {
           color: transparent;
           /* 设置线性渐变，从红色渐变到蓝色 */
@@ -339,6 +381,7 @@
     &-list {
       margin-left: 69px;
       flex: 1;
+
       &-item {
         display: flex;
         align-items: center;
@@ -347,20 +390,24 @@
         border-radius: 20px 20px 20px 20px;
         margin-bottom: 30px;
         transition: all 0.3s;
+
         &-img {
           width: 50px;
           height: 50px;
           background: url('~@/assets/images/pdf.png') no-repeat center;
           background-size: 100% 100%;
         }
+
         &-text {
           flex: 1;
           margin-left: 55px;
+
           &-title {
             font-weight: 500;
             font-size: 20px;
             line-height: 32px;
           }
+
           &-footer {
             display: flex;
             justify-content: space-between;
@@ -368,34 +415,41 @@
             font-size: 16px;
             color: #666666;
             font-weight: 500;
+
             &-left {
               display: flex;
               align-items: center;
 
-              > div {
+              >div {
                 margin-right: 54px;
               }
             }
+
             &-right {
               display: flex;
               align-items: center;
-              > div {
+
+              >div {
                 display: flex;
                 align-items: center;
                 margin-left: 26px;
                 line-height: 16px;
+
                 span {
                   width: 18px;
                   height: 18px;
                   margin-left: 7px;
+
                   div {
                     height: 100%;
                   }
+
                   svg {
                     width: 100%;
                     height: 100%;
                   }
                 }
+
                 .anticon {
                   font-size: 18px;
                   margin-left: 7px;
@@ -404,29 +458,32 @@
             }
           }
         }
+
         &:hover {
           cursor: pointer;
           transform: translate(0, -5px);
           box-shadow: 0px 6px 20px 4px rgba(0, 126, 202, 0.1);
+
           .hardware-product-download-list-item-img {
             background: url('~@/assets/images/pdf-hover.png') no-repeat center;
             background-size: 100% 100%;
           }
+
           .hardware-product-download-list-item-text-title {
             span {
               color: transparent;
-              background-image: linear-gradient(
-                90deg,
-                #007eca 0%,
-                #22c55e 100%
-              );
+              background-image: linear-gradient(90deg,
+                  #007eca 0%,
+                  #22c55e 100%);
 
               -webkit-background-clip: text;
               background-clip: text;
             }
           }
+
           .hardware-product-download-list-item-text-footer {
             color: #007eca;
+
             path {
               fill: #007eca;
             }
@@ -437,8 +494,10 @@
 
     &-pagination {
       margin-top: 140px;
+
       .ant-pagination-item {
         background-color: transparent !important;
+
         a {
           color: transparent !important;
           /* 设置线性渐变，从红色渐变到蓝色 */
@@ -451,14 +510,17 @@
           height: 100%;
         }
       }
+
       .ant-pagination-item-active {
         border: none !important;
         border-radius: 50% !important;
         background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+
         a {
           color: #fff !important;
         }
       }
+
       .ant-pagination-prev,
       .ant-pagination-next {
         img {
@@ -467,8 +529,261 @@
           vertical-align: top;
         }
       }
+
       .ant-pagination-disabled {
         opacity: 0.5 !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .hardware-product {
+    margin-top: 1.5rem;
+
+    .hardware-product-detail {
+      padding: 1rem .4rem 0;
+
+      .hardware-product-detail-title {
+        margin-top: 0;
+
+        .gradient-text {
+          margin-bottom: .5rem;
+        }
+      }
+
+      .hardware-product-detail-text {
+        width: 100%;
+        margin: .25rem auto 0;
+      }
+
+
+    }
+
+    .hardware-product-item-title {
+      top: .5rem;
+    }
+
+    .hardware-product-detail-tabs {
+      left: 0;
+
+      .ant-tabs-nav-wrap {
+        .ant-tabs-ink-bar {
+          width: 20% !important;
+        }
+      }
+
+      .ant-tabs-tab {
+        height: auto;
+        margin: 0 !important;
+        padding: .25rem .5rem !important;
+
+        .ant-tabs-tab-btn {
+          width: auto;
+          height: auto;
+          font-size: .35rem;
+          padding: .25rem .35rem;
+          line-height: 1;
+          border-radius: 1.25rem;
+        }
+      }
+    }
+
+    .hardware-product-detail-tags {
+      margin-top: .5rem;
+      margin-bottom: .3rem;
+      left: 0;
+      justify-content: space-between;
+
+      .hardware-product-detail-tag {
+        width: calc((100% - .5rem)/ 2);
+        margin-left: 0;
+        margin-bottom: .75rem;
+
+        .hardware-product-detail-tag-icon {
+          width: 1.5rem;
+          height: auto;
+          margin-bottom: .25rem;
+        }
+
+        .hardware-product-detail-tag-title {
+          font-size: .45rem;
+          line-height: 1;
+        }
+
+        .ant-typography {
+          margin-bottom: 0;
+
+          .hardware-product-detail-tag-text {
+            font-size: .35rem;
+            line-height: 1.3;
+            margin-top: .25rem;
+          }
+        }
+
+      }
+
+    }
+
+    .hardware-product-recommend {
+      padding: 1rem .4rem;
+
+      .hardware-product-recommend-list {
+        width: 100%;
+
+        .hardware-product-recommend-item {
+          width: 100%;
+          line-height: 1.5;
+          padding: 1rem .5rem 1rem;
+          margin-bottom: 1rem;
+          min-height: 4rem;
+
+          &:nth-child(2n) {
+            margin-left: 0;
+          }
+
+          .hardware-product-recommend-item-img {
+            width: auto;
+            height: auto;
+            left: 50%;
+
+          }
+
+          .gradient-text {
+            font-size: .5rem;
+            margin-bottom: .5rem;
+          }
+
+          .ql-editor {
+            font-size: .35rem;
+
+            .ql-size-large {
+              font-size: .4rem;
+            }
+          }
+
+        }
+      }
+
+    }
+
+    .hardware-product-specs {
+      padding: 1rem .4rem 1.5rem;
+
+      .hardware-product-specs-item-title {
+        text-align: center;
+        margin-bottom: .5rem;
+      }
+
+      .hardware-product-specs-item-content {
+        padding: 0;
+      }
+
+    }
+
+    .hardware-product-download {
+      display: block;
+      padding: 1rem 0.4rem 1.5rem;
+
+      .hardware-product-download-nav {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding-bottom: .25rem;
+        overflow-x: auto;
+        margin-bottom: .5rem;
+
+        .hardware-product-download-nav-item {
+          height: auto;
+          font-size: .4rem;
+          white-space: nowrap;
+          border-bottom: none;
+          display: flex;
+          align-items: center;
+          margin-left: .25rem;
+
+          .gradient-text {
+            line-height: 1;
+            font-size: .5rem;
+          }
+
+          &:nth-child(1) {
+            margin-left: 0;
+          }
+        }
+      }
+
+      .hardware-product-download-list {
+        padding: 0;
+        margin-left: 0;
+        width: 100%;
+
+        .hardware-product-download-list-item {
+          padding: .4rem;
+          display: block;
+          margin-bottom: .5rem;
+          border-radius: .25rem;
+
+          .hardware-product-download-list-item-text {
+            margin-left: 0;
+          }
+
+          .hardware-product-download-list-item-img {
+            width: .75rem;
+            height: .75rem;
+            margin-bottom: .35rem;
+          }
+
+          .hardware-product-download-list-item-text-title {
+            font-size: .45rem;
+            line-height: 1;
+            margin-bottom: .25rem;
+          }
+
+          .hardware-product-download-list-item-text-footer {
+            font-size: .35rem;
+            display: block;
+
+            .hardware-product-download-list-item-text-footer-left {
+              flex-wrap: wrap;
+              margin-bottom: .5rem;
+              div{
+                margin-right: .2rem;
+              }
+            }
+
+            .hardware-product-download-list-item-text-footer-right {
+              line-height: 1;
+              margin-left: 0;
+
+              div {
+                line-height: 1;
+                margin-right: .25rem;
+                span{
+                  width: .35rem;
+                  height: .35rem;
+                  margin-left: .125rem;
+                  div{
+                    margin-right: 0;
+                  }
+                }
+                .anticon{
+                  width: .35rem;
+                  height: .35rem;
+                }
+               
+              }
+            }
+
+
+          }
+        }
+      }
+
+      .hardware-product-download-nav-item-arrow {
+        img {
+          width: .15rem;
+        }
       }
     }
   }
