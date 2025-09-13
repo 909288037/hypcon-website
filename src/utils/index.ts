@@ -128,3 +128,39 @@ export function extractPlainTextFromHTML(html: string): string {
   // 提取 body 的文本内容（自动去除标签）
   return doc.body.textContent || doc.body.innerText || '';
 }
+
+/**
+ * 判断URL是否包含域名，如果没有则拼接当前域名
+ * @param {string} url - 待处理的URL
+ * @returns {string} - 处理后的完整URL
+ */
+export function ensureFullUrl(url: string) {
+    // 如果url为空或非字符串，直接返回
+    if (!url || typeof url !== 'string') {
+        return url;
+    }
+
+    // 去除首尾空格
+    url = url.trim();
+
+    // 如果已经是完整URL（包含协议和域名），直接返回
+    if (/^(https?:)?\/\//i.test(url)) {
+        return url;
+    }
+
+    // 如果是相对路径（以/开头），拼接当前域名
+    if (url.startsWith('/')) {
+        return window.location.origin + url;
+    }
+
+    // 如果是协议相对路径（以//开头），添加当前协议
+    if (url.startsWith('//')) {
+        return window.location.protocol + url;
+    }
+
+    // 其他情况（如相对路径不以/开头），拼接当前完整路径
+    // 注意：这可能会导致路径问题，通常建议相对路径以/开头
+    const currentPath = window.location.pathname;
+    const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+    return window.location.origin + basePath + url;
+}

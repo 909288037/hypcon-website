@@ -11,7 +11,7 @@ import {
   getProductDetail,
   getProductSpecification,
 } from '@/services/ProductController';
-import { downloadFile, isImage } from '@/utils';
+import { downloadFile, ensureFullUrl, isImage } from '@/utils';
 import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { useParams, useRequest, useSearchParams } from '@umijs/max';
 import {
@@ -359,7 +359,7 @@ const HardwareProductDetail = () => {
                             </div>
                             <Popover
                               content={
-                                <QRCode value={item.url} bordered={false} />
+                                <QRCode value={ensureFullUrl(item.url)} bordered={false} />
                               }
                             >
                               <div>

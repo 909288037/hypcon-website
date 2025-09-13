@@ -12,7 +12,7 @@ import {
   getProductList,
 } from '@/services/DownloadController';
 import { getSearchList } from '@/services/HomeController';
-import { downloadFile, isImage } from '@/utils';
+import { downloadFile, ensureFullUrl, isImage } from '@/utils';
 import {
   CaretDownOutlined,
   DownloadOutlined,
@@ -528,7 +528,7 @@ const Download = () => {
                             </div>
                             <Popover
                               content={
-                                <QRCode value={item.url} bordered={false} />
+                                <QRCode value={ensureFullUrl(item.url)} bordered={false} />
                               }
                             >
                               <div>

@@ -15,7 +15,7 @@ import {
   getSearchProductList,
   getSearchSolutionList,
 } from '@/services/HomeController';
-import { downloadFile, extractPlainTextFromHTML, isImage } from '@/utils';
+import { downloadFile, ensureFullUrl, extractPlainTextFromHTML, isImage } from '@/utils';
 import {
   DownloadOutlined,
   EyeOutlined,
@@ -526,7 +526,7 @@ const Search = () => {
                                 </div>
                                 <Popover
                                   content={
-                                    <QRCode value={item.url} bordered={false} />
+                                    <QRCode value={ensureFullUrl(item.url)} bordered={false} />
                                   }
                                 >
                                   <div>
