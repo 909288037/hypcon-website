@@ -65,6 +65,7 @@ const Download = () => {
     url: '',
   });
   const [currentNavKey, setCurrentNavKey] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const typeRef = useRef(null);
   const productRef = useRef(null);
   const isSearch = useRef(false);
@@ -88,9 +89,15 @@ const Download = () => {
   });
 
   // 获取产品文件列表
-  const { data: fileList, run: _getFileList } = useRequest(getProductFileList, {
-    manual: true,
-  });
+  const { data: fileList, run: _getFileList } = useRequest(
+    (params) => {
+      setCurrentPage(params.pageNum || 1);
+      return getProductFileList(params);
+    },
+    {
+      manual: true,
+    },
+  );
 
   // 获取产品类目列表
   const { data: productFileList, run: _getProductFileList } = useRequest(
@@ -406,7 +413,7 @@ const Download = () => {
                     key={item.id}
                     onClick={async () => {
                       onSearch(item.title);
-                     
+
                       // _getFileList({
                       //   keyword: item.title,
                       //   pageSize: 6,
@@ -528,7 +535,10 @@ const Download = () => {
                             </div>
                             <Popover
                               content={
-                                <QRCode value={ensureFullUrl(item.url)} bordered={false} />
+                                <QRCode
+                                  value={ensureFullUrl(item.url)}
+                                  bordered={false}
+                                />
                               }
                             >
                               <div>
@@ -549,18 +559,29 @@ const Download = () => {
           {/* 分页 */}
           <div className="fl-download-pagination">
             <Pagination
+              current={currentPage}
               hideOnSinglePage
               defaultPageSize={6}
               total={fileList?.total}
               itemRender={itemRender}
               align="center"
               onChange={(page, pageSize) => {
-                _getFileList({
+                setCurrentPage(page);
+                let params = {
                   fileCategoryId: currentNavKey?.id,
-                  productId: selectProduct.id,
                   pageNum: page,
                   pageSize,
-                });
+                };
+                if (searchVal) {
+                  params.keyword = searchVal;
+                }
+                if (selectProduct.id) {
+                  params.productId = selectProduct.id;
+                }
+                if (isSearch.current) {
+                  delete params.fileCategoryId;
+                }
+                _getFileList(params);
               }}
             />
           </div>
