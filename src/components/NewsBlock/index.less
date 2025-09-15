@@ -152,6 +152,7 @@
 
   .news-block {
     padding: 1rem .4rem .5rem;
+
     .news-block-head {
       margin-bottom: .5rem;
 
@@ -212,6 +213,30 @@
         width: 100%;
         height: auto;
         border-radius: .25rem;
+
+        .news-block-cover-title {
+          font-size: .45rem;
+          line-height: 1.2;
+          top: auto;
+          bottom: .75rem;
+
+          &-text {
+            line-height: 1.2;
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            /* 这里设置显示的行数 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+          }
+
+          .news-block-cover-date {
+            font-size: .35rem;
+            line-height: 1;
+            margin-top: .25rem;
+          }
+        }
       }
 
       .news-block-list {
@@ -241,14 +266,15 @@
           margin-top: .25rem;
         }
       }
-      .news-block-list-item:hover{
+
+      .news-block-list-item:hover {
         transform: scale(1);
       }
+
       .news-block-list-item-img {
         width: 3.25rem;
         height: auto;
       }
-
     }
   }
 }
