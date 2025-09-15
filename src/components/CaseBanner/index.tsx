@@ -152,6 +152,7 @@ const ImageSlider = ({ dataSource }) => {
                   <div className="fl-case-banner-swiper-content-title">
                     {item?.title}
                   </div>
+                 <div className='fl-case-banner-swiper-content-line'></div>
                   <div className="fl-case-banner-swiper-content-desc">
                     <div className="fl-case-banner-swiper-content-desc-text">
                       {item?.intro}

@@ -83,7 +83,7 @@
     .swiper-next-btn {
       position: absolute;
       top: calc(50% + 40px);
-      left: calc(49vw + 48PX);
+      left: calc(49vw + 48px);
       transform: translate(-50%, -50%);
       width: 80px;
       height: 80px;
@@ -106,17 +106,21 @@
     }
     .fl-case-banner-swiper-item {
       width: 460px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       height: 540px !important;
       border-radius: 20px;
       height: 100%;
       transition: all 0.3s;
       overflow: hidden;
       .fl-case-banner-swiper-img {
+        width: 49vw;
         height: 100%;
         display: flex;
-        align-items: center;
         justify-content: center;
         img {
+          width: 100% !important;
           width: 100%;
           height: 100%;
           user-select: none;
@@ -134,7 +138,7 @@
       }
       .fl-case-banner-swiper-content {
         position: absolute;
-        bottom: 46px;
+        top: 395px;
         left: 0;
         right: 0;
         width: 100%;
@@ -143,9 +147,18 @@
         color: #ffffff;
         overflow: hidden;
         .fl-case-banner-swiper-content-title {
-          transform: translate(0, 118px);
+          transform: translate(0, 95px);
+          line-height: 22px;
           transition: transform 0.5s;
           margin-left: 40px;
+        }
+        .fl-case-banner-swiper-content-line {
+          width: 860px;
+          height: 1px;
+          background-color: rgba(217, 217, 217, 0.2);
+          margin: 20px auto 20px;
+          opacity: 0;
+          transition: opacity 0.5s;
         }
         .fl-case-banner-swiper-content-desc {
           display: flex;
@@ -155,7 +168,6 @@
           color: #ffffff;
           font-weight: 400;
           line-height: 20px;
-          margin-top: 50px;
           width: 940px;
           padding: 0 40px;
           transform: translate(100px, 300px);
@@ -170,15 +182,16 @@
             align-items: center;
             .fl-case-banner-swiper-content-desc-tag {
               font-size: 36px;
+                line-height: 36px;
               text-align: center;
               margin-left: 60px;
               .fl-case-banner-swiper-content-desc-tag-num {
                 font-weight: 700;
-                margin-bottom: 12px;
-                line-height: 36px;
+                margin-bottom: 4px;
               }
               .fl-case-banner-swiper-content-desc-tag-text {
                 font-size: 13px;
+                line-height: 13px;
               }
             }
           }
@@ -189,8 +202,11 @@
         animation: fadeInAnimation 0.5s forwards;
 
         .fl-case-banner-swiper-content-title {
-          transform: translate(40px, 0);
-          margin-left: 0;
+          transform: translate(0, 0);
+          // margin-left: 0;
+        }
+        .fl-case-banner-swiper-content-line {
+          opacity: 1;
         }
         .fl-case-banner-swiper-content-desc {
           transform: translate(0, 0);
@@ -206,8 +222,8 @@
           top: 0;
           width: 100%;
           height: 100%;
-          filter: blur(100px);
           border-radius: 20px;
+          // filter: blur(3px);
           background:
             linear-gradient(
               180deg,
