@@ -3,6 +3,7 @@ import qrcodeIcon from '@/assets/images/qrcode.svg';
 import arrowRight from '@/assets/images/right-arrow-primary.png';
 import CustomEmpty from '@/components/CustomEmpty';
 import Header from '@/components/Header';
+import { fileTypeImg } from '@/const';
 import {
   getProductCategory,
   getProductFileList,
@@ -11,7 +12,7 @@ import {
   getProductDetail,
   getProductSpecification,
 } from '@/services/ProductController';
-import { downloadFile, ensureFullUrl, isImage } from '@/utils';
+import { downloadFile, ensureFullUrl, getFileSuffix, isImage } from '@/utils';
 import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { useParams, useRequest, useSearchParams } from '@umijs/max';
 import {
@@ -85,6 +86,7 @@ const HardwareProductDetail = () => {
     return originalElement;
   };
   const [currentKey, setCurrentKey] = useState('-1');
+  const [hoverItem, setHoverItem] = useState('');
 
   const tabItems = useMemo(() => {
     let _data = [];
@@ -306,12 +308,24 @@ const HardwareProductDetail = () => {
           <div className="hardware-product-download-list">
             {fileList?.rows?.length > 0 ? (
               fileList?.rows?.map((item) => {
+                let fileImg = fileTypeImg[getFileSuffix(item.url)]?.default;
+                if (hoverItem === item.id) {
+                  fileImg = fileTypeImg[getFileSuffix(item.url)]?.hover;
+                }
                 return (
                   <div
                     className="hardware-product-download-list-item"
                     key={item.id}
+                    onMouseEnter={() => {
+                      setHoverItem(item.id);
+                    }}
+                    onMouseLeave={() => {
+                      setHoverItem('');
+                    }}
                   >
-                    <div className="hardware-product-download-list-item-img" />
+                    <div className="hardware-product-download-list-item-img">
+                      <img src={fileImg} alt="" />
+                    </div>
                     <div className="hardware-product-download-list-item-text">
                       <div className="hardware-product-download-list-item-text-title">
                         <span>{item.name}</span>
@@ -359,7 +373,14 @@ const HardwareProductDetail = () => {
                             </div>
                             <Popover
                               content={
-                                <QRCode  value={encodeURI(ensureFullUrl('/prod/api/download/download') + `?path=${item.url}&name=${item.name}`)} bordered={false} />
+                                <QRCode
+                                  value={encodeURI(
+                                    ensureFullUrl(
+                                      '/prod/api/download/download',
+                                    ) + `?path=${item.url}&name=${item.name}`,
+                                  )}
+                                  bordered={false}
+                                />
                               }
                             >
                               <div>

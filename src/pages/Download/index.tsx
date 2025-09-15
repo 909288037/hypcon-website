@@ -4,6 +4,7 @@ import arrowIcon from '@/assets/images/jiantou-right.png';
 import qrcodeIcon from '@/assets/images/qrcode.svg';
 import arrowRight from '@/assets/images/right-arrow-primary.png';
 import Header from '@/components/Header';
+import { fileTypeImg } from '@/const';
 import {
   getCategoryTreeList,
   getKeywords,
@@ -12,7 +13,7 @@ import {
   getProductList,
 } from '@/services/DownloadController';
 import { getSearchList } from '@/services/HomeController';
-import { downloadFile, ensureFullUrl, isImage } from '@/utils';
+import { downloadFile, ensureFullUrl, getFileSuffix, isImage } from '@/utils';
 import {
   CaretDownOutlined,
   DownloadOutlined,
@@ -66,6 +67,7 @@ const Download = () => {
   });
   const [currentNavKey, setCurrentNavKey] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [hoverItem, setHoverItem] = useState('');
   const typeRef = useRef(null);
   const productRef = useRef(null);
   const isSearch = useRef(false);
@@ -484,12 +486,24 @@ const Download = () => {
                 return item.fileCategoryId === currentNavKey?.id;
               })
               ?.map((item, index) => {
-                console.log("🚀 ~ item:", item)
-                console.log(ensureFullUrl('http://121.40.200.150:8087/prod/api/download/download') + `?path=${item.url}&name=${item.name}.${item.url.split('.').pop()}`);
-                
+                let fileImg = fileTypeImg[getFileSuffix(item.url)]?.default;
+                if (hoverItem === item.id) {
+                  fileImg = fileTypeImg[getFileSuffix(item.url)]?.hover;
+                }
                 return (
-                  <div className="fl-download-content-list-item" key={item.id}>
-                    <div className="fl-download-content-list-item-img" />
+                  <div
+                    className="fl-download-content-list-item"
+                    key={item.id}
+                    onMouseEnter={() => {
+                      setHoverItem(item.id);
+                    }}
+                    onMouseLeave={() => {
+                      setHoverItem('');
+                    }}
+                  >
+                    <div className="fl-download-content-list-item-img">
+                      <img src={fileImg} alt="" />
+                    </div>
                     <div className="fl-download-content-list-item-text">
                       <div className="fl-download-content-list-item-text-title">
                         <span>{item.name}</span>
@@ -539,7 +553,11 @@ const Download = () => {
                             <Popover
                               content={
                                 <QRCode
-                                  value={encodeURI(ensureFullUrl('/prod/api/download/download') + `?path=${item.url}&name=${item.name}`)}
+                                  value={encodeURI(
+                                    ensureFullUrl(
+                                      '/prod/api/download/download',
+                                    ) + `?path=${item.url}&name=${item.name}`,
+                                  )}
                                   bordered={false}
                                 />
                               }

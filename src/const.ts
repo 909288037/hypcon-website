@@ -1,3 +1,9 @@
+import pdfImg from '@/assets/images/file/pdf.png';
+import docImg from '@/assets/images/file/doc.png';
+import jpgImg from '@/assets/images/file/jpg.png';
+import pdfActiveImg from '@/assets/images/file/pdf-active.png';
+import docActiveImg from '@/assets/images/file/doc-active.png';
+import jpgActiveImg from '@/assets/images/file/jpg-active.png';
 // 产品中心列表
 export const productList = [
   {
@@ -86,3 +92,27 @@ export const aboutList = [
     url: '/join',
   },
 ]
+
+
+export const fileTypeImg = {
+  'jpg': {
+    default: jpgImg,
+    hover: jpgActiveImg
+  },
+  'jpeg': {
+    default: jpgImg,
+    hover: jpgActiveImg
+  },
+  'pdf': {
+    default: pdfImg,
+    hover: pdfActiveImg
+  },
+  'doc': {
+    default: docImg,
+    hover: docActiveImg
+  },
+  'docx': {
+    default: docImg,
+    hover: docActiveImg
+  },
+}

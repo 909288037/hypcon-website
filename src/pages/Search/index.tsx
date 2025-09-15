@@ -4,6 +4,7 @@ import arrowRight from '@/assets/images/right-arrow-primary.png';
 import Card, { highlightKeywords } from '@/components/Card';
 import CustomEmpty from '@/components/CustomEmpty';
 import Header from '@/components/Header';
+import { fileTypeImg } from '@/const';
 import { getKeywords, getProductCategory } from '@/services/DownloadController';
 import {
   getSearchList,
@@ -16,6 +17,7 @@ import {
   downloadFile,
   ensureFullUrl,
   extractPlainTextFromHTML,
+  getFileSuffix,
   isImage,
 } from '@/utils';
 import {
@@ -80,6 +82,8 @@ const Search = () => {
   const [currentSolutionPage, setCurrentSolutionPage] = useState(1);
   const [currentNewsPage, setCurrentNewsPage] = useState(1);
   const [currentDownloadPage, setCurrentDownloadPage] = useState(1);
+  const [hoverItem, setHoverItem] = useState('');
+
   // 获取关键字列表
   const { data: keywordList } = useRequest(() => {
     return getKeywords();
@@ -497,12 +501,25 @@ const Search = () => {
                       return item.fileCategoryId === currentNavKey?.id;
                     })
                     ?.map((item, index) => {
+                      let fileImg =
+                        fileTypeImg[getFileSuffix(item.url)]?.default;
+                      if (hoverItem === item.id) {
+                        fileImg = fileTypeImg[getFileSuffix(item.url)]?.hover;
+                      }
                       return (
                         <div
                           className="fl-search-file-content-list-item"
                           key={item.id}
+                          onMouseEnter={() => {
+                            setHoverItem(item.id);
+                          }}
+                          onMouseLeave={() => {
+                            setHoverItem('');
+                          }}
                         >
-                          <div className="fl-search-file-content-list-item-img" />
+                          <div className="fl-search-file-content-list-item-img">
+                            <img src={fileImg} alt="" />
+                          </div>
                           <div className="fl-search-file-content-list-item-text">
                             <div className="fl-search-file-content-list-item-text-title">
                               <span>
@@ -554,7 +571,12 @@ const Search = () => {
                                   <Popover
                                     content={
                                       <QRCode
-                                         value={encodeURI(ensureFullUrl('/prod/api/download/download') + `?path=${item.url}&name=${item.name}`)}
+                                        value={encodeURI(
+                                          ensureFullUrl(
+                                            '/prod/api/download/download',
+                                          ) +
+                                            `?path=${item.url}&name=${item.name}`,
+                                        )}
                                         bordered={false}
                                       />
                                     }
