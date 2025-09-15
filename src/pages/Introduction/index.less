@@ -1,16 +1,20 @@
 @import '~@/global.less';
+
 .fl-introduction {
   &-header {
     position: absolute !important;
   }
+
   &-banner {
     position: relative;
     height: 855px;
     overflow: hidden;
+
     img {
       width: 100%;
       height: auto;
     }
+
     &-title {
       position: absolute;
       bottom: 120px;
@@ -20,12 +24,14 @@
       color: #ffffff;
     }
   }
+
   &-advantage {
     .advantage-banner {
       &::before {
         display: none;
       }
     }
+
     .custom-primary-btn {
       display: none;
     }
@@ -36,16 +42,19 @@
     height: 880px;
     background: url('./images/zkjy.png') no-repeat center;
     background-size: 100% 100%;
+
     &-title {
       position: absolute;
       top: 140px;
       left: 120px;
       font-weight: 500;
       color: #000000;
+
       &-text {
         font-size: 52px;
         line-height: 52px;
       }
+
       &-desc {
         width: 348px;
         font-weight: 300;
@@ -60,6 +69,7 @@
       flex-wrap: wrap;
       padding-top: 140px;
       margin-left: 635px;
+
       &-item {
         width: 560px;
         height: 280px;
@@ -71,6 +81,7 @@
         margin-left: 40px;
         margin-bottom: 40px;
         padding: 48px;
+
         &:nth-child(2n + 1) {
           margin-left: 0;
         }
@@ -78,15 +89,18 @@
         &-header {
           display: flex;
           justify-content: space-between;
+
           &-text {
             &-num {
               font-size: 16px;
               color: #999;
               font-weight: 500;
             }
+
             &-title {
               width: 65px;
               margin-top: 10px;
+
               .gradient-text {
                 font-size: 16px;
                 line-height: 21px;
@@ -97,6 +111,7 @@
           &-img {
             width: 20px;
             height: 20px;
+
             img {
               width: 100%;
               height: 100%;
@@ -110,16 +125,19 @@
           align-items: center;
           justify-content: space-between;
           margin-top: 23px;
+
           &-img {
             width: 78px;
             height: 78px;
             flex-shrink: 0;
+
             img {
               width: 100%;
               height: 100%;
 
             }
           }
+
           &-text {
             width: 317px;
             font-weight: 500;
@@ -137,9 +155,11 @@
     padding: 120px;
     display: flex;
     justify-content: space-between;
+
     &-left {
       margin-top: 40px;
     }
+
     &-title {
       &-text {
         font-weight: 500;
@@ -147,6 +167,7 @@
         color: #000000;
         line-height: 52px;
       }
+
       &-desc {
         font-weight: 300;
         font-size: 16px;
@@ -154,9 +175,11 @@
         margin-top: 32px;
       }
     }
+
     &-list {
       margin-top: 204px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
       &-item {
         width: 540px;
         padding-bottom: 30px;
@@ -167,6 +190,7 @@
           height: 1px;
           background: rgba(0, 0, 0, 0.1);
           margin-bottom: 30px;
+
           &::before {
             content: '';
             position: absolute;
@@ -178,12 +202,14 @@
             background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
           }
         }
+
         &-title {
           font-weight: 500;
           font-size: 24px;
           color: #999999;
           line-height: 32px;
         }
+
         &-desc {
           padding-top: 0;
           font-weight: 400;
@@ -196,6 +222,7 @@
           box-sizing: border-box;
           opacity: 0;
         }
+
         &:hover,
         &.fl-introduction-coreTechnology-list-item-active {
           .fl-introduction-coreTechnology-list-item-line {
@@ -203,9 +230,11 @@
               width: 100%;
             }
           }
+
           .fl-introduction-coreTechnology-list-item-title {
             .gradient-text();
           }
+
           .fl-introduction-coreTechnology-list-item-desc {
             padding-top: 20px;
             max-height: 999px;
@@ -220,12 +249,14 @@
       height: 760px;
       border-radius: 20px;
       overflow: hidden;
+
       &:hover {
         img {
           transition: all 0.3s;
           transform: scale(1.1);
-        } 
+        }
       }
+
       img {
         width: 100%;
         height: 100%;
@@ -233,6 +264,7 @@
       }
     }
   }
+
   &-value {
     background: url('./images/jzfn.png') no-repeat center;
     background-size: 100% 100%;
@@ -242,6 +274,7 @@
     flex-direction: column;
     padding: 140px 0 167px;
     overflow: hidden;
+
     &-title {
       display: flex;
       align-items: center;
@@ -251,22 +284,27 @@
       padding-bottom: 60px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       margin-bottom: 110px;
+
       &-text {
         font-weight: 500;
         font-size: 52px;
         color: #ffffff;
       }
+
       &-desc {
         font-size: 14px;
         color: #ffffff;
         display: flex;
         align-items: center;
-        > div {
+
+        >div {
           margin-right: 80px;
+
           &:last-child {
             margin-right: 0;
           }
         }
+
         span {
           font-size: 42px;
         }
@@ -287,6 +325,7 @@
         line-height: 52px;
         color: #000000;
       }
+
       &-desc {
         font-weight: 300;
         font-size: 16px;
@@ -303,12 +342,14 @@
       display: flex;
       flex-wrap: wrap;
       min-height: 630px;
+
       &-item {
         width: 180px;
         margin-left: calc((100% - 180px * 4) / 3);
         height: 170px;
         margin-bottom: 20px;
         text-align: center;
+
         &:nth-child(4n + 1) {
           margin-left: 0;
         }
@@ -317,6 +358,251 @@
           width: 100%;
           height: 100%;
           object-fit: contain;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .fl-introduction {
+    margin-top: 1.5rem;
+
+    .fl-introduction-banner {
+      height: 7rem;
+
+      img {
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .fl-introduction-banner-title {
+        bottom: auto;
+        top: 3rem;
+        font-size: .9rem;
+      }
+
+    }
+
+    .fl-introduction-advantage {
+      padding: 0;
+
+      .advantage-banner {
+        width: 100%;
+        padding: 1rem .4rem;
+
+        .advantage-banner-content {
+
+          .advantage-banner-title {
+            margin-bottom: .5rem;
+          }
+
+          .advantage-banner-desc {
+            margin-bottom: .5rem;
+          }
+
+          .advantage-banner-count {
+            margin-bottom: 1rem;
+          }
+
+        }
+      }
+    }
+
+    .fl-introduction-zhi {
+      height: auto;
+      padding: 1rem .4rem;
+
+      &-title {
+        position: relative;
+        width: calc(100% - .8rem);
+        left: 0;
+        top: 0;
+
+        &-text {
+          font-size: .75rem;
+          line-height: 1.2;
+          margin-bottom: .25rem;
+        }
+
+        &-desc {
+          font-size: .45rem;
+          line-height: 1.4;
+          width: calc(100% - .8rem);
+        }
+      }
+
+      &-card {
+        padding-top: 0;
+        margin-left: 0;
+
+        &-item {
+          width: 100%;
+          height: auto;
+          border-radius: .25rem;
+          padding: .5rem .4rem;
+          margin-left: 0;
+          margin-bottom: 1rem;
+
+          &-header {
+            &-text {
+              &-num {
+                font-size: .45rem;
+                margin-bottom: .25rem;
+              }
+
+              &-title {
+                width: 100%;
+
+                .gradient-text {
+                  line-height: 1.2;
+                  font-size: .6rem;
+                }
+              }
+            }
+
+            &-img {
+              width: .45rem;
+              height: .45rem;
+            }
+          }
+
+          &-content {
+            margin-top: 0;
+            flex-direction: column-reverse;
+            margin-top: .5rem;
+
+            &-text {
+              width: 100%;
+              font-size: .35rem;
+              line-height: 1.4;
+            }
+
+            &-img {
+              width: 4rem;
+              height: auto;
+            }
+          }
+        }
+      }
+
+
+    }
+
+    &-coreTechnology {
+      height: auto;
+      padding: 1rem .4rem;
+      flex-direction: column;
+
+      &-left {
+        margin-top: 0;
+
+      }
+
+      &-right {
+        width: 100%;
+        height: auto;
+        margin-top: .5rem;
+        border-radius: .25rem;
+      }
+
+      &-title {
+        &-text {
+          font-size: .75rem;
+          line-height: 1.2;
+          margin-bottom: 0.25rem;
+        }
+
+        &-desc {
+          font-size: .45rem;
+          line-height: 1.4;
+          width: calc(100% - .8rem);
+        }
+      }
+
+      &-list {
+        margin-top: .5rem;
+
+        &-item {
+          width: 100%;
+          padding-bottom: .5rem;
+
+          &-line {
+            margin-bottom: .5rem;
+          }
+
+          &-title {
+            font-size: .5rem;
+            line-height: 1.2;
+            margin-bottom: .25rem;
+          }
+
+          &-desc {
+            font-size: .35rem;
+            line-height: 1.4;
+          }
+        }
+
+      }
+    }
+
+    &-value {
+      padding: 1rem .4rem 2rem;
+
+      &-title {
+        width: 100%;
+        font-size: .75rem;
+        padding-bottom: .25rem;
+        display: block;
+
+        &-text {
+          font-size: .75rem;
+          margin-bottom: .25rem;
+
+        }
+
+        &-desc {
+          display: block;
+          font-size: .35rem;
+          div{
+            margin-bottom: .25rem;
+            &:last-child{
+              margin-bottom: 0;
+            }
+          }
+          .gradient-text {
+            font-size: .6rem;
+          }
+        }
+      }
+    }
+    &-ecology{
+      height: auto;
+      padding: 1rem .4rem 1.5rem;
+      &-title{
+        margin-bottom: 1rem;
+        &-text {
+          font-size: .75rem;
+          line-height: 1.2;
+          margin-bottom: 0.25rem;
+        }
+        &-desc {
+          font-size: .45rem;
+          line-height: 1.4;
+          width: 100%;
+        }
+      }
+      &-list{ 
+        padding: 1rem .4rem;
+        &-item{ 
+          width: calc((100% - 1rem) / 3);
+          margin-right: .5rem;
+          margin-left: 0;
+          height: auto;
+          margin-bottom: .5rem;
+          &:nth-child(3n){
+            margin-right: 0;
+          }
         }
       }
     }

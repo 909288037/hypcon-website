@@ -1,18 +1,57 @@
 import zhsnImg from './images/zhsn.png'
+import zhsnImg1 from './images/g5.jpg'
 import gdjtImg from './images/gdjt.png'
+import gdjtImg1 from './images/g2.jpg'
 import zhswImg from './images/zhsw.png'
+import zhswImg1 from './images/g3.jpg'
 import zfgjImg from './images/zfgj.png'
+import zfgjImg1 from './images/g4.jpg'
 import zhyqImg from './images/zhyq.png'
+import zhyqImg1 from './images/g6.jpg'
 import zhcgImg from './images/zhcg.png'
+import zhcgImg1 from './images/g7.jpg'
 import dzcfImg from './images/dzcf.png'
+import dzcfImg1 from './images/g8.jpg'
 import zhyyImg from './images/zhyy.png'
+import zhyyImg1 from './images/g1.jpg'
+
+export const imgs = [
+    {
+    url: zhyyImg1,
+},
+{
+    url: gdjtImg1,
+},
+{
+    url: zhswImg1,
+}
+    ,
+{
+    url: zfgjImg1,
+},
+{
+    url: zhsnImg1,
+}
+    ,
+{
+    url: zhyqImg1,
+}
+    ,
+{
+    url: zhcgImg1,
+}
+    ,
+{
+    url: dzcfImg1,
+}
+
+]
 export const imgConfig = {
     zhsn: {
         title: '智慧枢纽',
         url: zhsnImg,
         x: 56.61,
         y: 70.37,
-        // 方向
         dotDirection: 'right',
         imgPosition: {
             x: 48.2,
@@ -83,6 +122,7 @@ export const imgConfig = {
     zhcg: {
         title: '智慧场馆',
         url: zhcgImg,
+
         x: 74.22,
         y: 65.83,
         dotDirection: 'left',

@@ -2,15 +2,18 @@
   position: relative;
   --swiper-pagination-bottom: 7%;
   --progressWidth: 0;
+
   .fl-product-banner-img {
     position: relative;
     width: 100%;
     background: #eee;
     height: 1080px;
+
     img {
       width: 100%;
       height: 100%;
     }
+
     .fl-product-banner-title {
       position: absolute;
       top: 31%;
@@ -21,6 +24,7 @@
       color: #ffffff;
       line-height: 52px;
     }
+
     .fl-product-banner-desc {
       font-family: "MiSans-Regular";
       font-weight: 400;
@@ -30,6 +34,7 @@
       max-width: 550px;
       margin: 68px 0;
     }
+
     .fl-product-banner-link {
       position: relative;
       width: 100%;
@@ -43,6 +48,7 @@
       background-color: #fff;
       display: flex;
       align-items: center;
+
       .fl-product-banner-link-text {
         font-weight: 500;
         /* 设置字体透明 */
@@ -58,6 +64,7 @@
         display: inline-block;
         margin-left: 26px;
       }
+
       .fl-product-banner-link-arrow {
         position: absolute;
         right: 2px;
@@ -69,6 +76,7 @@
         border-radius: 136px;
         transition: all 0.3s;
         background: linear-gradient(90deg, #007eca 0%, #22c55e 100%);
+
         &::after {
           position: absolute;
           content: '';
@@ -83,6 +91,7 @@
             background-size: 100% 100%;
         }
       }
+
       &:hover {
         .fl-product-banner-link-text {
           position: relative;
@@ -90,6 +99,7 @@
           z-index: 100;
           transition: all 0.3s;
         }
+
         .fl-product-banner-link-arrow {
           width: calc(100% - 4px);
         }
@@ -103,6 +113,7 @@
     bottom: 80px;
     right: 0;
     width: 88%;
+
     .swiper-slide-thumb-active {
       .fl-product-banner-title {
         opacity: 1 !important;
@@ -113,11 +124,13 @@
     .fl-product-banner-slide {
       padding-right: 30px;
       cursor: pointer;
+
       &:hover {
         .fl-product-banner-title {
           opacity: 1 !important;
         }
       }
+
       .fl-product-banner-title {
         font-size: 20px;
         line-height: 48px;
@@ -125,18 +138,21 @@
         color: #fff;
         opacity: 0.4;
       }
+
       .fl-product-banner-progress {
         position: relative;
         height: 4px;
         width: 100%;
         background: rgba(255, 255, 255, 0.4);
         border-radius: 10px;
+
         .fl-product-banner-progress-bullet {
           position: absolute;
           height: 100%;
           width: 0;
           border-radius: 10px;
         }
+
         .swiper-pagination-bullet-active {
           width: var(--progressWidth);
           background-color: #fff;
@@ -144,4 +160,76 @@
       }
     }
   }
+}
+
+@media screen and (max-width: 768px) {
+  .fl-product-banner {
+    .fl-product-banner-img {
+      height: calc(100vh);
+
+      .fl-product-banner-title {
+        top: 1.5rem;
+        left: .4rem;
+        font-size: .9rem;
+        width: auto;
+        line-height: 1.2;
+        max-width: calc(100% - .8rem);
+
+        .fl-product-banner-desc {
+          font-size: .45rem;
+          max-width: none;
+          line-height: 1.5;
+        }
+
+        .fl-product-banner-link {
+          width: 3.25rem;
+          height: 1rem;
+          border-radius: 1.25rem;
+          padding: 0 .25rem;
+          margin-top: 1rem;
+
+          .fl-product-banner-link-text {
+            font-size: .35rem;
+          }
+
+          .fl-product-banner-link-arrow {
+            width: .65rem;
+            height: .65rem;
+
+            &::after {
+              width: .45rem;
+              height: .45rem;
+              background-size: 100% 100%;
+            }
+          }
+
+          &:hover {
+            .fl-product-banner-link-arrow {
+              width: calc(100% - .1rem);
+              height: calc(100% - .1rem);
+            }
+          }
+        }
+      }
+
+    }
+
+    .fl-product-banner-pagination {
+      bottom: .7rem;
+
+      .fl-product-banner-slide {
+        .fl-product-banner-title {
+          font-size: .35rem;
+          line-height: 1.2;
+        }
+
+        .fl-product-banner-progress {
+          height: .05rem;
+
+        }
+      }
+    }
+
+  }
+
 }

@@ -182,7 +182,6 @@ const Search = () => {
     }
   }, [currentKey]);
   const onTabChange = (key: string) => {
-    console.log(key);
     setCurrentKey(key);
     if (key === '4') {
       setCurrentNavKey(null);

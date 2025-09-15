@@ -105,7 +105,7 @@
   .swiper-button-next::after {
     content: '';
   }
- 
+
   .swiper-slide-title {
     font-size: 32px;
     line-height: 32px;
@@ -119,5 +119,25 @@
 @media (max-width: 1200px) {
   #carousel {
     width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  #carousel {
+    width: 100%;
+
+    .swiper {
+      .swiper-wrapper {
+        width: 100%;
+        height: auto;
+
+        .swiper-slide {
+          height: auto;
+          .gradient-text{
+            font-size: .6rem;
+          }
+        }
+      }
+    }
   }
 }

@@ -37,7 +37,7 @@ const NewsBlock = ({ dataSource }) => {
               }}>
           <img src={dataSource?.[0]?.image} alt="" />
           <div className="news-block-cover-title">
-            {dataSource?.[0]?.noticeTitle}
+            <div className='news-block-cover-title-text'>{dataSource?.[0]?.noticeTitle}</div>
             <div className="news-block-cover-date">
               {dayjs(dataSource?.[0]?.createTime).format('YYYY.MM.DD')}
             </div>

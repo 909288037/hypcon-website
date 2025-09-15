@@ -48,11 +48,12 @@ const CircularCarousel = ({ dataSource }) => {
     console.log('.swiperInstance.slides.length', swiperInstance.slides);
 
     // 使用Swiper容器的实际宽度来计算slideW
-    let slideW = swiperInstance.width / 3; // 假设我们想显示3张图片，所以除以3
-
+    let slideW = window.innerWidth < 768 ?  swiperInstance.width / 1 : swiperInstance.width / 3; // 假设我们想显示3张图片，所以除以3
     // 自定义进度效果
     const handleProgress = () => {
       // 定义环绕角度，控制3D效果的强烈程度
+      if (window.innerWidth > 768) {
+        
       const ANGLE_PER_STEP = 45; // 可调整：30-60 之间效果较好
       // 计算环绕半径
       const radius = slideW / (2 * Math.sin((ANGLE_PER_STEP * Math.PI) / 180));
@@ -73,9 +74,12 @@ const CircularCarousel = ({ dataSource }) => {
           slideProgress * slideW * 0.5 - Math.sin(rad) * radius + 'px';
 
         slide.style.transform = `translateX(${translateX}) translateZ(${translateZ}) rotateY(${rotateY}deg)`;
+        }
       }
+        
     };
-
+  
+    // 组件卸载时移除事件监听器
     const handleSetTransition = (transition) => {
       for (let i = 0; i < swiperInstance.slides.length; i++) {
         swiperInstance.slides[i].style.transition = `${transition}ms`;
@@ -123,9 +127,10 @@ const CircularCarousel = ({ dataSource }) => {
         ref={swiperRef}
         className="swiper swiper-3d"
         watchSlidesProgress={true}
-        slidesPerView={3} // 显示3张图片
+        slidesPerView={window.innerWidth < 768 ? 1 : 3} // 显示3张图片
         centeredSlides={true} // 居中显示当前slide
         loop={true}
+       spaceBetween={window.innerWidth < 768 ? 20 : 0}
         grabCursor={true}
         modules={[Navigation, Pagination, Autoplay]}
         autoplay={{

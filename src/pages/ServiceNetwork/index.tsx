@@ -36,8 +36,10 @@ const ServiceNetwork = () => {
             }}
           ></div>
         </div>
-        <img src={bgImg} alt="" />
+        <img src={bgImg} alt="" className='pc-block' />
         <div className="fl-service-network-map-content">
+        <img src={bgImg} alt="" className='mb-block' />
+
           <ChinaMapChart />
         </div>
       </div>

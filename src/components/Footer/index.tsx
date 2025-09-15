@@ -117,16 +117,21 @@ const Footer = () => {
       </div>
       <div className="fl-footer-footer">
         <div className="fl-footer-contact-wrapper">
-          {/* 联系方式 */}
           <div className="fl-footer-contact">
-            <div>{data?.sixth}</div>
-            <div>电话: {data?.third}</div>
-            <div>
+            <div className='pc-block'>{data?.sixth}</div>
+            <div className='mb-block'><p>公司名称：</p>{data?.sixth}</div>
+            <div className='pc-block'>电话: {data?.third}</div>
+            <div className='mb-block'><p>公司电话:</p> {data?.third}</div>
+            <div className='pc-block'>
               邮箱: <a href={`mailto:${data?.fourth}`}>{data?.fourth}</a>
             </div>
+            <div className='mb-block'>
+              <p>公司邮箱：</p><a href={`mailto:${data?.fourth}`}>{data?.fourth}</a>
+            </div>
+            <div className='mb-block'>
+              <p>公司地址：</p>{data?.second}
+            </div>
           </div>
-          {/* 地址 */}
-          <div className="fl-footer-address">地址：{data?.second}</div>
         </div>
         {/* 外链 */}
         <div className="fl-footer-exlink">

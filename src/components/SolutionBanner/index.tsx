@@ -24,7 +24,7 @@ import {
   Pagination,
   Thumbs,
 } from 'swiper/modules';
-import { imgConfig } from './const';
+import { imgConfig, imgs } from './const';
 import './index.less';
 
 const datakey = {
@@ -171,7 +171,7 @@ const SolutionBanner = ({ dataSource }) => {
       );
     });
 
-    return () => {};
+    return () => { };
   }, []);
   const getImageDimensions = (
     url: string,
@@ -219,7 +219,7 @@ const SolutionBanner = ({ dataSource }) => {
     if (endImgInfo) {
       startTransition();
     }
-    return () => {};
+    return () => { };
   }, [endImgInfo]);
 
   useEffect(() => {
@@ -228,13 +228,13 @@ const SolutionBanner = ({ dataSource }) => {
       setStartImageUrl(endImageUrl);
       setCurImg(listMemo?.[currentIndex]?._key);
     }
-    return () => {};
+    return () => { };
   }, [isAnimating, endPos, endImageUrl]);
 
   useEffect(() => {
     const key = listMemo?.[currentIndex]?._key;
     handleContainerClick(key);
-    return () => {};
+    return () => { };
   }, [currentIndex]);
 
   const getCurrentWidth = () => {
@@ -244,7 +244,6 @@ const SolutionBanner = ({ dataSource }) => {
       return curImgInfo?.imgPosition?.width || 0;
     }
   };
-
   const handleContainerClick = (endInfo) => {
     if (!endInfo) return;
     const data = imgConfig[endInfo];
@@ -280,6 +279,7 @@ const SolutionBanner = ({ dataSource }) => {
     return `M ${title.x} ${title.y} L ${horizontalEndX} ${horizontalEndY} L ${dot.x} ${dot.y}`;
   };
 
+
   return (
     <div
       ref={productBannerRef}
@@ -304,7 +304,7 @@ const SolutionBanner = ({ dataSource }) => {
           stroke="rgba(0, 126, 202, 0.25)"
           strokeWidth="2"
           fill="none"
-          // strokeDasharray={isAnimating ? '5,5' : 'none'}
+        // strokeDasharray={isAnimating ? '5,5' : 'none'}
         />
       </svg>
 
@@ -324,6 +324,14 @@ const SolutionBanner = ({ dataSource }) => {
         thumbs={{
           swiper: thumbsSwiper,
         }}
+        breakpoints={{
+          768: {
+            loop: true,
+          },
+          200: {
+            loop: false,
+          },
+        }}
         onSwiper={setSlideSwiper}
         onSlideChangeTransitionEnd={(swiper) => {
           setIsStop(false);
@@ -333,72 +341,147 @@ const SolutionBanner = ({ dataSource }) => {
           setProgress(Math.round((1 - progress) * 100));
         }}
       >
-        {listMemo.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className="fl-solution-banner-img">
-              <img src={bgImg} alt="背景图" />
-              {/* 标题 - 添加data-index用于定位 */}
-              <div className="fl-solution-banner-title">
-                <div
-                  className="fl-solution-banner-title-text"
-                  data-index={index}
-                >
-                  {item.secondTitle}
-                  <div className="fl-solution-banner-title-icon">
-                    <img src={item.icon} alt="" />
-                  </div>
-                </div>
-                <div className="fl-solution-banner-desc">{item.intro}</div>
-                {item?.productList && (
-                  <div className="fl-solution-banner-tag">
-                    <div className="fl-solution-banner-tag-text">
-                      推荐产品：
-                    </div>
-                  <div className="fl-solution-banner-tag-list">
-                      {item?.productList?.reduce((rows, tag, tagIndex) => {
-                        if (tagIndex % 2 === 0) {
-                          rows.push(
-                            <div className="tag-row" key={`row-${tagIndex}`}>
-                              <span
-                                className="fl-solution-banner-tag-item"
-                                onClick={() => {
-                                  goPage(tag);
-                                }}
-                              >
-                                {tag.name}
-                              </span>
-                              {item?.productList[tagIndex + 1] && (
-                                <span
-                                  className="fl-solution-banner-tag-item"
-                                  onClick={() => {
-                                    goPage(item?.productList[tagIndex + 1]);
-                                  }}
-                                >
-                                  {item?.productList[tagIndex + 1].name}
-                                </span>
-                              )}
-                            </div>
-                          );
-                        }
-                        return rows;
-                      }, [])}
-                    </div>
-                  </div>
-                )}
+        {
+          window.innerWidth > 768 ? (
+            <div>
+              {listMemo.map((item, index) => (
+                <SwiperSlide key={index}>
+                  <div className="fl-solution-banner-img">
+                    <img src={bgImg} alt="背景图" />
+                    {/* 标题 - 添加data-index用于定位 */}
+                    <div className="fl-solution-banner-title">
+                      <div
+                        className="fl-solution-banner-title-text"
+                        data-index={index}
+                      >
+                        {item.secondTitle}
+                        <div className="fl-solution-banner-title-icon">
+                          <img src={item.icon} alt="" />
+                        </div>
+                      </div>
+                      <div className="fl-solution-banner-desc">{item.intro}</div>
+                      {item?.productList && (
+                        <div className="fl-solution-banner-tag">
+                          <div className="fl-solution-banner-tag-text">
+                            推荐产品：
+                          </div>
+                          <div className="fl-solution-banner-tag-list">
+                            {item?.productList?.reduce((rows, tag, tagIndex) => {
+                              if (tagIndex % 2 === 0) {
+                                rows.push(
+                                  <div className="tag-row" key={`row-${tagIndex}`}>
+                                    <span
+                                      className="fl-solution-banner-tag-item"
+                                      onClick={() => {
+                                        goPage(tag);
+                                      }}
+                                    >
+                                      {tag.name}
+                                    </span>
+                                    {item?.productList[tagIndex + 1] && (
+                                      <span
+                                        className="fl-solution-banner-tag-item"
+                                        onClick={() => {
+                                          goPage(item?.productList[tagIndex + 1]);
+                                        }}
+                                      >
+                                        {item?.productList[tagIndex + 1].name}
+                                      </span>
+                                    )}
+                                  </div>
+                                );
+                              }
+                              return rows;
+                            }, [])}
+                          </div>
+                        </div>
+                      )}
 
-                <div
-                  className="custom-primary-btn"
-                  onClick={() => {
-                    history.push(`/solution/${item.id}`);
-                  }}
-                >
-                  <div className="custom-btn-text">了解更多</div>
-                  <div className="custom-btn-arrow"></div>
-                </div>
-              </div>
+                      <div
+                        className="custom-primary-btn"
+                        onClick={() => {
+                          history.push(`/solution/${item.id}`);
+                        }}
+                      >
+                        <div className="custom-btn-text">了解更多</div>
+                        <div className="custom-btn-arrow"></div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
             </div>
-          </SwiperSlide>
-        ))}
+          ) : (<div>
+            {listMemo.map((item, index) => (
+              <SwiperSlide key={index}>
+                <div className="fl-solution-banner-img">
+                  <img src={imgs[index].url} alt="" />
+                  {/* <img  src={bgImg} alt="背景图" /> */}
+                  {/* 标题 - 添加data-index用于定位 */}
+                  <div className="fl-solution-banner-title">
+                    <div
+                      className="fl-solution-banner-title-text"
+                      data-index={index}
+                    >
+                      {item.secondTitle}
+                      <div className="fl-solution-banner-title-icon">
+                        <img src={item.icon} alt="" />
+                      </div>
+                    </div>
+                    <div className="fl-solution-banner-desc">{item.intro}</div>
+                    {item?.productList && (
+                      <div className="fl-solution-banner-tag">
+                        <div className="fl-solution-banner-tag-text">
+                          推荐产品：
+                        </div>
+                        <div className="fl-solution-banner-tag-list">
+                          {item?.productList?.reduce((rows, tag, tagIndex) => {
+                            if (tagIndex % 2 === 0) {
+                              rows.push(
+                                <div className="tag-row" key={`row-${tagIndex}`}>
+                                  <span
+                                    className="fl-solution-banner-tag-item"
+                                    onClick={() => {
+                                      goPage(tag);
+                                    }}
+                                  >
+                                    {tag.name}
+                                  </span>
+                                  {item?.productList[tagIndex + 1] && (
+                                    <span
+                                      className="fl-solution-banner-tag-item"
+                                      onClick={() => {
+                                        goPage(item?.productList[tagIndex + 1]);
+                                      }}
+                                    >
+                                      {item?.productList[tagIndex + 1].name}
+                                    </span>
+                                  )}
+                                </div>
+                              );
+                            }
+                            return rows;
+                          }, [])}
+                        </div>
+                      </div>
+                    )}
+
+                    <div
+                      className="custom-primary-btn"
+                      onClick={() => {
+                        history.push(`/solution/${item.id}`);
+                      }}
+                    >
+                      <div className="custom-btn-text">了解更多</div>
+                      <div className="custom-btn-arrow"></div>
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </div>)
+        }
+
       </Swiper>
 
       <div className="fl-solution-banner-pagination-box">
@@ -424,8 +507,10 @@ const SolutionBanner = ({ dataSource }) => {
             }}
           />
         </div>
+
         <Swiper
           className="fl-solution-banner-pagination"
+
           modules={[
             Navigation,
             Pagination,
@@ -436,6 +521,16 @@ const SolutionBanner = ({ dataSource }) => {
           ]}
           spaceBetween={43}
           slidesPerView={listMemo?.length || 0}
+          breakpoints={{
+            768: {
+              slidesPerView: listMemo?.length || 0,
+              spaceBetween: 43,
+            },
+            200: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+          }}
           watchSlidesProgress
           loop
           onSwiper={setThumbsSwiper}
@@ -454,77 +549,113 @@ const SolutionBanner = ({ dataSource }) => {
       </div>
 
       {/* 起点图片 */}
-      {startImageUrl && !isAnimating && (
-        <img
-          className="fl-solution-banner-start-image"
-          src={startImageUrl}
-          alt="起始图片"
-          style={{
-            position: 'absolute',
-            left: `${startPos.x}px`,
-            top: `${startPos.y}px`,
-            width: curImgInfo?.imgPosition.width,
-            height: 'auto',
-            zIndex: 10,
-            pointerEvents: 'none',
-          }}
-        />
-      )}
-
-      {/* 移动中的图片 */}
-      {isAnimating && (
-        <img
-          src={currentImage}
-          style={{
-            position: 'absolute',
-            left: `${position.x}px`,
-            top: `${position.y}px`,
-            width: getCurrentWidth(),
-            height: 'auto',
-            transform: `scale(${scale})`,
-            opacity: opacity,
-            transition: 'none',
-            zIndex: 10,
-            willChange: 'left, top, transform, opacity',
-            pointerEvents: 'none',
-          }}
-        />
-      )}
-
-      {/* 热区图层 - 为圆点添加data-index用于定位 */}
-      <div className="fl-solution-banner-hotspot">
-        {hotspotMemo.map((item, index) => (
-          <div
-            key={item.title}
-            className={classNames(
-              'fl-solution-banner-hotspot-item',
-              item.dotDirection,
-              { active: index === currentIndex },
+      {
+        window.innerWidth > 768 ? (
+          <div className="div">
+            {startImageUrl && !isAnimating && (
+              <img
+                className="fl-solution-banner-start-image"
+                src={startImageUrl}
+                alt="起始图片"
+                style={{
+                  position: 'absolute',
+                  left: `${startPos.x}px`,
+                  top: `${startPos.y}px`,
+                  width: curImgInfo?.imgPosition.width,
+                  height: 'auto',
+                  zIndex: 10,
+                  pointerEvents: 'none',
+                }}
+              />
             )}
-            style={{
-              left: `${item.x}%`,
-              top: `${item.y}%`,
-            }}
-            onMouseEnter={() => {
-              slideSwiper?.autoplay.stop();
-              slideSwiper?.slideToLoop(index);
-              slideSwiper?.autoplay.start();
-            }}
-          >
-            <div className="fl-solution-banner-hotspot-item-title">
-              {item.title}
-            </div>
-            {/* 圆点 - 添加data-index用于定位 */}
-            <div
-              className={classNames('fl-solution-banner-hotspot-dot')}
-              data-index={index}
-            >
-              <div className="fl-solution-banner-hotspot-dot-item"></div>
-              <div className="fl-solution-banner-hotspot-dot-item"></div>
+
+            {/* 移动中的图片 */}
+            {isAnimating && (
+              <img
+                src={currentImage}
+                style={{
+                  position: 'absolute',
+                  left: `${position.x}px`,
+                  top: `${position.y}px`,
+                  width: getCurrentWidth(),
+                  height: 'auto',
+                  transform: `scale(${scale})`,
+                  opacity: opacity,
+                  transition: 'none',
+                  zIndex: 10,
+                  willChange: 'left, top, transform, opacity',
+                  pointerEvents: 'none',
+                }}
+              />
+            )}
+
+            {/* 热区图层 - 为圆点添加data-index用于定位 */}
+            <div className="fl-solution-banner-hotspot">
+              {hotspotMemo.map((item, index) => (
+                <div
+                  key={item.title}
+                  className={classNames(
+                    'fl-solution-banner-hotspot-item',
+                    item.dotDirection,
+                    { active: index === currentIndex },
+                  )}
+                  style={{
+                    left: `${item.x}%`,
+                    top: `${item.y}%`,
+                  }}
+                  onMouseEnter={() => {
+                    slideSwiper?.autoplay.stop();
+                    slideSwiper?.slideToLoop(index);
+                    slideSwiper?.autoplay.start();
+                  }}
+                >
+                  <div className="fl-solution-banner-hotspot-item-title">
+                    {item.title}
+                  </div>
+                  {/* 圆点 - 添加data-index用于定位 */}
+                  <div
+                    className={classNames('fl-solution-banner-hotspot-dot')}
+                    data-index={index}
+                  >
+                    <div className="fl-solution-banner-hotspot-dot-item"></div>
+                    <div className="fl-solution-banner-hotspot-dot-item"></div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
+        ) : (
+          <div className="fl-solution-banner-content">
+            {/* 热区图层 - 为圆点添加data-index用于定位 */}
+            <div className="fl-solution-banner-hotspot">
+              {hotspotMemo.map((item, index) => (
+                <div
+                  key={item.title}
+                  className={classNames(
+                    'fl-solution-banner-hotspot-item',
+                    item.dotDirection,
+                    { active: index === currentIndex },
+                  )}
+
+                >
+                  <div className="fl-solution-banner-hotspot-item-title">
+                    {item.title}
+                  </div>
+                  {/* 圆点 - 添加data-index用于定位 */}
+                  <div
+                    className={classNames('fl-solution-banner-hotspot-dot')}
+                    data-index={index}
+                  >
+                    <div className="fl-solution-banner-hotspot-dot-item"></div>
+                    <div className="fl-solution-banner-hotspot-dot-item"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
     </div>
   );
 };

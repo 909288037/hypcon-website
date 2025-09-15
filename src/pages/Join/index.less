@@ -2,6 +2,7 @@
   &-header {
     position: absolute !important;
   }
+
   &-banner {
     position: relative;
     display: flex;
@@ -19,6 +20,7 @@
       letter-spacing: 4px;
     }
   }
+
   .custom-btn {
     margin-top: 60px;
   }
@@ -30,5 +32,56 @@
     font-weight: 500;
     font-size: 72px;
     color: #ffffff;
+  }
+}
+
+@media (max-width: 768px) {
+  .fl-join {
+    margin-top: 1.5rem;
+
+    &-banner {
+      height: 7rem;
+
+      &-title {
+        font-size: .65rem;
+        line-height: 1.2;
+      }
+
+      .custom-btn {
+        width: 3.25rem;
+        height: 1.1rem;
+        border-radius: 1.25rem;
+        padding: 0 .25rem;
+        margin-top: .5rem;
+
+        &-text {
+          font-size: .35rem;
+          line-height: 1;
+          margin-left: 0;
+        }
+
+        &-arrow {
+          width: .65rem;
+          height: .65rem;
+
+          &::after {
+            width: .45rem;
+            height: .45rem;
+            background-size: 100% 100%;
+          }
+        }
+
+        &:hover {
+          .custom-btn-arrow {
+            height: calc(100% - .1rem);
+            width: calc(100% - .1rem);
+          }
+        }
+      }
+      .fl-join-title{
+        font-size: .9rem;
+      }
+
+    }
   }
 }

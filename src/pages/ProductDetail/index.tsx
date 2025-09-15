@@ -262,7 +262,16 @@ const ProductDetail: React.FC = () => {
                 }}
                 modules={[Autoplay, Mousewheel]}
                 spaceBetween={100}
-                slidesPerView={3}
+                  slidesPerView={3}
+                  breakpoints={{
+                    200: {
+                      slidesPerView: 1,
+                    },
+                    768: {
+                      slidesPerView: 3,
+                    },
+                  
+                  }}
               >
                 {productDetail?.value?.detail.map((item, index) => {
                   return (
