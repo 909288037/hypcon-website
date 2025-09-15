@@ -149,46 +149,63 @@
 
   .advantage-banner {
     height: auto;
-    padding: 1rem 4% 3rem; 
+    padding: 1.5rem 4% 3rem;
     display: block;
     background-image: url('./images/g1.png');
+
     .advantage-banner-content {
       .advantage-banner-title {
         margin-top: 0;
-        margin-bottom: .25rem;
+        margin-bottom: .45rem;
 
         .advantage-banner-title-text {
-          font-size: .4rem;
+          font-size: .45rem;
+          margin-bottom: .25rem;
         }
 
         .advantage-banner-title-company {
-          font-size: .5rem;
+          font-size: .65rem;
           line-height: 1.2;
         }
       }
 
       .advantage-banner-desc {
+        margin-bottom: .45rem;
         font-size: .35rem;
         line-height: 1.5;
         font-weight: 400;
+        color: #000000;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3; /* 这里设置显示的行数 */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all; /* 可选，用于允许在单词内断字 */
 
       }
-    
+
       .advantage-banner-count {
         width: 100%;
         justify-content: flex-start;
-        .advantage-banner-count-item-text{
-        font-size: .35rem;
-        line-height: 1.2;
-        font-weight: 500;
+
+        .advantage-banner-count-item-line {
+          width: 100%;
+          margin-bottom: .25rem;
         }
+
+        .advantage-banner-count-item-text {
+          font-size: .35rem;
+          line-height: 1.2;
+          font-weight: 500;
+        }
+
         .advantage-banner-count-item-num {
           font-size: .5rem;
           line-height: 1.5;
           width: auto;
 
           .slot-viewport {
-            height: .75rem;
+            height: .9rem;
           }
         }
       }
@@ -202,6 +219,7 @@
 
         .custom-btn-text {
           font-size: .35rem;
+          margin-left: .45rem;
 
         }
 
