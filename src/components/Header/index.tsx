@@ -35,6 +35,7 @@ const Header: FC<BaseProps> = ({
   const [isActive, setIsActive] = useState(false);
   const handleClick = () => {
     setIsActive((prev) => !prev); // 切换状态
+    
   };
   useEffect(() => {
     if (isFixed) {
@@ -518,7 +519,7 @@ const Header: FC<BaseProps> = ({
                 >
                   <div className="menu-title-icon">
                     <span className="menu-title">{item.title}</span>
-                    {item.children.length > 0 && (
+                    {item.children?.length > 0 && (
                       <span className="menu-icon"></span>
                     )}
                   </div>
