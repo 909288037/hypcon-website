@@ -262,7 +262,7 @@ const Header: FC<BaseProps> = ({
                           <div className="fl-header-cascader-menus-menu-title">
                             {child.name || child.title}
                           </div>
-                          {child.children?.length > 0 && (
+                          {(child.children?.length  || child.products?.length > 0) && (
                             <div>
                               <RightOutlined />
                             </div>
