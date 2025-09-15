@@ -179,6 +179,12 @@
           font-size: .45rem;
           max-width: none;
           line-height: 1.5;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3; /* 这里设置显示的行数 */
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-break: break-all; /* 可选，用于允许在单词内断字 */
         }
 
         .fl-product-banner-link {
@@ -190,6 +196,7 @@
 
           .fl-product-banner-link-text {
             font-size: .35rem;
+            margin-left: .45rem;
           }
 
           .fl-product-banner-link-arrow {
@@ -216,12 +223,12 @@
     }
 
     .fl-product-banner-pagination {
-      bottom: .7rem;
+      bottom: .725rem;
 
       .fl-product-banner-slide {
         .fl-product-banner-title {
           font-size: .35rem;
-          line-height: 1.2;
+          line-height: 1.6;
         }
 
         .fl-product-banner-progress {
