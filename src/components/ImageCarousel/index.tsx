@@ -5,24 +5,19 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import './index.less';
 function ensureMultipleOfThree(arr) {
     // 创建原数组的副本，避免修改原数组
-    const result = [...arr];
+    let result = [...arr];
     const currentLength = arr.length;
-    const remainder = currentLength % 3;
 
-    // 如果余数为0，说明已经是3的倍数，直接返回
-    if (remainder === 0) {
+    // 如果数据小于4个，重复添加数据直到总数大于4个
+    if (currentLength < 4 && currentLength > 0) {
+        // 完整地重复添加整个数组，直到长度大于4
+        while (result.length < 4) {
+            result = result.concat(arr);
+        }
+    } else if (currentLength === 0) {
+        // 如果数组为空，直接返回空数组
         return result;
-    }
-
-    // 计算需要补充的元素个数
-    const needed = 3 - remainder;
-
-    // 循环添加原数组的元素进行填充
-    for (let i = 0; i < needed; i++) {
-        // 使用取模运算确保索引不越界，实现循环效果
-        result.push(arr[i % currentLength]);
-    }
-
+    } 
     return result;
 }
 const CircularCarousel = ({ dataSource }) => {
@@ -148,7 +143,7 @@ const CircularCarousel = ({ dataSource }) => {
       >
         {list?.map((item, index) => (
           <SwiperSlide
-            key={index}
+            key={item.title}
             className="swiper-slide"
             style={{ width: '33.33%' }} // 设置为百分比宽度
           >

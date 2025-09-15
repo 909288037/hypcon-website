@@ -554,7 +554,7 @@ const Search = () => {
                                   <Popover
                                     content={
                                       <QRCode
-                                        value={ensureFullUrl(item.url)}
+                                         value={encodeURI(ensureFullUrl('/prod/api/download/download') + `?path=${item.url}&name=${item.name}`)}
                                         bordered={false}
                                       />
                                     }

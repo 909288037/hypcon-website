@@ -484,6 +484,9 @@ const Download = () => {
                 return item.fileCategoryId === currentNavKey?.id;
               })
               ?.map((item, index) => {
+                console.log("🚀 ~ item:", item)
+                console.log(ensureFullUrl('http://121.40.200.150:8087/prod/api/download/download') + `?path=${item.url}&name=${item.name}.${item.url.split('.').pop()}`);
+                
                 return (
                   <div className="fl-download-content-list-item" key={item.id}>
                     <div className="fl-download-content-list-item-img" />
@@ -536,7 +539,7 @@ const Download = () => {
                             <Popover
                               content={
                                 <QRCode
-                                  value={ensureFullUrl(item.url)}
+                                  value={encodeURI(ensureFullUrl('/prod/api/download/download') + `?path=${item.url}&name=${item.name}`)}
                                   bordered={false}
                                 />
                               }

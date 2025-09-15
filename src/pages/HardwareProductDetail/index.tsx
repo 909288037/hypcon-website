@@ -359,7 +359,7 @@ const HardwareProductDetail = () => {
                             </div>
                             <Popover
                               content={
-                                <QRCode value={ensureFullUrl(item.url)} bordered={false} />
+                                <QRCode  value={encodeURI(ensureFullUrl('/prod/api/download/download') + `?path=${item.url}&name=${item.name}`)} bordered={false} />
                               }
                             >
                               <div>
