@@ -241,18 +241,10 @@ const Card: React.FC<CardProps> = ({
             <div>
               {matchOption
                 ? highlightKeywords(
-                    extractPlainTextFromHTML(dataSource?.description),
+                    extractPlainTextFromHTML(dataSource?.description || dataSource?.intro),
                     matchOption.keyword,
                   )
-                : extractPlainTextFromHTML(dataSource?.description)}
-            </div>
-            <div>
-              {matchOption
-                ? highlightKeywords(
-                    extractPlainTextFromHTML(dataSource?.intro),
-                    matchOption.keyword,
-                  )
-                : extractPlainTextFromHTML(dataSource?.intro)}
+                : extractPlainTextFromHTML(dataSource?.description || dataSource?.intro)}
             </div>
           </div>
         </Paragraph>
