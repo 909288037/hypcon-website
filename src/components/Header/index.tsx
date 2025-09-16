@@ -251,6 +251,9 @@ const Header: FC<BaseProps> = ({
                     if (index === 0) {
                       history.push('/');
                     }
+                    if(item.url) {
+                      history.push(item.url);
+                    }
                   }}
                   onMouseOver={() => {
                     if (currentIndex !== index) {
