@@ -1,9 +1,9 @@
+import defaultImage from '@/assets/images/default-img.jpg';
 import rightArrowImg from '@/assets/images/right-arrow.png';
 import { extractPlainTextFromHTML, goPage } from '@/utils';
 import { history } from '@umijs/max';
 import { Typography } from 'antd';
 import React from 'react';
-import defaultImage from '@/assets/images/default-img.jpg';
 import './index.less';
 interface CardProps {
   type?: 'view' | 'download';
@@ -187,12 +187,13 @@ const Card: React.FC<CardProps> = ({
         </div>
         <div className="card-download-body">
           <div className="card-download-body-title">{dataSource?.name}</div>
-          <div
-            className="card-download-body-desc"
-          >
-            <div className='ql-editor' dangerouslySetInnerHTML={{
-              __html: dataSource?.description,
-            }}></div>
+          <div className="card-download-body-desc">
+            <div
+              className="ql-editor"
+              dangerouslySetInnerHTML={{
+                __html: dataSource?.description,
+              }}
+            ></div>
           </div>
         </div>
         <div className="card-download-btn"></div>
@@ -203,21 +204,21 @@ const Card: React.FC<CardProps> = ({
     <div
       className="card"
       onClick={() => {
-        if(dataSource.detailType === '0') return
-        if(dataSource.link) {
-          window.open(dataSource.link)
-          return
+        if (dataSource.detailType === '0') return;
+        if (dataSource.link) {
+          window.open(dataSource.link);
+          return;
         }
         // 跳转软件详情
         if (dataSource.type === '0') {
           history.push(`/product/${dataSource.type}/${dataSource.id}`);
-          return
+          return;
         } else if (dataSource.type === '1') {
           // 跳转硬件详情
           history.push(`/product-hardware/${dataSource.type}/${dataSource.id}`);
-          return
+          return;
         }
-        if(dataSource.bind) {
+        if (dataSource.bind) {
           dataSource.isSolution = true;
         }
         goPage(dataSource);
@@ -229,18 +230,30 @@ const Card: React.FC<CardProps> = ({
       <div className="card-body">
         <div className="card-body-title">
           {matchOption
-            ? highlightKeywords(dataSource?.name || dataSource?.title, matchOption.keyword)
+            ? highlightKeywords(
+                dataSource?.name || dataSource?.title,
+                matchOption.keyword,
+              )
             : dataSource?.name || dataSource?.title}
         </div>
         <Paragraph ellipsis={{ rows: 3 }}>
           <div className="card-body-desc">
-            {
-              matchOption ? highlightKeywords(
-                extractPlainTextFromHTML(dataSource?.description || dataSource?.intro),
-                matchOption.keyword
-              ) : extractPlainTextFromHTML(dataSource?.description|| dataSource?.intro)
-            }
-        
+            <div>
+              {matchOption
+                ? highlightKeywords(
+                    extractPlainTextFromHTML(dataSource?.description),
+                    matchOption.keyword,
+                  )
+                : extractPlainTextFromHTML(dataSource?.description)}
+            </div>
+            <div>
+              {matchOption
+                ? highlightKeywords(
+                    extractPlainTextFromHTML(dataSource?.intro),
+                    matchOption.keyword,
+                  )
+                : extractPlainTextFromHTML(dataSource?.intro)}
+            </div>
           </div>
         </Paragraph>
       </div>

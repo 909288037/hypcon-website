@@ -18,6 +18,7 @@ import {
   CaretDownOutlined,
   DownloadOutlined,
   EyeOutlined,
+  LoadingOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
 import { useRequest, useSearchParams } from '@umijs/max';
@@ -26,6 +27,7 @@ import {
   Empty,
   Image,
   Input,
+  message,
   Pagination,
   PaginationProps,
   Popover,
@@ -68,6 +70,7 @@ const Download = () => {
   const [currentNavKey, setCurrentNavKey] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [hoverItem, setHoverItem] = useState('');
+  const [downloadLoading, setDownloadLoading] = useState([])
   const typeRef = useRef(null);
   const productRef = useRef(null);
   const isSearch = useRef(false);
@@ -539,16 +542,22 @@ const Download = () => {
                               </div>
                             )}
                             <div
-                              onClick={() => {
+                              onClick={async () => {
                                 // window.open(item.url);
-                                downloadFile(
+                                if(downloadLoading.includes(item.id)) {
+                                  message.warning('当前正在下载中，请勿重复点击');
+                                  return;
+                                }
+                                setDownloadLoading(downloadLoading.concat(item.id));
+                                const res = await downloadFile(
                                   item.url,
                                   `${item.name}.${item.url.split('.').pop()}`,
                                 );
+                                setDownloadLoading(downloadLoading.filter(id => id !== item.id));
                               }}
                             >
                               下载
-                              <DownloadOutlined />
+                             {downloadLoading.includes(item.id) ? <LoadingOutlined /> : <DownloadOutlined/>}
                             </div>
                             <Popover
                               content={

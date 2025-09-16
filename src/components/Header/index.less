@@ -609,6 +609,33 @@
 
 }
 
+.fl-dropdown {
+  min-width: 160px !important;
+  text-align: center;
+  z-index: 0 !important;
+  .ant-dropdown-menu {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-top: -4PX !important;
+
+    .ant-dropdown-menu-item {
+      &:hover {
+         background-color: transparent !important;
+      }
+    }
+    .ant-dropdown-menu-title-content {
+      font-size: 16px;
+      color: 666666;
+      font-weight: 500;
+      &:hover {
+        color: rgba(0, 126, 202, 1);
+      
+      }
+    }
+
+  }
+}
+
 @media (max-width: 475px) {
   .fl-header-logo {
     height: 0.4rem;

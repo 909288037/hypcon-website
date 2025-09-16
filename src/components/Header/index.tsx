@@ -7,6 +7,7 @@ import { ReactSVG } from 'react-svg';
 import { getProductList, getSolutionList } from '@/services/HomeController';
 import { goPage } from '@/utils';
 import { useScroll } from 'ahooks';
+import { Dropdown } from 'antd';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
@@ -96,34 +97,29 @@ const Header: FC<BaseProps> = ({
         title: '服务支持',
         children: [
           {
-            title: '服务保障',
-            children: [
-              {
-                title: '服务网络',
-                url: '/service-network',
-              },
-              {
-                title: '产品咨询',
-                url: '/product-consult',
-              },
-              {
-                title: '培训服务',
-                url: '/training-service',
-              },
+            title: '服务网络',
+            url: '/service-network',
+          },
+          {
+            title: '产品咨询',
+            url: '/product-consult',
+          },
+          {
+            title: '培训服务',
+            url: '/training-service',
+          },
 
-              {
-                title: '常见问题',
-                url: '/faq',
-              },
-              {
-                title: '意见反馈',
-                url: '/feedback',
-              },
-              {
-                title: '产品公告',
-                url: '/product-notice',
-              },
-            ],
+          {
+            title: '常见问题',
+            url: '/faq',
+          },
+          {
+            title: '意见反馈',
+            url: '/feedback',
+          },
+          {
+            title: '产品公告',
+            url: '/product-notice',
           },
           {
             title: '资料下载',
@@ -133,12 +129,13 @@ const Header: FC<BaseProps> = ({
       },
       {
         title: '新闻资讯',
-        children: [
-          {
-            title: '新闻动态',
-            url: '/news',
-          },
-        ],
+        url: '/news',
+        // children: [
+        //   {
+        //     title: '新闻动态',
+        //     url: '/news',
+        //   },
+        // ],
       },
       {
         title: '关于我们',
@@ -198,6 +195,52 @@ const Header: FC<BaseProps> = ({
             }}
           >
             {menuArr.map((item, index) => {
+              const isDropdown = ['解决方案', '关于我们', '服务支持'].includes(
+                item.title,
+              );
+              if (isDropdown) {
+                return (
+                  <Dropdown
+                    placement="bottom"
+                    overlayClassName="fl-dropdown"
+                    // trigger={['click']}
+                    getPopupContainer={() => {
+                      return document.querySelector('.fl-header-menu');
+                    }}
+                    mouseEnterDelay={0.05}
+                    mouseLeaveDelay={0.03}
+                    menu={{
+                      items: item.children?.map((child) => {
+                        return {
+                          key: child.title,
+                          label: child.title,
+                          onClick: () => {
+                            goPage(child);
+                          },
+                        };
+                      }),
+                    }}
+                    key={item.title}
+                  >
+                    <div
+                      className={classNames('fl-header-menu-item', {
+                        active: currentIndex === index,
+                      })}
+                      style={{ height: '100%' }}
+                      onMouseOver={() => {
+                        if (currentIndex !== index) {
+                          setCascaderData([]);
+                          setImagesSwiperArr([]);
+                        }
+                        setCurrentIndex(index);
+                      }}
+                    >
+                      <span className="menu-title">{item.title}</span>
+                      {index !== 0 && <div className="menu-icon"></div>}
+                    </div>
+                  </Dropdown>
+                );
+              }
               return (
                 <div
                   className={classNames('fl-header-menu-item', {
@@ -205,7 +248,7 @@ const Header: FC<BaseProps> = ({
                   })}
                   key={item.title}
                   onClick={() => {
-                    if(index === 0) {
+                    if (index === 0) {
                       history.push('/');
                     }
                   }}
@@ -218,121 +261,127 @@ const Header: FC<BaseProps> = ({
                   }}
                 >
                   <span className="menu-title">{item.title}</span>
-                  { index !== 0 &&<div className="menu-icon"></div>}
+                  {!['首页', '新闻资讯'].includes(item.title) && <div className="menu-icon"></div>}
                   {/* <ReactSVG className="menu-icon" src={downArrow}></ReactSVG> */}
                 </div>
               );
             })}
             {/* 下拉菜单 */}
 
-            {currentIndex !== 0 && (
-              <div className="fl-header-dropdown">
-                <div className="fl-header-cascader-box">
-                  {menuArr[currentIndex]?.children?.length > 0 && (
-                    <div className={`fl-header-cascader-menus`}>
-                      {menuArr[currentIndex]?.children?.map((child, index) => (
-                        <div
-                          className={classNames(
-                            'fl-header-cascader-menus-menu',
-                            {
-                              active: cascaderData?.[0]?.key === index,
-                            },
-                          )}
-                          key={index}
-                          onMouseEnter={() => {
-                            if (child.children) {
-                              setCascaderData([
-                                {
-                                  key: index,
-                                  data: [
-                                    ...(child.products || []),
-                                    ...(child.children || []),
-                                  ],
-                                },
-                              ]);
-                            } else {
-                              setCascaderData([]);
-                            }
-                          }}
-                          onClick={() => {
-                            setCurrentIndex(-1);
-                            goPage(child);
-                          }}
-                        >
-                          <div className="fl-header-cascader-menus-menu-title">
-                            {child.name || child.title}
-                          </div>
-                          {(child.children?.length  || child.products?.length > 0) && (
-                            <div>
-                              <RightOutlined />
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {cascaderData.map((item, index) => {
-                    return (
-                      <div className={`fl-header-cascader-menus`} key={index}>
-                        {item.data.map((child, idx) => {
-                          return (
+            {!['首页', '新闻资讯'].includes(menuArr[currentIndex]?.title) &&
+              !['解决方案', '关于我们', '服务支持'].includes(
+                menuArr[currentIndex]?.title,
+              ) && (
+                <div className="fl-header-dropdown">
+                  <div className="fl-header-cascader-box">
+                    {menuArr[currentIndex]?.children?.length > 0 && (
+                      <div className={`fl-header-cascader-menus`}>
+                        {menuArr[currentIndex]?.children?.map(
+                          (child, index) => (
                             <div
                               className={classNames(
                                 'fl-header-cascader-menus-menu',
                                 {
-                                  active:
-                                    cascaderData?.[index + 1]?.key ===
-                                    index + 1 + '-' + idx,
+                                  active: cascaderData?.[0]?.key === index,
                                 },
                               )}
-                              key={idx}
+                              key={index}
                               onMouseEnter={() => {
-                                setImagesSwiperArr(child.images || []);
-                                if (
-                                  child.children?.length > 0 ||
-                                  child.products?.length > 0
-                                ) {
-                                  cascaderData[index + 1] = {
-                                    key: index + 1 + '-' + idx,
-                                    data: [
-                                      ...(child.products || []),
-                                      ...(child.children || []),
-                                    ],
-                                  };
-                                  setCascaderData([...cascaderData]);
+                                if (child.children) {
+                                  setCascaderData([
+                                    {
+                                      key: index,
+                                      data: [
+                                        ...(child.products || []),
+                                        ...(child.children || []),
+                                      ],
+                                    },
+                                  ]);
                                 } else {
-                                  setCascaderData(
-                                    cascaderData.slice(0, index + 1),
-                                  );
+                                  setCascaderData([]);
                                 }
                               }}
-                              onMouseLeave={() => {
-                                setImagesSwiperArr([]);
-                              }}
                               onClick={() => {
-                                goPage(child);
                                 setCurrentIndex(-1);
+                                goPage(child);
                               }}
                             >
                               <div className="fl-header-cascader-menus-menu-title">
                                 {child.name || child.title}
                               </div>
                               {(child.children?.length ||
-                                child?.products?.length) > 0 && (
+                                child.products?.length > 0) && (
                                 <div>
                                   <RightOutlined />
                                 </div>
                               )}
                             </div>
-                          );
-                        })}
+                          ),
+                        )}
                       </div>
-                    );
-                  })}
+                    )}
 
-                  {/* 2级子项 */}
-                  {/* {cascaderData[0] && (
+                    {cascaderData.map((item, index) => {
+                      return (
+                        <div className={`fl-header-cascader-menus`} key={index}>
+                          {item.data.map((child, idx) => {
+                            return (
+                              <div
+                                className={classNames(
+                                  'fl-header-cascader-menus-menu',
+                                  {
+                                    active:
+                                      cascaderData?.[index + 1]?.key ===
+                                      index + 1 + '-' + idx,
+                                  },
+                                )}
+                                key={idx}
+                                onMouseEnter={() => {
+                                  setImagesSwiperArr(child.images || []);
+                                  if (
+                                    child.children?.length > 0 ||
+                                    child.products?.length > 0
+                                  ) {
+                                    cascaderData[index + 1] = {
+                                      key: index + 1 + '-' + idx,
+                                      data: [
+                                        ...(child.products || []),
+                                        ...(child.children || []),
+                                      ],
+                                    };
+                                    setCascaderData([...cascaderData]);
+                                  } else {
+                                    setCascaderData(
+                                      cascaderData.slice(0, index + 1),
+                                    );
+                                  }
+                                }}
+                                onMouseLeave={() => {
+                                  setImagesSwiperArr([]);
+                                }}
+                                onClick={() => {
+                                  goPage(child);
+                                  setCurrentIndex(-1);
+                                }}
+                              >
+                                <div className="fl-header-cascader-menus-menu-title">
+                                  {child.name || child.title}
+                                </div>
+                                {(child.children?.length ||
+                                  child?.products?.length) > 0 && (
+                                  <div>
+                                    <RightOutlined />
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+
+                    {/* 2级子项 */}
+                    {/* {cascaderData[0] && (
               <div className={`fl-header-cascader-menus`}>
                 {cascaderData[0]?.data?.map((child, index) => (
                   <div
@@ -362,8 +411,8 @@ const Header: FC<BaseProps> = ({
               </div>
             )} */}
 
-                  {/* 3级子项 */}
-                  {/* {cascaderData[1] && (
+                    {/* 3级子项 */}
+                    {/* {cascaderData[1] && (
               <div
                 className={`fl-header-cascader-menus fl-header-cascader-menus-level-3`}
               >
@@ -394,39 +443,39 @@ const Header: FC<BaseProps> = ({
                 ))}
               </div>
             )} */}
-                </div>
-                {
-                  <div className="fl-header-cascader-swiper">
-                    {imagesSwiperArr?.length > 0 && (
-                      <Swiper
-                        modules={[Navigation, Pagination, Autoplay]}
-                        spaceBetween={0}
-                        slidesPerView={1}
-                        autoplay={{
-                          delay: 1000,
-                          disableOnInteraction: false,
-                        }}
-                        loop
-                        pagination={{
-                          clickable: true,
-                          renderBullet: function (index, className) {
-                            return `<span class=${className}></span>`;
-                          },
-                        }}
-                      >
-                        {imagesSwiperArr?.map((item) => {
-                          return (
-                            <SwiperSlide key={item}>
-                              <img className="" src={item} alt="" />
-                            </SwiperSlide>
-                          );
-                        })}
-                      </Swiper>
-                    )}
                   </div>
-                }
-              </div>
-            )}
+                  {
+                    <div className="fl-header-cascader-swiper">
+                      {imagesSwiperArr?.length > 0 && (
+                        <Swiper
+                          modules={[Navigation, Pagination, Autoplay]}
+                          spaceBetween={0}
+                          slidesPerView={1}
+                          autoplay={{
+                            delay: 1000,
+                            disableOnInteraction: false,
+                          }}
+                          loop
+                          pagination={{
+                            clickable: true,
+                            renderBullet: function (index, className) {
+                              return `<span class=${className}></span>`;
+                            },
+                          }}
+                        >
+                          {imagesSwiperArr?.map((item) => {
+                            return (
+                              <SwiperSlide key={item}>
+                                <img className="" src={item} alt="" />
+                              </SwiperSlide>
+                            );
+                          })}
+                        </Swiper>
+                      )}
+                    </div>
+                  }
+                </div>
+              )}
           </div>
           <div className="fl-header-right">
             <div className="fl-header-right-logo">
