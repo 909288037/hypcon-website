@@ -80,18 +80,18 @@ const FAQ = () => {
         {/* 问题列表 */}
         <div className="fl-faq-content-list" ref={listRef}>
           {data?.rows?.map((item, index) => {
-            const isShow = activeKey.includes(index);
+            const isShow = activeKey.includes(item.id);
             return (
               <div
                 key={item.id}
                 className={classNames('fl-faq-content-list-item', {
-                  'show-content': activeKey.includes(index),
+                  'show-content': activeKey.includes(item.id),
                 })}
                 onClick={async () => {
-                  activeKey.includes(index)
-                    ? setActiveKey(activeKey.filter((key) => key !== index))
-                    : setActiveKey([...activeKey, index]);
-                  if (!activeKey.includes(index)) {
+                  activeKey.includes(item.id)
+                    ? setActiveKey(activeKey.filter((key) => key !== item.id))
+                    : setActiveKey([...activeKey, item.id]);
+                  if (!activeKey.includes(item.id)) {
                     const res = await runDetail(item.id);
                     console.log('🚀 ~ res:', res);
                     setDetailObj({
