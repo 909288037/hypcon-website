@@ -90,7 +90,10 @@ const TopBanner = ({ dataSource }) => {
             <SwiperSlide key={index}>
               <div className="fl-home-banner-img">
                 {isImage(item.image) ? (
-                  <img src={item.image} alt={item.title || "轮播图片"} />
+                  <div>
+                    <img src={item.image} alt={item.title || "轮播图片"} className='pc-block'/>
+                    <img src={item.imageMobile} alt={item.title || "轮播图片"} className='mb-block' />
+                  </div>
                 ) : (
                   <video
                     ref={(ref) => {
