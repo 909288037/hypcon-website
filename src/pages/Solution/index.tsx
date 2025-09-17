@@ -174,7 +174,7 @@ const Solution = () => {
                         ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
                         <div className="fl-solution-value-banner-item-count">
                           <div className="fl-solution-value-banner-item-count-num">
-                            <div className="gradient-text">{item.res1}%</div>
+                            <div className="gradient-text">{item.res1}</div>
                             {item?.imageMobile && <div className="count-icon">
                               <img
                                 src={item?.imageMobile}
@@ -226,7 +226,7 @@ const Solution = () => {
                         ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
                         <div className="fl-solution-value-banner-item-count">
                           <div className="fl-solution-value-banner-item-count-num">
-                            <div className="gradient-text">{item.res1}%</div>
+                            <div className="gradient-text">{item.res1}</div>
                             {item?.imageMobile && <div className="count-icon">
                               <img
                                 src={item?.imageMobile}
