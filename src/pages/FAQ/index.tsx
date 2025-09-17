@@ -1,6 +1,6 @@
 import arrowRight from '@/assets/images/right-arrow-primary.png';
 import Header from '@/components/Header';
-import { getQuestion } from '@/services/ServiceNetwork';
+import { getProductNoticeDetail, getQuestion } from '@/services/ServiceNetwork';
 import { MinusOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { useRequest } from '@umijs/max';
 import { Input, Pagination, PaginationProps } from 'antd';
@@ -11,8 +11,13 @@ const FAQ = () => {
   const [searchVal, setSearchVal] = useState('');
   const [list, setList] = useState(['', '']);
   const [activeKey, setActiveKey] = useState([]);
+  const [detailObj, setDetailObj] = useState({});
   // 获取常见问题数据
   const { data, run } = useRequest(getQuestion);
+  // 获取详情数据
+  const { data: detailData, run: runDetail } = useRequest(
+    getProductNoticeDetail,
+  );
   const listRef = useRef(null);
   // 搜索接口
   const onSearch = () => {
@@ -78,14 +83,22 @@ const FAQ = () => {
             const isShow = activeKey.includes(index);
             return (
               <div
-                key={index}
+                key={item.id}
                 className={classNames('fl-faq-content-list-item', {
                   'show-content': activeKey.includes(index),
                 })}
-                onClick={() => {
+                onClick={async () => {
                   activeKey.includes(index)
                     ? setActiveKey(activeKey.filter((key) => key !== index))
                     : setActiveKey([...activeKey, index]);
+                  if (!activeKey.includes(index)) {
+                    const res = await runDetail(item.id);
+                    console.log('🚀 ~ res:', res);
+                    setDetailObj({
+                      ...detailObj,
+                      [item.id]: res.noticeContent,
+                    });
+                  }
                 }}
               >
                 <div className="fl-faq-content-list-item-title">
@@ -97,12 +110,13 @@ const FAQ = () => {
                     Q：{item.noticeTitle}
                   </div>
                 </div>
-                <div
-                  className=" fl-faq-content-list-item-content "
-                >
-                  <div className='ql-editor'   dangerouslySetInnerHTML={{
-                    __html: item.noticeContent,
-                  }}></div>
+                <div className=" fl-faq-content-list-item-content ">
+                  <div
+                    className="ql-editor"
+                    dangerouslySetInnerHTML={{
+                      __html: detailObj?.[item.id],
+                    }}
+                  ></div>
                 </div>
                 {/* 展开按钮 */}
                 <div className={'fl-faq-content-list-item-btn'}>
