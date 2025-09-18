@@ -87,70 +87,141 @@ const TopBanner = ({ dataSource }) => {
       >
         {dataSource?.map((item, index) => {
           return (
-            <SwiperSlide key={index}>
-              <div className="fl-home-banner-img">
-                {isImage(item.image) ? (
-                  <div>
-                    <img src={item.image} alt={item.title || "轮播图片"} className='pc-block'/>
-                    <img src={item.imageMobile} alt={item.title || "轮播图片"} className='mb-block' />
-                  </div>
-                ) : (
-                  <video
-                    ref={(ref) => {
-                      videoRef.current[index] = ref;
-                    }}
-                    src={item.image}
-                    controls={false}
-                    muted
-                    loop={false}
-                    playsInline
-                    onLoadedData={(e) => {
-                      // 用索引区分存储每个视频的时长
-                      curDuration.current[index] = e.target.duration || 0;
-                      if (activeIndex === index) {
-                        e.target.play();
-                      }
-                    }}
-                    onTimeUpdate={(e) => {
-                      // 使用当前索引获取对应视频的时长
-                      if (curDuration.current[index] > 0) {
-                        const progress = Math.round(
-                          (e.target.currentTime / curDuration.current[index]) *
-                            100,
-                        );
-                        homeBannerRef.current?.style?.setProperty(
-                          '--progressWidth',
-                          progress + '%',
-                        );
-                      }
-                    }}
-                    onEnded={() => {
-                      isVideoPlaying.current = false;
-                      swiperRef.current?.slideNext();
-                      swiperRef.current?.autoplay.start();
-                    }}
-                  ></video>
-                )}
-                <div className="fl-home-banner-title">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: item.title?.replace(/\<br\>/, '<br/>'),
-                    }}
-                  ></div>
-                  {item.link && (
-                    <div
-                      className="fl-home-banner-link"
-                      onClick={() => {
-                        window.open(item.link);
-                      }}
-                    >
-                      <div className="fl-home-banner-link-text">了解更多</div>
-                      <div className="fl-home-banner-link-arrow"></div>
+            <>
+              {window.innerWidth > 768 ?
+                <SwiperSlide key={index}>
+                  <div className="fl-home-banner-img">
+                    {
+                      isImage(item.image) ? (
+                          <img src={item.image} alt={item.title || "轮播图片"}  />
+                      ) : (
+                        <>
+                          <video
+                            ref={(ref) => {
+                              videoRef.current[index] = ref;
+                            }}
+                            src={item.image}
+                            controls={false}
+                            muted
+                            loop={false}
+                            playsInline
+                            onLoadedData={(e) => {
+                              // 用索引区分存储每个视频的时长
+                              curDuration.current[index] = e.target.duration || 0;
+                              if (activeIndex === index) {
+                                e.target.play();
+                              }
+                            }}
+                            onTimeUpdate={(e) => {
+                              // 使用当前索引获取对应视频的时长
+                              if (curDuration.current[index] > 0) {
+                                const progress = Math.round(
+                                  (e.target.currentTime / curDuration.current[index]) *
+                                  100,
+                                );
+                                homeBannerRef.current?.style?.setProperty(
+                                  '--progressWidth',
+                                  progress + '%',
+                                );
+                              }
+                            }}
+                            onEnded={() => {
+                              isVideoPlaying.current = false;
+                              swiperRef.current?.slideNext();
+                              swiperRef.current?.autoplay.start();
+                            }}
+                          ></video>
+                        </>
+                      )
+                    }
+                    <div className="fl-home-banner-title">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: item.title?.replace(/\<br\>/, '<br/>'),
+                        }}
+                      ></div>
+                      {item.link && (
+                        <div
+                          className="fl-home-banner-link"
+                          onClick={() => {
+                            window.open(item.link);
+                          }}
+                        >
+                          <div className="fl-home-banner-link-text">了解更多</div>
+                          <div className="fl-home-banner-link-arrow"></div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
-            </SwiperSlide>
+                  </div>
+                </SwiperSlide> : <SwiperSlide key={index}>
+                  <div className="fl-home-banner-img">
+                    {
+                      isImage(item.imageMobile) ? (
+                          <img src={item.imageMobile} alt={item.title || "轮播图片"}  />
+                      ) : (
+                        <>
+                          <video
+                            ref={(ref) => {
+                              videoRef.current[index] = ref;
+                            }}
+                            src={item.imageMobile}
+                            controls={false}
+                            muted
+                            loop={false}
+                            playsInline
+                            onLoadedData={(e) => {
+                              // 用索引区分存储每个视频的时长
+                              curDuration.current[index] = e.target.duration || 0;
+                              if (activeIndex === index) {
+                                e.target.play();
+                              }
+                            }}
+                            onTimeUpdate={(e) => {
+                              // 使用当前索引获取对应视频的时长
+                              if (curDuration.current[index] > 0) {
+                                const progress = Math.round(
+                                  (e.target.currentTime / curDuration.current[index]) *
+                                  100,
+                                );
+                                homeBannerRef.current?.style?.setProperty(
+                                  '--progressWidth',
+                                  progress + '%',
+                                );
+                              }
+                            }}
+                            onEnded={() => {
+                              isVideoPlaying.current = false;
+                              swiperRef.current?.slideNext();
+                              swiperRef.current?.autoplay.start();
+                            }}
+                          ></video>
+                        </>
+                      )
+                    }
+                    <div className="fl-home-banner-title">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: item.title?.replace(/\<br\>/, '<br/>'),
+                        }}
+                      ></div>
+                      {item.link && (
+                        <div
+                          className="fl-home-banner-link"
+                          onClick={() => {
+                            window.open(item.link);
+                          }}
+                        >
+                          <div className="fl-home-banner-link-text">了解更多</div>
+                          <div className="fl-home-banner-link-arrow"></div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              }
+
+            </>
+
           );
         })}
       </Swiper>

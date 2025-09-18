@@ -65,6 +65,7 @@ export const goPage = (item: any) => {
     // 跳转解决方案
     if (item.isSolution) {
       history.push(`/solution/${item.id}`);
+      if(window.innerWidth < 768) window.location.reload()
       return;
     }
 
@@ -80,17 +81,20 @@ export const goPage = (item: any) => {
     }
     // 无详情
     if(item.detailType === '0') {
-        history.push(`/download/?search=${item.name}&id=${item.id}`);
+      history.push(`/download/?search=${item.name}&id=${item.id}`);
+      if(window.innerWidth < 768) window.location.reload()
         return
       }
     // 跳转软件详情
     if (item.type === '0') {
       
       history.push(`/product/${item.type}/${item.relationId || item.id}`);
+      if(window.innerWidth < 768) window.location.reload()
       return
     } else if (item.type === '1') {
       // 跳转硬件详情
       history.push(`/product-hardware/${item.type}/${item.relationId || item.id}`);
+      if(window.innerWidth < 768) window.location.reload()
       return
     }
     if(!item.id) return
@@ -103,9 +107,11 @@ export const goPage = (item: any) => {
       if (item.image) {
         // 有分类图
         history.push(`/product/${item.id}`);
+        if(window.innerWidth < 768) window.location.reload()
       } else {
         // 无分类图
         history.push(`/product-list/${item.id}`);
+        if(window.innerWidth < 768) window.location.reload()
       }
       return;
     }

@@ -1,6 +1,7 @@
 import Header from '@/components/Header';
 
 import bgImg from './images/bg.jpg';
+import bgImg1 from './images/bg2.jpg';
 
 import ChinaMapChart from '@/components/Map';
 import { getServiceNetwork } from '@/services/ServiceNetwork';
@@ -39,7 +40,7 @@ const ServiceNetwork = () => {
         <img src={bgImg} alt="" className='pc-block' />
         <div className="fl-service-network-map-content ">
           <div className="img_map_box mb-block">
-            <img src={bgImg} alt="" className='mb-block' />
+            <img src={bgImg1} alt="" className='mb-block' />
           </div>
           <ChinaMapChart />
         </div>
