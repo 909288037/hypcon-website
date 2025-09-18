@@ -119,6 +119,10 @@ export default [
         path: '/search',
         component: './Search',
       },
+      {
+        path: '/*',
+        redirect: '/home',
+      }
     ],
   },
 ];
