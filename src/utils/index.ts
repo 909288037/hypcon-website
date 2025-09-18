@@ -100,7 +100,7 @@ export const goPage = (item: any) => {
       (item.children?.length === 0 && item.products?.length === 0)
       || (!item.children && !item.products)
     ) {
-      if (item.image) {
+      if (item.showType === 1) {
         // 有分类图
         history.push(`/product/${item.id}`);
       } else {
