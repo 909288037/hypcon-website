@@ -139,7 +139,8 @@ const HardwareProductDetail = () => {
       setCurrentKey(index);
     }
   }, [index]);
-
+  const [flagDilog, setFlagDilog] = useState(false);
+  const [bigImg, setFlagBigImg] = useState(null);
   const onTabChange = (key: string) => {
     setCurrentKey(key);
   };
@@ -196,7 +197,14 @@ const HardwareProductDetail = () => {
         <div className="hardware-product-overview">
           {data?.overview?.map((item) => {
             return (
-              <div className="hardware-product-item" key={item.title}>
+              <div className="hardware-product-item" key={item.title} onClick={
+                () => {
+                  if (window.innerWidth < 768){
+                    setFlagBigImg(item);
+                  setFlagDilog(true);
+                }
+                }
+              }>
                 <div className="hardware-product-item-title">
                   <div className="gradient-text">{item.title}</div>
                 </div>
@@ -255,7 +263,15 @@ const HardwareProductDetail = () => {
       {currentKey === '2' && (
         <div className="hardware-product-specs">
           {specData?.map((item, index) => (
-            <div className="hardware-product-specs-item" key={index}>
+            <div className="hardware-product-specs-item" key={index}
+            onClick={
+              () => {
+                if (window.innerWidth < 768) {
+                  setFlagBigImg(item);
+                  setFlagDilog(true);
+                }
+              }
+              }>
               <div className="hardware-product-specs-item-title">
                 <div className="gradient-text">{item?.title}</div>
               </div>
@@ -343,23 +359,23 @@ const HardwareProductDetail = () => {
                           <div className="hardware-product-download-list-item-text-footer-right">
                             {(isImage(item.url) ||
                               item.url?.endsWith?.('.pdf')) && (
-                              <div
-                                onClick={() => {
-                                  // 如果是pdf直接打开
-                                  if (item.url.endsWith('.pdf')) {
-                                    window.open(item.url);
-                                  } else {
-                                    setImgVisible({
-                                      url: item.url,
-                                      visible: true,
-                                    });
-                                  }
-                                }}
-                              >
-                                预览
-                                <EyeOutlined />
-                              </div>
-                            )}
+                                <div
+                                  onClick={() => {
+                                    // 如果是pdf直接打开
+                                    if (item.url.endsWith('.pdf')) {
+                                      window.open(item.url);
+                                    } else {
+                                      setImgVisible({
+                                        url: item.url,
+                                        visible: true,
+                                      });
+                                    }
+                                  }}
+                                >
+                                  预览
+                                  <EyeOutlined />
+                                </div>
+                              )}
                             <div
                               onClick={() => {
                                 downloadFile(
@@ -435,6 +451,22 @@ const HardwareProductDetail = () => {
           />
         </div>
       )}
+
+      {/* 大图展示 */}
+      {
+        flagDilog && (
+          <div className='hardware_big_mob_img' onClick={
+            () => {
+              setFlagDilog(false)
+            }
+          }>
+            <div className='hardware_big_mob_img_title'>{bigImg?.title}</div>
+            <div className="hardware_big_mob_img_img">
+              <img src={bigImg?.image} alt="" />
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };

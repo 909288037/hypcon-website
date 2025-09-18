@@ -36,7 +36,7 @@ const Header: FC<BaseProps> = ({
   const [isActive, setIsActive] = useState(false);
   const handleClick = () => {
     setIsActive((prev) => !prev); // 切换状态
-    
+
   };
   useEffect(() => {
     if (isFixed) {
@@ -80,6 +80,7 @@ const Header: FC<BaseProps> = ({
         name: item.title,
       };
     });
+
     setProductList(productList);
     setSolutionList(_solutionList);
     const menu = [
@@ -164,6 +165,7 @@ const Header: FC<BaseProps> = ({
   const [cascaderData, setCascaderData] = useState([]);
   const [imagesSwiperArr, setImagesSwiperArr] = useState([]);
   console.log('🚀 ~ Header ~ imagesSwiperArr:', imagesSwiperArr);
+  console.log(productList, '5666');
 
   return (
     <header>
@@ -252,7 +254,7 @@ const Header: FC<BaseProps> = ({
                     if (index === 0) {
                       history.push('/');
                     }
-                    if(item.url) {
+                    if (item.url) {
                       history.push(item.url);
                     }
                   }}
@@ -315,10 +317,10 @@ const Header: FC<BaseProps> = ({
                               </div>
                               {(child.children?.length ||
                                 child.products?.length > 0) && (
-                                <div>
-                                  <RightOutlined />
-                                </div>
-                              )}
+                                  <div>
+                                    <RightOutlined />
+                                  </div>
+                                )}
                             </div>
                           ),
                         )}
@@ -373,10 +375,10 @@ const Header: FC<BaseProps> = ({
                                 </div>
                                 {(child.children?.length ||
                                   child?.products?.length) > 0 && (
-                                  <div>
-                                    <RightOutlined />
-                                  </div>
-                                )}
+                                    <div>
+                                      <RightOutlined />
+                                    </div>
+                                  )}
                               </div>
                             );
                           })}
@@ -561,13 +563,34 @@ const Header: FC<BaseProps> = ({
                     active: currentIndex === index,
                   })}
                   key={item.title}
-                  onMouseOver={() => {
+                  onClick={() => {    //  
+                    if (item.title == '首页') {
+                      history.push('/');
+                    }
+                    if (item.title == '新闻资讯') {
+                      history.push('/news');
+                    }
                     if (currentIndex !== index) {
                       setCascaderData([]);
                       setImagesSwiperArr([]);
                     }
                     setCurrentIndex(index);
+
+                    // if (
+                    //   (!item.children || item.children.length === 0)
+
+                    // ) {
+                    //   setCurrentIndex(-1);
+                    //   goPage(item);
+                    // }
                   }}
+                // onMouseOver={() => {
+                //   if (currentIndex !== index) {
+                //     setCascaderData([]);
+                //     setImagesSwiperArr([]);
+                //   }
+                //   setCurrentIndex(index);
+                // }}
                 >
                   <div className="menu-title-icon">
                     <span className="menu-title">{item.title}</span>
@@ -575,98 +598,107 @@ const Header: FC<BaseProps> = ({
                       <span className="menu-icon"></span>
                     )}
                   </div>
-                  <div className="menu-content">
-                    {currentIndex === index &&
-                      item.children &&
-                      item.children.map(
-                        (childItem: any, childIndex: number) => (
-                          <div
-                            className="menu-content-item-menu"
-                            key={childIndex}
-                          >
-                            <div
-                              className="menu-content-item"
-                              onClick={() => {
-                                // 添加条件判断，如果没有子菜单则跳转
-                                if (
-                                  !childItem.children ||
-                                  childItem.children.length === 0
-                                ) {
-                                  setCurrentIndex(-1);
-                                  goPage(childItem);
-                                }
-                              }}
-                            >
-                              <span className="menu-content-item-title">
-                                {childItem.name || childItem.title}
-                              </span>
-                              <div className="menu-content-item-icon"></div>
-                            </div>
-                            {childItem?.children?.length &&
-                              childItem.children && (
-                                <div className="menu-content-item-menu-box">
-                                  {childItem.children.map(
-                                    (childItem2: any, childIndex2: number) => {
-                                      // 添加类型声明
-                                      return (
-                                        <div
-                                          className="menu-content-item-menu-item-menu"
-                                          key={childIndex2}
-                                        >
-                                          <div
-                                            className="menu-content-item-menu-item"
-                                            onClick={() => {
-                                              // 同样添加条件判断
-                                              if (
-                                                !childItem2.children ||
-                                                childItem2.children.length === 0
-                                              ) {
-                                                setCurrentIndex(-1);
-                                                goPage(childItem2);
-                                              }
-                                            }}
-                                          >
-                                            <span className="menu-content-item-menu-title">
-                                              {childItem2.name ||
-                                                childItem2.title}
-                                            </span>
-                                            <div className="menu-content-item-menu-icon"></div>
-                                          </div>
-                                          <div className="menu-content-item-menu-item-menu-box">
-                                            {childItem2?.children?.length &&
-                                              childItem2.children.map(
-                                                (
-                                                  childItem3: any,
-                                                  childIndex3: number, // 添加类型声明
-                                                ) => (
-                                                  <div
-                                                    className="menu-content-item-menu-item"
-                                                    key={childIndex3}
-                                                    onClick={() => {
-                                                      // 三级菜单直接跳转
-                                                      setCurrentIndex(-1);
-                                                      goPage(childItem3);
-                                                    }}
-                                                  >
-                                                    <span className="menu-content-item-menu-title">
-                                                      {childItem3.name ||
-                                                        childItem3.title}
-                                                    </span>
-                                                    <div className="menu-content-item-menu-icon"></div>
-                                                  </div>
-                                                ),
-                                              )}
-                                          </div>
-                                        </div>
-                                      );
-                                    },
-                                  )}
+                  {currentIndex === index && item.children &&
+                    <div className="menu-content">
+                      <>
+                        {item.children &&
+                          item.children.map(
+                            (childItem: any, childIndex: number) => (
+                              <div
+                                className="menu-content-item-menu"
+                                key={childIndex}
+                              >
+                                <div
+                                  className="menu-content-item"
+                                  onClick={() => {
+                                    // 添加条件判断，如果没有子菜单则跳转
+                                    if (
+                                      (!childItem.children || childItem.children.length === 0) &&
+                                      (!childItem.products || childItem.products.length === 0)
+                                    ) {
+                                      setCurrentIndex(-1);
+                                      goPage(childItem);
+                                    }
+                                  }}
+                                >
+                                  <span className="menu-content-item-title">
+                                    {childItem.name || childItem.title}
+                                  </span>
+                                  <div className="menu-content-item-icon"></div>
                                 </div>
-                              )}
-                          </div>
-                        ),
-                      )}
-                  </div>
+                                {(childItem?.children?.length || childItem?.products?.length) && (
+                                  <div className="menu-content-item-menu-box">
+                                    {[
+                                      ...(childItem.children || []).map((item: any) => ({ ...item, isChild: true })),
+                                      ...(childItem.products || []).map((item: any) => ({ ...item, isProduct: true }))
+                                    ].map(
+                                      (childItem2: any, childIndex2: number) => {
+                                        // 添加类型声明
+                                        return (
+                                          <div
+                                            className="menu-content-item-menu-item-menu"
+                                            key={childIndex2}
+                                          >
+                                            <div
+                                              className="menu-content-item-menu-item"
+                                              onClick={() => {
+                                                // 同样添加条件判断
+                                                if (
+                                                  (!childItem2.children || childItem2.children.length === 0) &&
+                                                  (!childItem2.products || childItem2.products.length === 0)
+                                                ) {
+                                                  setCurrentIndex(-1);
+                                                  goPage(childItem2);
+                                                }
+                                              }}
+                                            >
+                                              <span className="menu-content-item-menu-title">
+                                                {childItem2.name ||
+                                                  childItem2.title}
+                                              </span>
+                                              <div className="menu-content-item-menu-icon"></div>
+                                            </div>
+                                            {(childItem2?.children?.length || childItem2?.products?.length) && (
+                                              <div className="menu-content-item-menu-item-menu-box">
+                                                {[
+                                                  ...(childItem2.children || []).map((item: any) => ({ ...item, isChild: true })),
+                                                  ...(childItem2.products || []).map((item: any) => ({ ...item, isProduct: true }))
+                                                ].map(
+                                                  (
+                                                    childItem3: any,
+                                                    childIndex3: number, // 添加类型声明
+                                                  ) => (
+                                                    <div
+                                                      className="menu-content-item-menu-item"
+                                                      key={childIndex3}
+                                                      onClick={() => {
+                                                        // 三级菜单直接跳转
+                                                        setCurrentIndex(-1);
+                                                        goPage(childItem3);
+                                                      }}
+                                                    >
+                                                      <span className="menu-content-item-menu-title">
+                                                        {childItem3.name ||
+                                                          childItem3.title}
+                                                      </span>
+                                                      <div className="menu-content-item-menu-icon"></div>
+                                                    </div>
+                                                  ),
+                                                )}
+                                              </div>
+                                            )}
+                                          </div>
+                                        );
+                                      },
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            ),
+                          )}
+                      </>
+                    </div>
+                  }
                 </div>
               );
             })}

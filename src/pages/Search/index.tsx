@@ -191,6 +191,7 @@ const Search = () => {
       setCurrentNavKey(null);
     }
   };
+  // 防止移动端Tabs自动聚焦导致页面跳动
 
   const itemRender: PaginationProps['itemRender'] = (
     _,
@@ -539,23 +540,23 @@ const Search = () => {
                                 <div className="fl-search-file-content-list-item-text-footer-right">
                                   {(isImage(item.url) ||
                                     item.url?.endsWith?.('.pdf')) && (
-                                    <div
-                                      onClick={() => {
-                                        // 如果是pdf直接打开
-                                        if (item.url.endsWith('.pdf')) {
-                                          window.open(item.url);
-                                        } else {
-                                          setImgVisible({
-                                            url: item.url,
-                                            visible: true,
-                                          });
-                                        }
-                                      }}
-                                    >
-                                      预览
-                                      <EyeOutlined />
-                                    </div>
-                                  )}
+                                      <div
+                                        onClick={() => {
+                                          // 如果是pdf直接打开
+                                          if (item.url.endsWith('.pdf')) {
+                                            window.open(item.url);
+                                          } else {
+                                            setImgVisible({
+                                              url: item.url,
+                                              visible: true,
+                                            });
+                                          }
+                                        }}
+                                      >
+                                        预览
+                                        <EyeOutlined />
+                                      </div>
+                                    )}
                                   <div
                                     onClick={() => {
                                       // window.open(item.url);
@@ -575,7 +576,7 @@ const Search = () => {
                                           ensureFullUrl(
                                             '/prod/api/download/download',
                                           ) +
-                                            `?path=${item.url}&name=${item.name}`,
+                                          `?path=${item.url}&name=${item.name}`,
                                         )}
                                         bordered={false}
                                       />
