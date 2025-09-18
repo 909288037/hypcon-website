@@ -182,8 +182,8 @@ const Solution = () => {
                               />
                             </div>}
                           </div>
-                          <div className="fl-solution-value-banner-item-count-title">
-                            {item.res2}
+                          <div className="fl-solution-value-banner-item-count-title" style={{opacity: !item.res2 ? 0 : 1}}>
+                            {item.res2 || '暂无内容'}
                           </div>
                         </div>
                       </div>
@@ -234,8 +234,8 @@ const Solution = () => {
                               />
                             </div>}
                           </div>
-                          <div className="fl-solution-value-banner-item-count-title">
-                            {item.res2}
+                          <div className="fl-solution-value-banner-item-count-title" style={{opacity: !item.res2 ? 0 : 1}}>
+                              {item.res2 || '暂无内容'}
                           </div>
                         </div>
                       </div>
