@@ -60,7 +60,7 @@ const AdvantageBanner = ({ dataSource }) => {
         <div
           className="custom-primary-btn"
           onClick={() => {
-            history.push('/about');
+            history.push('/introduction');
           }}
         >
           <div className="custom-btn-text">了解更多</div>
