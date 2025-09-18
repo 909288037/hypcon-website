@@ -3,6 +3,7 @@ import qrcodeIcon from '@/assets/images/qrcode.svg';
 import arrowRight from '@/assets/images/right-arrow-primary.png';
 import CustomEmpty from '@/components/CustomEmpty';
 import Header from '@/components/Header';
+import { fileTypeImg } from '@/const';
 import {
   getProductCategory,
   getProductFileList,
@@ -11,7 +12,7 @@ import {
   getProductDetail,
   getProductSpecification,
 } from '@/services/ProductController';
-import { downloadFile, ensureFullUrl, isImage } from '@/utils';
+import { downloadFile, ensureFullUrl, getFileSuffix, isImage } from '@/utils';
 import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { useParams, useRequest, useSearchParams } from '@umijs/max';
 import {
@@ -85,6 +86,7 @@ const HardwareProductDetail = () => {
     return originalElement;
   };
   const [currentKey, setCurrentKey] = useState('-1');
+  const [hoverItem, setHoverItem] = useState('');
 
   const tabItems = useMemo(() => {
     let _data = [];
@@ -137,7 +139,8 @@ const HardwareProductDetail = () => {
       setCurrentKey(index);
     }
   }, [index]);
-
+  const [flagDilog, setFlagDilog] = useState(false);
+  const [bigImg, setFlagBigImg] = useState(null);
   const onTabChange = (key: string) => {
     setCurrentKey(key);
   };
@@ -194,7 +197,14 @@ const HardwareProductDetail = () => {
         <div className="hardware-product-overview">
           {data?.overview?.map((item) => {
             return (
-              <div className="hardware-product-item" key={item.title}>
+              <div className="hardware-product-item" key={item.title} onClick={
+                () => {
+                  if (window.innerWidth < 768){
+                    setFlagBigImg(item);
+                  setFlagDilog(true);
+                }
+                }
+              }>
                 <div className="hardware-product-item-title">
                   <div className="gradient-text">{item.title}</div>
                 </div>
@@ -253,7 +263,15 @@ const HardwareProductDetail = () => {
       {currentKey === '2' && (
         <div className="hardware-product-specs">
           {specData?.map((item, index) => (
-            <div className="hardware-product-specs-item" key={index}>
+            <div className="hardware-product-specs-item" key={index}
+            onClick={
+              () => {
+                if (window.innerWidth < 768) {
+                  setFlagBigImg(item);
+                  setFlagDilog(true);
+                }
+              }
+              }>
               <div className="hardware-product-specs-item-title">
                 <div className="gradient-text">{item?.title}</div>
               </div>
@@ -306,12 +324,24 @@ const HardwareProductDetail = () => {
           <div className="hardware-product-download-list">
             {fileList?.rows?.length > 0 ? (
               fileList?.rows?.map((item) => {
+                let fileImg = fileTypeImg[getFileSuffix(item.url)]?.default;
+                if (hoverItem === item.id) {
+                  fileImg = fileTypeImg[getFileSuffix(item.url)]?.hover;
+                }
                 return (
                   <div
                     className="hardware-product-download-list-item"
                     key={item.id}
+                    onMouseEnter={() => {
+                      setHoverItem(item.id);
+                    }}
+                    onMouseLeave={() => {
+                      setHoverItem('');
+                    }}
                   >
-                    <div className="hardware-product-download-list-item-img" />
+                    <div className="hardware-product-download-list-item-img">
+                      <img src={fileImg} alt="" />
+                    </div>
                     <div className="hardware-product-download-list-item-text">
                       <div className="hardware-product-download-list-item-text-title">
                         <span>{item.name}</span>
@@ -329,23 +359,23 @@ const HardwareProductDetail = () => {
                           <div className="hardware-product-download-list-item-text-footer-right">
                             {(isImage(item.url) ||
                               item.url?.endsWith?.('.pdf')) && (
-                              <div
-                                onClick={() => {
-                                  // 如果是pdf直接打开
-                                  if (item.url.endsWith('.pdf')) {
-                                    window.open(item.url);
-                                  } else {
-                                    setImgVisible({
-                                      url: item.url,
-                                      visible: true,
-                                    });
-                                  }
-                                }}
-                              >
-                                预览
-                                <EyeOutlined />
-                              </div>
-                            )}
+                                <div
+                                  onClick={() => {
+                                    // 如果是pdf直接打开
+                                    if (item.url.endsWith('.pdf')) {
+                                      window.open(item.url);
+                                    } else {
+                                      setImgVisible({
+                                        url: item.url,
+                                        visible: true,
+                                      });
+                                    }
+                                  }}
+                                >
+                                  预览
+                                  <EyeOutlined />
+                                </div>
+                              )}
                             <div
                               onClick={() => {
                                 downloadFile(
@@ -359,7 +389,14 @@ const HardwareProductDetail = () => {
                             </div>
                             <Popover
                               content={
-                                <QRCode  value={encodeURI(ensureFullUrl('/prod/api/download/download') + `?path=${item.url}&name=${item.name}`)} bordered={false} />
+                                <QRCode
+                                  value={encodeURI(
+                                    ensureFullUrl(
+                                      '/prod/api/download/download',
+                                    ) + `?path=${item.url}&name=${item.name}`,
+                                  )}
+                                  bordered={false}
+                                />
                               }
                             >
                               <div>
@@ -414,6 +451,22 @@ const HardwareProductDetail = () => {
           />
         </div>
       )}
+
+      {/* 大图展示 */}
+      {
+        flagDilog && (
+          <div className='hardware_big_mob_img' onClick={
+            () => {
+              setFlagDilog(false)
+            }
+          }>
+            <div className='hardware_big_mob_img_title'>{bigImg?.title}</div>
+            <div className="hardware_big_mob_img_img">
+              <img src={bigImg?.image} alt="" />
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };

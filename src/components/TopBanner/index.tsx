@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { isImage } from '@/utils';
@@ -115,7 +115,8 @@ const TopBanner = ({ dataSource }) => {
                       // 使用当前索引获取对应视频的时长
                       if (curDuration.current[index] > 0) {
                         const progress = Math.round(
-                          (e.target.currentTime / curDuration.current[index]) * 100,
+                          (e.target.currentTime / curDuration.current[index]) *
+                            100,
                         );
                         homeBannerRef.current?.style?.setProperty(
                           '--progressWidth',
@@ -131,7 +132,11 @@ const TopBanner = ({ dataSource }) => {
                   ></video>
                 )}
                 <div className="fl-home-banner-title">
-                  {item.title}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: item.title?.replace(/\<br\>/, '<br/>'),
+                    }}
+                  ></div>
                   {item.link && (
                     <div
                       className="fl-home-banner-link"
@@ -154,4 +159,3 @@ const TopBanner = ({ dataSource }) => {
 };
 
 export default TopBanner;
-    

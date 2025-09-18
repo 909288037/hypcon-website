@@ -1,3 +1,19 @@
+import pdfImg from '@/assets/images/file/pdf.png';
+import docImg from '@/assets/images/file/doc.png';
+import jpgImg from '@/assets/images/file/jpg.png';
+import pptImg from '@/assets/images/file/ppt.png';
+import xlsImg from '@/assets/images/file/xls.png';
+import dwgImg from '@/assets/images/file/dwg.png';
+import pngImg from '@/assets/images/file/png.png';
+import txtImg from '@/assets/images/file/txt.png';
+import pdfActiveImg from '@/assets/images/file/pdf-active.png';
+import docActiveImg from '@/assets/images/file/doc-active.png';
+import jpgActiveImg from '@/assets/images/file/jpg-active.png';
+import pptActiveImg from '@/assets/images/file/ppt-active.png';
+import xlsActiveImg from '@/assets/images/file/xls-active.png';
+import dwgActiveImg from '@/assets/images/file/dwg-active.png';
+import pngActiveImg from '@/assets/images/file/png-active.png';
+import txtActiveImg from '@/assets/images/file/txt-active.png';
 // 产品中心列表
 export const productList = [
   {
@@ -86,3 +102,55 @@ export const aboutList = [
     url: '/join',
   },
 ]
+
+
+export const fileTypeImg = {
+  'jpg': {
+    default: jpgImg,
+    hover: jpgActiveImg
+  },
+  'jpeg': {
+    default: jpgImg,
+    hover: jpgActiveImg
+  },
+  'pdf': {
+    default: pdfImg,
+    hover: pdfActiveImg
+  },
+  'doc': {
+    default: docImg,
+    hover: docActiveImg
+  },
+  'docx': {
+    default: docImg,
+    hover: docActiveImg
+  },
+  'xls': {
+    default: xlsImg,
+    hover: xlsActiveImg
+  },
+  'xlsx': {
+    default: xlsImg,
+    hover: xlsActiveImg
+  },
+  'ppt': {
+    default: pptImg,
+    hover: pptActiveImg
+  },
+  'pptx': {
+    default: pptImg,
+    hover: pptActiveImg
+  },
+  'txt': {
+    default: txtImg,
+    hover: txtActiveImg
+  },
+  'png': {
+    default: pngImg,
+    hover: pngActiveImg
+  }, 
+ 'dwg': {
+    default: dwgImg,
+    hover: dwgActiveImg
+ }
+}

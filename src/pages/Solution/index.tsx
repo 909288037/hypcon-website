@@ -203,6 +203,16 @@ const Solution = () => {
                 modules={[Autoplay, Mousewheel]}
                 spaceBetween={60}
                 slidesPerView={4}
+                  breakpoints={{
+                    768: {
+                      slidesPerView:4
+                    },
+                    200: {
+                      slidesPerView:1
+                    }
+
+                  }
+                }
               >
                 {_solutionDetail?.map((item, index) => {
                   return (

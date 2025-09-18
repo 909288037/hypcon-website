@@ -164,3 +164,12 @@ export function ensureFullUrl(url: string) {
     const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
     return window.location.origin + basePath + url;
 }
+
+// 获取文件url后缀名
+export function getFileSuffix(url: string) {
+  const lastDotIndex = url.lastIndexOf('.');
+  if (lastDotIndex === -1) {
+    return '';
+  }
+  return url.substring(lastDotIndex + 1);
+}

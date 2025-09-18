@@ -13,9 +13,13 @@
     height: 289px;
     border-radius: 20px;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
     img {
       width: 100%;
-      height: 100%;
+      height: auto;
       border-radius: 20px;
     }
   }
@@ -111,7 +115,8 @@
     &-desc {
       font-family: MiSans-Medium;
       font-weight: 300;
-      font-style: Light;
+      max-height: 160px;
+      overflow: auto;
       font-size: 14px;
       margin-top: 22px;
       line-height: 21px;
