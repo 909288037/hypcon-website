@@ -647,6 +647,7 @@ const SolutionBanner = ({ dataSource }) => {
                     if (slideSwiper) {
                       slideSwiper.autoplay.stop();
                       slideSwiper.slideToLoop(index);
+                      
                       slideSwiper.autoplay.start();
                     }
                   }}
