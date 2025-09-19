@@ -30,7 +30,8 @@ const NewsBlock = ({ dataSource }) => {
         <div className="news-block-cover" onClick={() => {
                 const item = dataSource?.[0];
                 if (item.link) {
-                  window.open(item.link);
+                  // window.open(item.link);
+                  window.location.href = item.link;
                   return;
                 }
                 history.push(`/product-notice/${item?.id}`);
@@ -50,7 +51,8 @@ const NewsBlock = ({ dataSource }) => {
               key={index}
               onClick={() => {
                 if (item.link) {
-                  window.open(item.link);
+                  // window.open(item.link);
+                  window.location.href = item.link;
                   return;
                 }
                 history.push(`/product-notice/${item?.id}`);

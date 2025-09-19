@@ -99,7 +99,8 @@ const News = () => {
                   key={index}
                   onClick={() => {
                     if (item.link) {
-                      window.open(item.link);
+                      // window.open(item.link);
+                        window.location.href = item.link
                       return;
                     }
                     history.push(`/product-notice/${item.id}`);
@@ -208,7 +209,8 @@ const News = () => {
                     key={index}
                     onClick={() => {
                       if(item.link) {
-                        window.open(item.link);
+                        // window.open(item.link);
+                        window.location.href = item.link
                         return
                       }
                       history.push(`/product-notice/${item.id}`);
