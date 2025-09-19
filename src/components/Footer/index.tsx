@@ -132,6 +132,7 @@ const Footer = () => {
               <p>公司地址：</p>{data?.second}
             </div>
           </div>
+          <div className="fl-footer-address">地址：{data?.second}</div>
         </div>
         {/* 外链 */}
         <div className="fl-footer-exlink">
