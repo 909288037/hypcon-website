@@ -621,7 +621,11 @@ const Header: FC<BaseProps> = ({
                                     }
                                   }}
                                 >
-                                  <span className="menu-content-item-title">
+                                  <span className="menu-content-item-title"  onClick={() => {
+                                                        // 三级菜单直接跳转
+                                                        setCurrentIndex(-1);
+                                                        goPage(childItem);
+                                                      }}>
                                     {childItem.name || childItem.title}
                                   </span>
                                   <div className="menu-content-item-icon"></div>
@@ -652,7 +656,11 @@ const Header: FC<BaseProps> = ({
                                                 }
                                               }}
                                             >
-                                              <span className="menu-content-item-menu-title">
+                                              <span className="menu-content-item-menu-title"     onClick={() => {
+                                                        // 三级菜单直接跳转
+                                                        setCurrentIndex(-1);
+                                                        goPage(childItem2);
+                                                      }}>
                                                 {childItem2.name ||
                                                   childItem2.title}
                                               </span>

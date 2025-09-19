@@ -534,10 +534,17 @@ const SolutionBanner = ({ dataSource }) => {
           watchSlidesProgress
           loop
           onSwiper={setThumbsSwiper}
+      
+          onClick={() => {
+            console.log(1231);
+            
+           }}
         >
           <div className="fl-solution-banner-pagination-box">
             {listMemo.map((item, index) => (
-              <SwiperSlide key={index} className="fl-solution-banner-slide">
+              <SwiperSlide key={index} className="fl-solution-banner-slide" onClick={() => {
+               index === currentIndex
+              }}>
                 <div className="fl-solution-banner-title">
                   {item.title}
                   <div className="fl-solution-banner-line"></div>
@@ -607,6 +614,7 @@ const SolutionBanner = ({ dataSource }) => {
                     slideSwiper?.autoplay.stop();
                     slideSwiper?.slideToLoop(index);
                     slideSwiper?.autoplay.start();
+                    
                   }}
                 >
                   <div className="fl-solution-banner-hotspot-item-title">
@@ -617,6 +625,7 @@ const SolutionBanner = ({ dataSource }) => {
                     className={classNames('fl-solution-banner-hotspot-dot')}
                     data-index={index}
                   >
+
                     <div className="fl-solution-banner-hotspot-dot-item"></div>
                     <div className="fl-solution-banner-hotspot-dot-item"></div>
                   </div>
@@ -636,7 +645,14 @@ const SolutionBanner = ({ dataSource }) => {
                     item.dotDirection,
                     { active: index === currentIndex },
                   )}
+                  onClick={() => {
+                    if (slideSwiper) {
+                      slideSwiper.autoplay.stop();
+                      slideSwiper.slideToLoop(index);
 
+                      slideSwiper.autoplay.start();
+                    }
+                  }}
                 >
                   <div className="fl-solution-banner-hotspot-item-title">
                     {item.title}

@@ -77,7 +77,8 @@ const ProductBanner = ({ dataSource }) => {
         {dataSource?.map((item, index) => (
           <SwiperSlide key={index}>
             <div className="fl-product-banner-img">
-              <img src={item.image} alt="" />
+              <img src={item.image} alt="" className="pc-block" />
+              <img src={item.imageMobile} alt="" className="mb-block" />
               {/* 标题 */}
               <div className="fl-product-banner-title">
                 {item.title}

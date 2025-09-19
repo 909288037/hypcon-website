@@ -526,7 +526,8 @@
         &-button {
           width: .75rem;
           height: .75rem;
-            margin-left: .2rem;
+          margin-left: .2rem;
+
           svg {
             width: .45rem;
             height: .45rem;
@@ -564,6 +565,7 @@
         .ant-tabs {
           display: block;
           touch-action: manipulation;
+
           &-nav {
             display: block !important;
             touch-action: manipulation;
@@ -584,15 +586,17 @@
 
           &-nav-wrap {
             max-width: 100%;
-            overflow-x:auto ;
+            overflow-x: auto;
           }
 
           .ant-tabs-nav-list {
-            transform: translate(0 , 0) !important;
+            transform: translate(0, 0) !important;
+
             .ant-tabs-tab {
               height: auto;
               margin-bottom: .2rem;
               margin-left: 0;
+
               &-btn {
                 line-height: 1;
 
@@ -607,10 +611,11 @@
 
     }
 
-    .fl-search-product {
+    &-product,
+    &-solution {
       padding: 1rem 0;
 
-      .fl-search-product-list {
+      &-list {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -622,7 +627,7 @@
           margin-left: 0;
           margin-bottom: .5rem;
 
-          .card-header {
+          &-header {
             width: 100%;
             height: auto;
           }
@@ -630,7 +635,7 @@
           .card-body {
             padding: .25rem;
 
-            .card-body-title {
+            &-title {
               font-size: .45rem;
               line-height: 1.2;
             }
@@ -812,8 +817,11 @@
         }
       }
     }
-    .fl-search-file-content-list-item-text-footer-right > div{
+
+    .fl-search-file-content-list-item-text-footer-right>div {
       margin-left: 0;
     }
+
+
   }
 }
