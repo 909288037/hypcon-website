@@ -614,6 +614,7 @@ const SolutionBanner = ({ dataSource }) => {
                     slideSwiper?.autoplay.stop();
                     slideSwiper?.slideToLoop(index);
                     slideSwiper?.autoplay.start();
+                    
                   }}
                 >
                   <div className="fl-solution-banner-hotspot-item-title">
@@ -624,7 +625,7 @@ const SolutionBanner = ({ dataSource }) => {
                     className={classNames('fl-solution-banner-hotspot-dot')}
                     data-index={index}
                   >
-                    
+
                     <div className="fl-solution-banner-hotspot-dot-item"></div>
                     <div className="fl-solution-banner-hotspot-dot-item"></div>
                   </div>
