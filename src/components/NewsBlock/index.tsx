@@ -8,7 +8,7 @@ const NewsBlock = ({ dataSource }) => {
       <div className="news-block-head">
         <div className="news-block-title">
           <div className="news-block-title-text">新闻资讯</div>
-          <div className="news-block-title-sub-text">
+          <div className="news-block-title-sub-text pc-block">
             了解泛联智控的最新资讯
           </div>
         </div>
