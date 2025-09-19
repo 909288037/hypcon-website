@@ -46,7 +46,7 @@ const ProductBanner = ({ dataSource }) => {
         modules={[Navigation, Pagination, Autoplay, Thumbs, EffectFade]}
         spaceBetween={0}
         slidesPerView={1}
-        effect="fade"
+        effect={window.innerWidth > 768 ? "fade" : 'slide'}
         fadeEffect={{
           crossFade: true,
         }}
@@ -55,6 +55,7 @@ const ProductBanner = ({ dataSource }) => {
           delay: 3000,
           disableOnInteraction: false,
         }}
+    
         thumbs={{
           swiper: thumbsSwiper,
         }}

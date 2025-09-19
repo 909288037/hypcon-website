@@ -34,6 +34,9 @@ const TopBanner = ({ dataSource }) => {
     }
 
     // 处理当前项
+    
+    if (window.innerWidth > 768) {
+      
     if (!isImage(currentItem.image)) {
       swiperRef.current?.autoplay.stop();
       isVideoPlaying.current = true;
@@ -44,7 +47,22 @@ const TopBanner = ({ dataSource }) => {
     } else {
       isVideoPlaying.current = false;
       swiperRef.current?.autoplay.start();
+      }
+    } else {
+      
+      
+    if (!isImage(currentItem.imageMobile)) {
+      swiperRef.current?.autoplay.stop();
+      isVideoPlaying.current = true;
+      // 播放当前视频
+      if (videoRef.current[activeIndex]) {
+        videoRef.current[activeIndex].play();
+      }
+    } else {
+      isVideoPlaying.current = false;
+      swiperRef.current?.autoplay.start();
     }
+  }
 
     // 更新上一个索引
     setPrevIndex(activeIndex);
@@ -56,14 +74,16 @@ const TopBanner = ({ dataSource }) => {
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         spaceBetween={0}
         slidesPerView={1}
-        effect="fade"
+        effect={window.innerWidth > 768 ? "fade" : 'slide'}
         fadeEffect={{
           crossFade: true,
         }}
+     
         autoplay={{
           delay: 3000,
           disableOnInteraction: false,
         }}
+        
         loop
         pagination={{
           clickable: true,
