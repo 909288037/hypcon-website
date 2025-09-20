@@ -183,7 +183,7 @@ const Card: React.FC<CardProps> = ({
         }}
       >
         <div className="card-download-header">
-          <img src={dataSource?.image || defaultImage} alt="" />
+          <img src={dataSource?.listImage || defaultImage} alt="" />
         </div>
         <div className="card-download-body">
           <div className="card-download-body-title">{dataSource?.name}</div>
@@ -225,7 +225,7 @@ const Card: React.FC<CardProps> = ({
       }}
     >
       <div className="card-header">
-        <img src={dataSource?.image || defaultImage} alt="" />
+        <img src={dataSource?.listImage || defaultImage} alt="" />
       </div>
       <div className="card-body">
         <div className="card-body-title">

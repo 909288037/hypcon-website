@@ -96,7 +96,7 @@ const ProductDetail: React.FC = () => {
       {/* 产品特色 */}
       {productDetail?.feature && (
         <div className="fl-product-detail-feature">
-          <div className="fl-product-detail-feature-title">产品特色</div>
+          <div className="fl-product-detail-feature-title">{productDetail?.feature?.second}</div>
           {/* 标题 */}
           <div className="fl-product-detail-feature-list-title ">
             <div className="gradient-text">{productDetail?.feature?.title}</div>
@@ -126,7 +126,7 @@ const ProductDetail: React.FC = () => {
       {/* 核心功能 */}
       {productDetail?.function && (
         <div className="fl-product-detail-core">
-          <div className="fl-product-detail-core-title">核心功能</div>
+          <div className="fl-product-detail-core-title">{productDetail?.function?.second}</div>
           {/* 标题 */}
           <div className="fl-product-detail-core-title2">
             <div className="gradient-text">
@@ -211,7 +211,7 @@ const ProductDetail: React.FC = () => {
       {/* 产品优势 */}
       {productDetail?.value && (
         <div className="fl-product-detail-advantage">
-          <div className="fl-product-detail-advantage-title">应用价值</div>
+          <div className="fl-product-detail-advantage-title">{productDetail?.value?.second}</div>
           {/* 标题 */}
           <div className="fl-product-detail-advantage-title2">
             <div className="gradient-text">{productDetail?.value?.title}</div>
