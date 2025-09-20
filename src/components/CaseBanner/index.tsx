@@ -163,29 +163,10 @@ const ImageSlider = ({ dataSource }) => {
                   <img src={item?.image} alt="" />
                 </div>
                 <div className="fl-case-banner-swiper-content">
-                  <div className="fl-case-banner-swiper-content-desc-tags mb-block">
-                    <div className="fl-case-banner-swiper-content-desc-tag">
-                      <div className="fl-case-banner-swiper-content-desc-tag-num">
-                        {item?.res1}
-                      </div>
-                      <div className="fl-case-banner-swiper-content-desc-tag-text">
-                        {item?.res2}
-                      </div>
-                    </div>
-
-                    <div className="fl-case-banner-swiper-content-desc-tag">
-                      <div className="fl-case-banner-swiper-content-desc-tag-num">
-                        {item?.res5}
-                      </div>
-                      <div className="fl-case-banner-swiper-content-desc-tag-text">
-                        {item?.res6}
-                      </div>
-                    </div>
-                  </div>
                   <div className="fl-case-banner-swiper-content-title">
                     {item?.title}
                   </div>
-                 <div className='fl-case-banner-swiper-content-line'></div>
+                 <div className='fl-case-banner-swiper-content-line pc-block'></div>
                   <div className="fl-case-banner-swiper-content-desc">
                     <div className="fl-case-banner-swiper-content-desc-text">
                       {item?.intro}

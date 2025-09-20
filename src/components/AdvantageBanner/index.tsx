@@ -28,7 +28,7 @@ const AdvantageBanner = ({ dataSource }) => {
     <div className="advantage-banner">
       <div className="advantage-banner-content">
         <div className="advantage-banner-title">
-          <div className="advantage-banner-title-text">为什么选择我们？</div>
+          <div className="advantage-banner-title-text pc-block">为什么选择我们？</div>
           <div className="advantage-banner-title-company">
             {dataSource?.title}
           </div>
